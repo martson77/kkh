@@ -29,7 +29,7 @@ npm run serve
 - `npm run publish-prep` rebuilds the site, runs a content check, generates campaign drafts, and creates PDF posters for upcoming concerts in one step.
 - `npm run campaign` generates reusable concert and recruitment campaign drafts in `generated/campaigns/`.
 - `npm run check-content` writes a content-health report to `generated/reports/content-check.md`.
-- `npm run poster` creates A4 PDF posters for upcoming concerts in `generated/posters/`.
+- `npm run poster` creates A4 PDF posters for upcoming concerts in `generated/posters/` and publishes downloadable copies to `public/affischer/`.
 - `npm run mirror` refreshes the original public snapshot and local asset copies.
 - `npm run serve` starts a local server at `http://127.0.0.1:4173`.
 

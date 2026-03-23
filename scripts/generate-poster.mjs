@@ -16,6 +16,7 @@ const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(scriptDir, "..");
 const publicDir = path.join(repoRoot, "public");
 const postersDir = path.join(repoRoot, automationSettings.generatedDir, "posters");
+const publicPosterDir = path.join(publicDir, "affischer");
 
 const PAGE_WIDTH = 595.28;
 const PAGE_HEIGHT = 841.89;
@@ -160,6 +161,7 @@ function resolveLocalAssetPath(assetPath) {
 
 async function ensurePostersDir() {
   await fs.mkdir(postersDir, { recursive: true });
+  await fs.mkdir(publicPosterDir, { recursive: true });
 }
 
 async function cleanupLegacyPosterFiles() {
@@ -711,10 +713,13 @@ async function generatePoster(concert) {
       imageHeight: height,
     });
 
-    const pdfPath = path.join(postersDir, `${concert.slug}.pdf`);
-    await fs.writeFile(pdfPath, pdfBuffer);
+    const generatedPdfPath = path.join(postersDir, `${concert.slug}.pdf`);
+    const publicPdfPath = path.join(publicPosterDir, `${concert.slug}.pdf`);
+
+    await fs.writeFile(generatedPdfPath, pdfBuffer);
+    await fs.writeFile(publicPdfPath, pdfBuffer);
     await fs.rm(path.join(postersDir, `${concert.slug}.html`), { force: true });
-    return pdfPath;
+    return { generatedPdfPath, publicPdfPath };
   } finally {
     await fs.rm(tempDir, { recursive: true, force: true });
   }
@@ -737,11 +742,12 @@ for (const concert of upcomingConcerts) {
     continue;
   }
 
-  const pdfPath = await generatePoster(concert);
-  generatedPaths.push(pdfPath);
+  const pdfPaths = await generatePoster(concert);
+  generatedPaths.push(pdfPaths);
 }
 
 console.log("Genererade affischer:");
-for (const pdfPath of generatedPaths) {
-  console.log(`- ${pdfPath}`);
+for (const paths of generatedPaths) {
+  console.log(`- ${paths.generatedPdfPath}`);
+  console.log(`- ${paths.publicPdfPath}`);
 }

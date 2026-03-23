@@ -69,6 +69,10 @@ function absoluteUrl(urlPath) {
   return new URL(urlPath, site.baseUrl).toString();
 }
 
+function concertPosterPath(concert) {
+  return concert.slug ? `/affischer/${concert.slug}.pdf` : "";
+}
+
 function navLink(label, href, currentPath) {
   const isCurrent = href === currentPath;
   return `<a href="${href}"${
@@ -189,11 +193,14 @@ function button({
   track,
   location,
   newTab = false,
+  download = false,
 }) {
   return `<a href="${href}" class="cta-button cta-button--${variant}"${
     track ? ` data-track="${track}"` : ""
   }${location ? ` data-track-location="${location}"` : ""}${
     newTab ? ' target="_blank" rel="noreferrer"' : ""
+  }${
+    download ? ' download=""' : ""
   }>${label}</a>`;
 }
 
@@ -753,6 +760,14 @@ function renderConcertDetailPage(concert) {
               location: "concert_detail_sidebar",
               variant: "secondary",
               newTab: true,
+            })}
+            ${button({
+              href: concertPosterPath(concert),
+              label: "Ladda ner affisch (PDF)",
+              track: "download_poster",
+              location: "concert_detail_sidebar",
+              variant: "ghost",
+              download: true,
             })}
           </div>
         </div>
