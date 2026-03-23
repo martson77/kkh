@@ -8,13 +8,18 @@
       return;
     }
 
-    window.gtag("event", "cta_click", {
+    const eventPayload = {
       cta_name: trackName,
       cta_location: target?.dataset.trackLocation || "unknown",
       cta_label: target?.textContent?.trim() || "",
       page_type: document.body?.dataset.pageType || "unknown",
       destination: target?.getAttribute?.("href") || window.location.href,
-    });
+    };
+
+    const eventName = String(trackName).replace(/[^a-zA-Z0-9_]/g, "_");
+
+    window.gtag("event", eventName, eventPayload);
+    window.gtag("event", "cta_click", eventPayload);
   }
 
   async function copyToClipboard(text) {

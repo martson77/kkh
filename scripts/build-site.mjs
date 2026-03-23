@@ -15,7 +15,7 @@ import {
 
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const publicDir = path.join(rootDir, "public");
-const assetVersion = "20260323-cta-visited-fix";
+const assetVersion = "20260323-ga4-ticket-alert";
 
 const imageVariantWidths = [500, 800, 1080, 1200, 1600, 2000, 2600, 3200];
 const knownImageWidths = {
@@ -291,13 +291,23 @@ function hasTicketLink(concert) {
   return Boolean(concert.ticketUrl);
 }
 
+function hasTicketAlert(concert) {
+  return Boolean(!concert.ticketUrl && concert.slug);
+}
+
+function concertTicketAlertUrl(concert) {
+  const subject = `Biljettbesked: ${concert.title}`;
+  const body = `Hej!\n\nJag vill gärna få besked när biljettlänken för ${concert.title} publiceras.\n\nNamn:\n`;
+  return `mailto:${site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
 function concertCalendarDetails(concert) {
   const detailsUrl = absoluteUrl(
     concert.slug ? `/konserter/${concert.slug}/` : "/konserter/"
   );
   const ticketLine = hasTicketLink(concert)
     ? `Biljetter: ${concert.ticketUrl}`
-    : "Biljettinformation publiceras snart.";
+    : "Biljettlänk publiceras på konsertsidan senare.";
 
   return `${concert.summary}\n\n${ticketLine}\nMer info: ${detailsUrl}`;
 }
@@ -461,6 +471,17 @@ function renderHomePage() {
                     variant: "secondary",
                     location: "home_panel",
                   })
+            }
+            ${
+              hasTicketAlert(nextConcert)
+                ? button({
+                    href: concertTicketAlertUrl(nextConcert),
+                    label: "Få besked om biljetter",
+                    variant: "ghost",
+                    track: "ticket_alert_interest",
+                    location: "home_panel",
+                  })
+                : ""
             }
             ${button({
               href: `/kalender/${nextConcert.slug}.ics`,
@@ -661,6 +682,17 @@ function renderConcertsPage() {
                     })
                   : ""
               }
+              ${
+                hasTicketAlert(concert)
+                  ? button({
+                      href: concertTicketAlertUrl(concert),
+                      label: "Få besked om biljetter",
+                      track: "ticket_alert_interest",
+                      location: "concerts_upcoming",
+                      variant: "ghost",
+                    })
+                  : ""
+              }
               ${button({
                 href: `/konserter/${concert.slug}/`,
                 label: "Se konsertinfo",
@@ -830,7 +862,7 @@ function renderConcertDetailPage(concert) {
         </div>
         <div class="aside-card">
           <p class="aside-label">${
-            hasTicketLink(concert) ? "Boka eller spara" : "Spara konserten"
+            hasTicketLink(concert) ? "Boka eller spara" : "Få biljettbesked eller spara"
           }</p>
           <div class="stack-actions">
             ${
@@ -841,6 +873,16 @@ function renderConcertDetailPage(concert) {
                     track: "buy_ticket",
                     location: "concert_detail_sidebar",
                     newTab: true,
+                  })
+                : ""
+            }
+            ${
+              hasTicketAlert(concert)
+                ? button({
+                    href: concertTicketAlertUrl(concert),
+                    label: "Få besked om biljetter",
+                    track: "ticket_alert_interest",
+                    location: "concert_detail_sidebar",
                   })
                 : ""
             }
@@ -1148,7 +1190,7 @@ function renderIcsCalendar(items, calendarName) {
       );
       const description = hasTicketLink(concert)
         ? `${concert.summary}\n\nBiljetter: ${concert.ticketUrl}\nMer information: ${detailsUrl}`
-        : `${concert.summary}\n\nBiljettinformation publiceras snart.\nMer information: ${detailsUrl}`;
+        : `${concert.summary}\n\nBiljettlänk publiceras på konsertsidan senare.\nMer information: ${detailsUrl}`;
       return `BEGIN:VEVENT
 UID:${concert.slug || concert.title.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-")}@kammarkorenhogalid.se
 DTSTAMP:${toIcsTimestamp(concert.updatedAt || concert.start)}

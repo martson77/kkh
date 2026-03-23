@@ -241,7 +241,7 @@ export const concerts = [
       {
         title: "Biljetter och entré",
         body:
-          "Biljettinformation publiceras snart. Entré 150 kr. Kom gärna i god tid så att du hinner hitta din plats före start.",
+          "Biljetter släpps längre fram. Klicka på \"Få besked om biljetter\" om du vill att vi mejlar när länken är publicerad. Entré 150 kr. Kom gärna i god tid så att du hinner hitta din plats före start.",
       },
       {
         title: "Tillgänglighet",
