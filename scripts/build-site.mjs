@@ -88,7 +88,7 @@ function renderNavigation(currentPath) {
         ${navLink("Konserter", "/konserter/", currentPath)}
         ${navLink("Sjung med oss", "/sjung-med-oss/", currentPath)}
         ${navLink("Om kören", "/om-oss/", currentPath)}
-        ${navLink("Dirigent", "/dirigenten/", currentPath)}
+        ${navLink("Dirigenten", "/dirigenten/", currentPath)}
       </nav>
       <div class="menu-button w-nav-button"><img src="/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/66138d74ede779973813c51c_menu-icon.png" width="22" alt="Ikon med tre horisontella streck som symboliserar en meny." class="menu-icon"/></div>
     </div>
@@ -346,7 +346,7 @@ function renderHomePage() {
           }
           ${button({
             href: `/konserter/${nextConcert.slug}/`,
-            label: "Läs mer",
+            label: "Se konsertinfo",
             variant: "secondary",
             location: "home_hero",
           })}
@@ -361,7 +361,7 @@ function renderHomePage() {
         <ul class="inline-list">
           <li>${nextConcert.price}</li>
           <li>${nextConcert.venue}</li>
-          <li>Kalenderstöd för Apple, Outlook och Google</li>
+          <li>Spara enkelt i din kalender</li>
         </ul>
       </div>
       <div class="hero-media">
@@ -369,7 +369,7 @@ function renderHomePage() {
           nextConcert.heroImageAlt
         )}" class="hero-image"/>
         <aside class="highlight-panel">
-          <p class="highlight-panel-kicker">Snabbt val</p>
+          <p class="highlight-panel-kicker">Planera besöket</p>
           <h2 class="highlight-panel-title">${
             hasTicketLink(nextConcert)
               ? "Säkra din plats och håll datumet."

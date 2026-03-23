@@ -3,7 +3,7 @@ export const site = {
   name: "Kammarkören Högalid",
   shortDescription: "En blandad kör på avancerad nivå i Högalidskyrkan.",
   description:
-    "Kammarkören Högalid är en blandad kör på avancerad nivå i Stockholm. Upptäck nästa konsert, köp biljett och lägg konserten i din kalender.",
+    "Kammarkören Högalid är en blandad kör på avancerad nivå i Stockholm. Upptäck nästa konsert, läs mer och spara datumet i din kalender.",
   email: "kammarkorenhogalid@gmail.com",
   facebook: "https://www.facebook.com/kammarkorenhogalid/?locale=sv_SE",
   instagram: "https://www.instagram.com/kammarkoren_hogalid/",
