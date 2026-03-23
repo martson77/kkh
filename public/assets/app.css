@@ -145,10 +145,16 @@ button {
 }
 
 .hero-image,
-.media-card-image,
-.concert-card-image {
+.media-card-image {
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  box-shadow: var(--shadow);
+}
+
+.concert-card-image {
+  display: block;
+  width: 100%;
   object-fit: cover;
   box-shadow: var(--shadow);
 }
@@ -387,6 +393,7 @@ button {
 }
 
 .concert-card--upcoming .concert-card-image {
+  height: 100%;
   min-height: 100%;
   border-radius: 0;
 }
@@ -397,6 +404,7 @@ button {
 
 .concert-card--past .concert-card-image {
   aspect-ratio: 16 / 9;
+  height: auto;
   border-radius: 0;
 }
 
