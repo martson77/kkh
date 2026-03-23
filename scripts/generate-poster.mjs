@@ -287,12 +287,22 @@ function drawRect({ x, y, width, height, fill, stroke = null, lineWidth = 1 }) {
   return commands;
 }
 
-function drawImageCover({ x, y, width, height, imageWidth, imageHeight }) {
+function drawImageCover({
+  x,
+  y,
+  width,
+  height,
+  imageWidth,
+  imageHeight,
+  verticalAlign = 0.18,
+}) {
   const scale = Math.max(width / imageWidth, height / imageHeight);
   const drawWidth = imageWidth * scale;
   const drawHeight = imageHeight * scale;
   const drawX = x + (width - drawWidth) / 2;
-  const drawY = y + (height - drawHeight) / 2;
+  const overflowY = Math.max(0, drawHeight - height);
+  const clampedAlign = Math.min(Math.max(verticalAlign, 0), 1);
+  const drawY = y - overflowY * clampedAlign;
 
   return [
     "q",
@@ -336,7 +346,17 @@ function renderPosterCommands(concert, hasImage, imageWidth = 0, imageHeight = 0
   const heroHeight = 300;
 
   if (hasImage) {
-    commands.push(...drawImageCover({ x: heroX, y: heroY, width: heroWidth, height: heroHeight, imageWidth, imageHeight }));
+    commands.push(
+      ...drawImageCover({
+        x: heroX,
+        y: heroY,
+        width: heroWidth,
+        height: heroHeight,
+        imageWidth,
+        imageHeight,
+        verticalAlign: concert.posterFocusY ?? 0.08,
+      })
+    );
   } else {
     commands.push(...drawRect({ x: heroX, y: heroY, width: heroWidth, height: heroHeight, fill: palette.accentSoft }));
   }
@@ -425,7 +445,7 @@ function renderPosterCommands(concert, hasImage, imageWidth = 0, imageHeight = 0
   }));
 
   const infoBoxWidth = leftWidth;
-  const infoBoxHeight = 58;
+  const infoBoxHeight = 68;
   const summaryBottomY = currentY - summaryLines.length * 15 + 4;
   const infoStartY = Math.max(126, Math.min(178, Math.round(summaryBottomY - 176)));
 
@@ -439,7 +459,7 @@ function renderPosterCommands(concert, hasImage, imageWidth = 0, imageHeight = 0
   }));
   commands.push(...buildTextBlock({
     x: leftX + 14,
-    y: infoStartY + 112,
+    y: infoStartY + 124,
     font: "F2",
     size: 8.5,
     leading: 10,
@@ -448,7 +468,7 @@ function renderPosterCommands(concert, hasImage, imageWidth = 0, imageHeight = 0
   }));
   commands.push(...buildTextBlock({
     x: leftX + 14,
-    y: infoStartY + 90,
+    y: infoStartY + 98,
     font: "F2",
     size: 14,
     leading: 16,
@@ -460,13 +480,13 @@ function renderPosterCommands(concert, hasImage, imageWidth = 0, imageHeight = 0
     x: leftX,
     y: infoStartY,
     width: infoBoxWidth,
-    height: infoBoxHeight + 6,
+    height: infoBoxHeight + 8,
     fill: "#fffdf9",
     stroke: palette.line,
   }));
   commands.push(...buildTextBlock({
     x: leftX + 14,
-    y: infoStartY + 46,
+    y: infoStartY + 60,
     font: "F2",
     size: 8.5,
     leading: 10,
@@ -475,7 +495,7 @@ function renderPosterCommands(concert, hasImage, imageWidth = 0, imageHeight = 0
   }));
   commands.push(...buildTextBlock({
     x: leftX + 14,
-    y: infoStartY + 24,
+    y: infoStartY + 34,
     font: "F2",
     size: 13.5,
     leading: 15,
