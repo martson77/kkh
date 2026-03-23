@@ -1,6 +1,45 @@
 (() => {
   const mobileQuery = window.matchMedia("(max-width: 991px)");
 
+  function trackInteraction(target, fallbackName) {
+    const trackName = target?.dataset.track || fallbackName;
+
+    if (!trackName || typeof window.gtag !== "function") {
+      return;
+    }
+
+    window.gtag("event", "cta_click", {
+      cta_name: trackName,
+      cta_location: target?.dataset.trackLocation || "unknown",
+      cta_label: target?.textContent?.trim() || "",
+      page_type: document.body?.dataset.pageType || "unknown",
+      destination: target?.getAttribute?.("href") || window.location.href,
+    });
+  }
+
+  async function copyToClipboard(text) {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+
+    return false;
+  }
+
+  function flashButtonLabel(button, label) {
+    if (!button) {
+      return;
+    }
+
+    const originalLabel = button.dataset.originalLabel || button.textContent;
+    button.dataset.originalLabel = originalLabel;
+    button.textContent = label;
+
+    window.setTimeout(() => {
+      button.textContent = button.dataset.originalLabel;
+    }, 1800);
+  }
+
   function initNavigation(nav, index) {
     const button = nav.querySelector(".menu-button");
     const menu = nav.querySelector(".navigation-items");
@@ -89,6 +128,57 @@
   document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".navigation.w-nav").forEach((nav, index) => {
       initNavigation(nav, index);
+    });
+
+    document.addEventListener("click", async (event) => {
+      const trackTarget = event.target.closest("[data-track]");
+
+      if (trackTarget) {
+        trackInteraction(trackTarget);
+      }
+
+      const shareButton = event.target.closest("[data-share]");
+
+      if (shareButton) {
+        event.preventDefault();
+        trackInteraction(shareButton, "share_concert");
+
+        const sharePayload = {
+          title: shareButton.dataset.shareTitle || document.title,
+          text: shareButton.dataset.shareText || document.title,
+          url: shareButton.dataset.shareUrl || window.location.href,
+        };
+
+        try {
+          if (navigator.share) {
+            await navigator.share(sharePayload);
+            flashButtonLabel(shareButton, "Delat");
+            return;
+          }
+
+          const copied = await copyToClipboard(sharePayload.url);
+          flashButtonLabel(
+            shareButton,
+            copied ? "Länk kopierad" : "Dela manuellt"
+          );
+        } catch (error) {
+          flashButtonLabel(shareButton, "Kunde inte dela");
+        }
+      }
+
+      const copyButton = event.target.closest("[data-copy-url]");
+
+      if (copyButton) {
+        event.preventDefault();
+        trackInteraction(copyButton, "copy_link");
+
+        try {
+          const copied = await copyToClipboard(window.location.href);
+          flashButtonLabel(copyButton, copied ? "Länk kopierad" : "Kunde inte kopiera");
+        } catch (error) {
+          flashButtonLabel(copyButton, "Kunde inte kopiera");
+        }
+      }
     });
   });
 })();

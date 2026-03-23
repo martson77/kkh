@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "Statisk mirror av kammarkorenhogalid.se utan Webflow-hosting",
   "scripts": {
+    "build-site": "node scripts/build-site.mjs",
     "mirror": "node scripts/mirror-site.mjs",
     "normalize-assets": "node scripts/normalize-assets.mjs",
     "serve": "python3 -m http.server 4173 -d public"
