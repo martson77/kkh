@@ -31,6 +31,16 @@ function decodePathSegment(segment) {
   }
 }
 
+function toSafeSegment(segment) {
+  return segment
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/[^A-Za-z0-9._-]/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '') || 'file';
+}
+
 function toPublicAssetPath(urlString) {
   const url = new URL(urlString);
   const decodedSegments = url.pathname
@@ -39,13 +49,13 @@ function toPublicAssetPath(urlString) {
     .map((segment) => decodePathSegment(segment));
   const baseName = decodedSegments.pop() || 'index';
   const parsed = path.parse(baseName);
-  const fileName = `${parsed.name}${sanitizeSearch(url.search)}${parsed.ext}`;
+  const fileName = `${toSafeSegment(parsed.name)}${sanitizeSearch(url.search)}${parsed.ext.toLowerCase()}`;
   const filePath = path.join(
     outputDir,
     'assets',
     'external',
     url.hostname,
-    ...decodedSegments,
+    ...decodedSegments.map((segment) => toSafeSegment(segment)),
     fileName,
   );
 
