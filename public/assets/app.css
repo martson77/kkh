@@ -306,6 +306,18 @@ button {
   color: var(--accent-dark);
 }
 
+.highlight-panel .cta-button--ghost {
+  color: #fff4e8;
+  background: rgba(255, 244, 232, 0.06);
+  border-color: rgba(255, 244, 232, 0.24);
+}
+
+.highlight-panel .cta-button--ghost:hover {
+  color: #fff4e8;
+  background: rgba(255, 244, 232, 0.12);
+  border-color: rgba(255, 244, 232, 0.38);
+}
+
 .inline-list,
 .bullet-list,
 .numbered-list {

@@ -31,7 +31,7 @@ export const site = {
 export const homePage = {
   hero: {
     eyebrow: "Kammarkören Högalid",
-    title: "Körmusik på hög nivå i Högalid.",
+    title: "En aktiv kammarkör i Högalid.",
     lead:
       "Vi är en blandad kör på avancerad nivå i Stockholm. Här kan du upptäcka nästa konsert, lära känna kören och se hur du kan sjunga med oss.",
     highlights: [
