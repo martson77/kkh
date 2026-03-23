@@ -9,7 +9,8 @@
     "check-content": "node scripts/check-content.mjs",
     "mirror": "node scripts/mirror-site.mjs",
     "normalize-assets": "node scripts/normalize-assets.mjs",
-    "publish-prep": "npm run build-site && npm run check-content && npm run campaign",
+    "poster": "node scripts/generate-poster.mjs",
+    "publish-prep": "npm run build-site && npm run check-content && npm run campaign && npm run poster",
     "serve": "python3 -m http.server 4173 -d public"
   }
 }

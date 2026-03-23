@@ -20,14 +20,16 @@ npm run build-site
 npm run publish-prep
 npm run campaign
 npm run check-content
+npm run poster
 npm run mirror
 npm run serve
 ```
 
 - `npm run build-site` rebuilds the generated pages in `public/` from `scripts/site-data.mjs`.
-- `npm run publish-prep` rebuilds the site, runs a content check, and generates campaign drafts in one step.
+- `npm run publish-prep` rebuilds the site, runs a content check, generates campaign drafts, and creates PDF posters for upcoming concerts in one step.
 - `npm run campaign` generates reusable concert and recruitment campaign drafts in `generated/campaigns/`.
 - `npm run check-content` writes a content-health report to `generated/reports/content-check.md`.
+- `npm run poster` creates A4 PDF posters for upcoming concerts in `generated/posters/`.
 - `npm run mirror` refreshes the original public snapshot and local asset copies.
 - `npm run serve` starts a local server at `http://127.0.0.1:4173`.
 
@@ -53,8 +55,11 @@ That command will:
 1. rebuild the site
 2. check whether required content is missing or stale
 3. generate ready-to-edit campaign drafts for the next concert and singer recruitment
+4. export print-ready PDF posters for upcoming concerts
 
 Generated files are written to `generated/` and are ignored by Git.
+
+Poster generation uses built-in macOS tooling and produces PDF files directly without extra dependencies.
 
 Typical flow:
 
