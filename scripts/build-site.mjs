@@ -5,6 +5,7 @@ import {
   choirFacts,
   concerts,
   conductorPage,
+  futureProjects,
   joinPage,
   proofCards,
   site,
@@ -594,6 +595,24 @@ function renderConcertsPage() {
       </div>
     </div>
   </section>
+  <section class="section-block">
+    <div class="site-container section-grid">
+      <div>
+        <p class="eyebrow">Kommande projekt</p>
+        <h2 class="section-title">${futureProjects[0].title}</h2>
+        <p class="section-copy">${futureProjects[0].summary}</p>
+        ${futureProjects[0].paragraphs
+          .map((paragraph) => `<p class="section-copy">${paragraph}</p>`)
+          .join("")}
+      </div>
+      <aside class="info-panel">
+        <h3>Det här vet vi nu</h3>
+        <ul class="bullet-list">
+          ${futureProjects[0].bullets.map((item) => `<li>${item}</li>`).join("")}
+        </ul>
+      </aside>
+    </div>
+  </section>
 </main>`;
 
   return renderLayout({
@@ -827,6 +846,7 @@ function renderAboutPage() {
   const sections = `<section class="section-block">
   <div class="site-container two-column-copy">
     ${aboutPage.paragraphs.map((paragraph) => `<p class="section-copy">${paragraph}</p>`).join("")}
+    <p class="section-copy">${futureProjects[0].aboutNote}</p>
   </div>
 </section>
 <section class="section-block section-block--muted">

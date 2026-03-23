@@ -101,6 +101,26 @@ export const joinPage = {
   formUrl: "https://www.svenskakyrkan.se/hogalid/provsjungning",
 };
 
+export const futureProjects = [
+  {
+    title: "Samarbete i Hamburg hösten 2026",
+    summary:
+      "Kammarkören Högalid planerar ett samarbete med Johann Sebastian Bach-Chor i Hamburg i ett gemensamt barockprogram.",
+    paragraphs: [
+      "Programmet kretsar kring verk av J.D. Zelenka, Christoph Bernhard och J.S. Bach. En konsert är planerad i Kreuzkirche Ottensen i Hamburg den 11 oktober 2026.",
+      "Därefter planeras ett återbesök i Stockholm senare under oktober, då programmet ska framföras igen i Högalid. Mer information publiceras när datum och praktiska detaljer är helt bekräftade.",
+    ],
+    bullets: [
+      "Samarbete med Johann Sebastian Bach-Chor i Hamburg",
+      "Barockprogram av Zelenka, Bernhard och J.S. Bach",
+      "Planerad konsert i Hamburg den 11 oktober 2026",
+      "Stockholmsframförande väntas senare i oktober",
+    ],
+    aboutNote:
+      "Hösten 2026 planerar kören ett internationellt samarbete med Johann Sebastian Bach-Chor i Hamburg, med ett gemensamt barockprogram som senare också väntas framföras i Stockholm.",
+  },
+];
+
 export const concerts = [
   {
     slug: "palmeri-misa-tango",
