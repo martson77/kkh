@@ -176,6 +176,8 @@ export const concerts = [
     heroImage: site.choirImage,
     heroImageAlt: site.choirImageAlt,
     socialImage: site.choirImageSocial,
+    posterImage: site.choirPerformanceImage,
+    posterFocusY: 0.18,
     description: [
       "Martín Palmeris Misa Tango är ett verk som låter mässans klassiska form möta den argentinska tangons driv, värme och skärpa. I Högalidskyrkan får verket en inramning där kör, kammarorkester och piano bär fram både den liturgiska tyngden och den rytmiska pulsen.",
       "Konserten riktar sig både till dig som redan älskar körmusik och till dig som vill uppleva ett verk där klassisk tradition och tango möts i samma andning.",
