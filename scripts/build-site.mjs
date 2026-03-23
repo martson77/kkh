@@ -12,6 +12,7 @@ import {
 
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const publicDir = path.join(rootDir, "public");
+const assetVersion = "20260323-archivecards";
 
 const now = new Date();
 const upcomingConcerts = concerts
@@ -141,7 +142,7 @@ function renderHead({
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="${absoluteUrl(image)}"/>
 <link href="/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/css/kammarkoren-hogalid.webflow.shared.32559a67a.min.css" rel="stylesheet" type="text/css"/>
-<link href="/assets/app.css" rel="stylesheet" type="text/css"/>
+<link href="/assets/app.css?v=${assetVersion}" rel="stylesheet" type="text/css"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link href="https://fonts.gstatic.com" rel="preconnect"/>
 <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
@@ -175,7 +176,7 @@ ${renderHead({ pageTitle, description, urlPath, image, ogTitle, ogDescription, j
 ${renderNavigation(currentPath)}
 ${body}
 ${renderFooter()}
-<script src="/assets/site.js" defer></script>
+<script src="/assets/site.js?v=${assetVersion}" defer></script>
 </body>
 </html>`;
 }
