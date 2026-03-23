@@ -352,7 +352,7 @@ function renderHomePage() {
           })}
           ${button({
             href: `/kalender/${nextConcert.slug}.ics`,
-            label: "Lägg i kalender",
+            label: "Spara i kalendern",
             variant: "ghost",
             track: "add_to_calendar",
             location: "home_hero",
@@ -567,7 +567,7 @@ function renderConcertsPage() {
               })}
               ${button({
                 href: `/kalender/${concert.slug}.ics`,
-                label: "Lägg i kalender",
+                label: "Spara i kalendern",
                 track: "add_to_calendar",
                 location: "concerts_upcoming",
                 variant: "ghost",
@@ -702,7 +702,9 @@ function renderConcertDetailPage(concert) {
           <p>${concert.address}</p>
         </div>
         <div class="aside-card">
-          <p class="aside-label">Gör något nu</p>
+          <p class="aside-label">${
+            hasTicketLink(concert) ? "Boka eller spara" : "Spara konserten"
+          }</p>
           <div class="stack-actions">
             ${
               hasTicketLink(concert)
@@ -717,14 +719,14 @@ function renderConcertDetailPage(concert) {
             }
             ${button({
               href: `/kalender/${concert.slug}.ics`,
-              label: "Apple / Outlook (.ics)",
+              label: "Lägg till i Apple/Outlook",
               track: "add_to_calendar",
               location: "concert_detail_sidebar",
               variant: "secondary",
             })}
             ${button({
               href: concertGoogleCalendarUrl(concert),
-              label: "Google Kalender",
+              label: "Lägg till i Google Kalender",
               track: "add_to_calendar",
               location: "concert_detail_sidebar",
               variant: "secondary",
