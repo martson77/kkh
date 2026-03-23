@@ -1049,6 +1049,46 @@ END:VCALENDAR
 `;
 }
 
+function escapeXml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&apos;");
+}
+
+function renderRobotsTxt() {
+  return `User-agent: *
+Allow: /
+
+Sitemap: ${absoluteUrl("/sitemap.xml")}
+`;
+}
+
+function renderSitemapXml() {
+  const urls = [
+    "/",
+    "/konserter/",
+    "/om-oss/",
+    "/dirigenten/",
+    "/sjung-med-oss/",
+    ...upcomingConcerts.map((concert) => `/konserter/${concert.slug}/`),
+  ];
+
+  const entries = urls
+    .map((urlPath) => `  <url>
+    <loc>${escapeXml(absoluteUrl(urlPath))}</loc>
+  </url>`)
+    .join("\n");
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${entries}
+</urlset>
+`;
+}
+
 async function writeFile(relativePath, content) {
   const target = path.join(publicDir, relativePath);
   await fs.mkdir(path.dirname(target), { recursive: true });
@@ -1077,6 +1117,8 @@ async function main() {
     "kalender/kammarkoren-hogalid.ics",
     renderIcsCalendar(upcomingConcerts, `${site.name} – kommande konserter`)
   );
+  await writeFile("robots.txt", renderRobotsTxt());
+  await writeFile("sitemap.xml", renderSitemapXml());
 }
 
 await main();
