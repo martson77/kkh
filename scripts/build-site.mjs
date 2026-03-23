@@ -195,15 +195,36 @@ function button({
   }>${label}</a>`;
 }
 
+function hasTicketLink(concert) {
+  return Boolean(concert.ticketUrl);
+}
+
+function ticketPanelCopy(concert) {
+  if (hasTicketLink(concert)) {
+    return "Biljetter via Tickster. Lägg konserten i kalendern direkt så missar du den inte.";
+  }
+
+  return "Biljettinformation publiceras snart. Lägg konserten i kalendern redan nu så missar du den inte.";
+}
+
+function concertCalendarDetails(concert) {
+  const detailsUrl = absoluteUrl(
+    concert.slug ? `/konserter/${concert.slug}/` : "/konserter/"
+  );
+  const ticketLine = hasTicketLink(concert)
+    ? `Biljetter: ${concert.ticketUrl}`
+    : "Biljettinformation publiceras snart.";
+
+  return `${concert.summary}\n\n${ticketLine}\nMer info: ${detailsUrl}`;
+}
+
 function concertGoogleCalendarUrl(concert) {
   const params = new URLSearchParams({
     action: "TEMPLATE",
     text: concert.title,
     dates: `${toGoogleDate(concert.start)}/${toGoogleDate(concert.end || concert.start)}`,
     location: `${concert.venue}, ${concert.address || ""}`.trim(),
-    details: `${concert.summary}\n\nBiljetter: ${concert.ticketUrl}\nMer info: ${absoluteUrl(
-      concert.slug ? `/konserter/${concert.slug}/` : "/konserter/"
-    )}`,
+    details: concertCalendarDetails(concert),
     ctz: "Europe/Stockholm",
   });
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
@@ -290,15 +311,18 @@ function renderHomePage() {
         "@type": "PerformingGroup",
         name: performer,
       })),
-      offers: {
-        "@type": "Offer",
-        url: nextConcert.ticketUrl,
-        price: "150",
-        priceCurrency: "SEK",
-        availability: "https://schema.org/InStock",
-      },
     },
   };
+
+  if (hasTicketLink(nextConcert)) {
+    jsonLd.event.offers = {
+      "@type": "Offer",
+      url: nextConcert.ticketUrl,
+      price: "150",
+      priceCurrency: "SEK",
+      availability: "https://schema.org/InStock",
+    };
+  }
 
   const body = `<main>
   <section class="hero hero--home">
@@ -309,13 +333,17 @@ function renderHomePage() {
         <p class="hero-meta">${formatDateTime(nextConcert.start)} · ${nextConcert.venue}</p>
         <p class="hero-lead">${nextConcert.teaser} ${nextConcert.summary}</p>
         <div class="hero-actions">
-          ${button({
-            href: nextConcert.ticketUrl,
-            label: "Köp biljett",
-            track: "buy_ticket",
-            location: "home_hero",
-            newTab: true,
-          })}
+          ${
+            hasTicketLink(nextConcert)
+              ? button({
+                  href: nextConcert.ticketUrl,
+                  label: "Köp biljett",
+                  track: "buy_ticket",
+                  location: "home_hero",
+                  newTab: true,
+                })
+              : ""
+          }
           ${button({
             href: `/konserter/${nextConcert.slug}/`,
             label: "Läs mer",
@@ -342,16 +370,28 @@ function renderHomePage() {
         )}" class="hero-image"/>
         <aside class="highlight-panel">
           <p class="highlight-panel-kicker">Snabbt val</p>
-          <h2 class="highlight-panel-title">Säkra din plats och håll datumet.</h2>
-          <p class="highlight-panel-copy">Biljetter via Tickster. Lägg konserten i kalendern direkt så missar du den inte.</p>
+          <h2 class="highlight-panel-title">${
+            hasTicketLink(nextConcert)
+              ? "Säkra din plats och håll datumet."
+              : "Spara datumet och håll utkik."
+          }</h2>
+          <p class="highlight-panel-copy">${ticketPanelCopy(nextConcert)}</p>
           <div class="highlight-panel-actions">
-            ${button({
-              href: nextConcert.ticketUrl,
-              label: "Till Tickster",
-              track: "buy_ticket",
-              location: "home_panel",
-              newTab: true,
-            })}
+            ${
+              hasTicketLink(nextConcert)
+                ? button({
+                    href: nextConcert.ticketUrl,
+                    label: "Till Tickster",
+                    track: "buy_ticket",
+                    location: "home_panel",
+                    newTab: true,
+                  })
+                : button({
+                    href: `/konserter/${nextConcert.slug}/`,
+                    label: "Se konsertinfo",
+                    variant: "secondary",
+                  })
+            }
           </div>
         </aside>
       </div>
@@ -446,7 +486,7 @@ function renderHomePage() {
     pageTitle: `${site.name} | Nästa konsert i Högalidskyrkan`,
     description: `${nextConcert.title} ${formatShortDateTime(
       nextConcert.start
-    )} i ${nextConcert.venue}. Köp biljett och lägg konserten i kalendern.`,
+    )} i ${nextConcert.venue}. Läs mer och lägg konserten i kalendern.`,
     urlPath: "/",
     currentPath: "/",
     image: nextConcert.socialImage,
@@ -465,7 +505,7 @@ function renderConcertsPage() {
       <div>
         <p class="eyebrow">Konserter</p>
         <h1 class="page-title">Kommande konserter först. Historiken längre ner.</h1>
-        <p class="page-lead">Här hittar du nästa konsert, biljettlänk, kalenderstöd och ett urval av tidigare program. Målet är att göra det enkelt att bestämma sig snabbt.</p>
+        <p class="page-lead">Här hittar du nästa konsert, kalenderstöd och ett urval av tidigare program. Målet är att göra det enkelt att bestämma sig snabbt.</p>
       </div>
       <aside class="calendar-panel">
         <p class="calendar-panel-kicker">Säsongens kalender</p>
@@ -509,13 +549,17 @@ function renderConcertsPage() {
             <p class="concert-card-meta">${formatDateTime(concert.start)} · ${concert.venue}</p>
             <p class="concert-card-copy">${concert.summary}</p>
             <div class="concert-card-actions">
-              ${button({
-                href: concert.ticketUrl,
-                label: "Köp biljett",
-                track: "buy_ticket",
-                location: "concerts_upcoming",
-                newTab: true,
-              })}
+              ${
+                hasTicketLink(concert)
+                  ? button({
+                      href: concert.ticketUrl,
+                      label: "Köp biljett",
+                      track: "buy_ticket",
+                      location: "concerts_upcoming",
+                      newTab: true,
+                    })
+                  : ""
+              }
               ${button({
                 href: `/konserter/${concert.slug}/`,
                 label: "Läs mer",
@@ -552,7 +596,7 @@ function renderConcertsPage() {
   return renderLayout({
     pageTitle: `Konserter | ${site.name}`,
     description:
-      "Se kommande konserter med Kammarkören Högalid, köp biljett och prenumerera på säsongens kalender.",
+      "Se kommande konserter med Kammarkören Högalid, läs mer och prenumerera på säsongens kalender.",
     urlPath: "/konserter/",
     currentPath: "/konserter/",
     image: nextConcert.socialImage,
@@ -589,15 +633,18 @@ function renderConcertDetailPage(concert) {
       "@type": "PerformingGroup",
       name: performer,
     })),
-    offers: {
+  };
+
+  if (hasTicketLink(concert)) {
+    jsonLd.offers = {
       "@type": "Offer",
       url: concert.ticketUrl,
       price: "150",
       priceCurrency: "SEK",
       availability: "https://schema.org/InStock",
       validFrom: concert.start,
-    },
-  };
+    };
+  }
 
   const body = `<main>
   <section class="page-header page-header--event">
@@ -657,13 +704,17 @@ function renderConcertDetailPage(concert) {
         <div class="aside-card">
           <p class="aside-label">Gör något nu</p>
           <div class="stack-actions">
-            ${button({
-              href: concert.ticketUrl,
-              label: "Köp biljett",
-              track: "buy_ticket",
-              location: "concert_detail_sidebar",
-              newTab: true,
-            })}
+            ${
+              hasTicketLink(concert)
+                ? button({
+                    href: concert.ticketUrl,
+                    label: "Köp biljett",
+                    track: "buy_ticket",
+                    location: "concert_detail_sidebar",
+                    newTab: true,
+                  })
+                : ""
+            }
             ${button({
               href: `/kalender/${concert.slug}.ics`,
               label: "Apple / Outlook (.ics)",
@@ -711,7 +762,7 @@ function renderConcertDetailPage(concert) {
     pageTitle: `${concert.title} | ${formatDate(concert.start)} | ${site.name}`,
     description: `${concert.title} i ${concert.venue} ${formatShortDateTime(
       concert.start
-    )}. Köp biljett, lägg i kalendern och planera ditt besök.`,
+    )}. Läs mer, lägg i kalendern och planera ditt besök.`,
     urlPath: `/konserter/${concert.slug}/`,
     currentPath: `/konserter/${concert.slug}/`,
     image: concert.socialImage,
@@ -917,9 +968,9 @@ function renderIcsCalendar(items, calendarName) {
       const detailsUrl = absoluteUrl(
         concert.slug ? `/konserter/${concert.slug}/` : "/konserter/"
       );
-      const description = `${concert.summary}\n\nBiljetter: ${
-        concert.ticketUrl || detailsUrl
-      }\nMer information: ${detailsUrl}`;
+      const description = hasTicketLink(concert)
+        ? `${concert.summary}\n\nBiljetter: ${concert.ticketUrl}\nMer information: ${detailsUrl}`
+        : `${concert.summary}\n\nBiljettinformation publiceras snart.\nMer information: ${detailsUrl}`;
       return `BEGIN:VEVENT
 UID:${concert.slug || concert.title.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-")}@kammarkorenhogalid.se
 DTSTAMP:${toIcsTimestamp(new Date().toISOString())}

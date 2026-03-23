@@ -115,7 +115,6 @@ export const concerts = [
     address: "Högalids kyrkväg 11, 117 30 Stockholm",
     transport: "Tunnelbana till Hornstull, följ sedan promenadstråket upp mot Högalidskyrkan.",
     price: "Entré 150 kr",
-    ticketUrl: "https://secure.tickster.com/sv/ucrz4ryfg8tga9y/seating",
     heroImage: site.choirImage,
     heroImageAlt: site.choirImageAlt,
     socialImage: site.choirImageSocial,
@@ -145,7 +144,7 @@ export const concerts = [
       {
         title: "Biljetter och entré",
         body:
-          "Biljetter säljs via Tickster. Entré 150 kr. Kom gärna i god tid så att du hinner hitta din plats före start.",
+          "Biljettinformation publiceras snart. Entré 150 kr. Kom gärna i god tid så att du hinner hitta din plats före start.",
       },
       {
         title: "Tillgänglighet",
