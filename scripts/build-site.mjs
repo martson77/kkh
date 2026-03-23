@@ -1022,7 +1022,7 @@ function renderIcsCalendar(items, calendarName) {
         : `${concert.summary}\n\nBiljettinformation publiceras snart.\nMer information: ${detailsUrl}`;
       return `BEGIN:VEVENT
 UID:${concert.slug || concert.title.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-")}@kammarkorenhogalid.se
-DTSTAMP:${toIcsTimestamp(new Date().toISOString())}
+DTSTAMP:${toIcsTimestamp(concert.updatedAt || concert.start)}
 DTSTART:${toIcsTimestamp(concert.start)}
 DTEND:${toIcsTimestamp(concert.end || concert.start)}
 SUMMARY:${escapeIcs(concert.title)}

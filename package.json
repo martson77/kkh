@@ -5,8 +5,11 @@
   "description": "Statisk mirror av kammarkorenhogalid.se utan Webflow-hosting",
   "scripts": {
     "build-site": "node scripts/build-site.mjs",
+    "campaign": "node scripts/generate-campaign.mjs",
+    "check-content": "node scripts/check-content.mjs",
     "mirror": "node scripts/mirror-site.mjs",
     "normalize-assets": "node scripts/normalize-assets.mjs",
+    "publish-prep": "npm run build-site && npm run check-content && npm run campaign",
     "serve": "python3 -m http.server 4173 -d public"
   }
 }

@@ -111,6 +111,34 @@ export const joinPage = {
   formUrl: "https://www.svenskakyrkan.se/hogalid/provsjungning",
 };
 
+export const recruitment = {
+  active: true,
+  season: "Våren 2026",
+  statusLabel: "Vi välkomnar nya sångare",
+  shortPitch:
+    "Kammarkören Högalid söker sångare med god körvana som vill sjunga på hög konstnärlig nivå i en engagerad och varm gemenskap.",
+  voicesWanted: [],
+  desiredProfile: [
+    "god notläsningsförmåga",
+    "säkert gehör",
+    "vana att arbeta självständigt mellan repetitionerna",
+    "lust att arbeta långsiktigt med både konsert och gudstjänstmusik",
+  ],
+  campaignAngles: [
+    "hög konstnärlig nivå och varm gemenskap",
+    "bred repertoar från a cappella till orkesterprojekt",
+    "torsdagsrepetitioner i Högalids församlingshus",
+  ],
+  responseNote: "Vi återkommer när nästa provsjungning planeras.",
+  contactUrl: joinPage.formUrl,
+};
+
+export const automationSettings = {
+  campaignLeadDays: [28, 14, 3],
+  staleConcertThresholdDays: 45,
+  generatedDir: "generated",
+};
+
 export const futureProjects = [
   {
     title: "Samarbete i Hamburg hösten 2026",
