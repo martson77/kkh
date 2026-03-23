@@ -1,4 +1,5 @@
 import fs from "node:fs/promises";
+import { existsSync } from "node:fs";
 import path from "node:path";
 import {
   aboutPage,
@@ -14,7 +15,15 @@ import {
 
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const publicDir = path.join(rootDir, "public");
-const assetVersion = "20260323-homehybrid";
+const assetVersion = "20260323-performance";
+
+const imageVariantWidths = [500, 800, 1080, 1200, 1600, 2000, 2600, 3200];
+const knownImageWidths = {
+  [site.choirPerformanceImage]: 1600,
+  [site.conductorImage]: 1280,
+  "/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/673f3e4497ad5ca1eb93445e_bach-juloratoriet.jpg":
+    1826,
+};
 
 const now = new Date();
 const upcomingConcerts = concerts
@@ -68,6 +77,62 @@ function formatShortDateTime(value) {
 
 function absoluteUrl(urlPath) {
   return new URL(urlPath, site.baseUrl).toString();
+}
+
+function localAssetPath(urlPath) {
+  return path.join(publicDir, urlPath.replace(/^\//, ""));
+}
+
+function getImageCandidates(src) {
+  if (!src || /^https?:\/\//.test(src)) {
+    return [];
+  }
+
+  const ext = path.extname(src);
+  const stem = src.slice(0, -ext.length);
+  const candidates = [];
+
+  for (const width of imageVariantWidths) {
+    for (const variantPath of [`${stem}-p-${width}${ext}`, `${stem}-${width}${ext}`]) {
+      if (existsSync(localAssetPath(variantPath))) {
+        candidates.push({ src: variantPath, width });
+        break;
+      }
+    }
+  }
+
+  if (knownImageWidths[src]) {
+    candidates.push({ src, width: knownImageWidths[src] });
+  }
+
+  return candidates
+    .sort((a, b) => a.width - b.width)
+    .filter((candidate, index, array) => index === array.findIndex((item) => item.src === candidate.src));
+}
+
+function buildImageAttrs({ src, sizes }) {
+  const candidates = getImageCandidates(src);
+  if (!candidates.length) {
+    return "";
+  }
+
+  const srcset = candidates.map((candidate) => `${candidate.src} ${candidate.width}w`).join(", ");
+  return ` srcset="${srcset}"${sizes ? ` sizes="${sizes}"` : ""}`;
+}
+
+function renderImage({
+  src,
+  alt,
+  className,
+  sizes,
+  eager = false,
+}) {
+  return `<img src="${src}" alt="${escapeHtml(alt)}" class="${className}"${buildImageAttrs({
+    src,
+    sizes,
+  })} loading="${eager ? "eager" : "lazy"}" decoding="${eager ? "sync" : "async"}"${
+    eager ? ' fetchpriority="high"' : ""
+  }/>`;
 }
 
 function concertPosterPath(concert) {
@@ -130,8 +195,15 @@ function renderHead({
   ogTitle = pageTitle,
   ogDescription = description,
   jsonLd,
+  preloadImage,
 }) {
   const canonical = absoluteUrl(urlPath);
+  const preloadImageAttrs = preloadImage?.src
+    ? buildImageAttrs({
+        src: preloadImage.src,
+        sizes: preloadImage.sizes,
+      })
+    : "";
   return `<meta charset="utf-8"/>
 <title>${escapeHtml(pageTitle)}</title>
 <meta content="${escapeHtml(description)}" name="description"/>
@@ -147,12 +219,12 @@ function renderHead({
 <meta property="twitter:description" content="${escapeHtml(ogDescription)}"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="${absoluteUrl(image)}"/>
+${preloadImage?.src ? `<link rel="preload" as="image" href="${preloadImage.src}"${preloadImageAttrs}/>` : ""}
 <link href="/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/css/kammarkoren-hogalid.webflow.shared.32559a67a.min.css" rel="stylesheet" type="text/css"/>
 <link href="/assets/app.css?v=${assetVersion}" rel="stylesheet" type="text/css"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link href="https://fonts.gstatic.com" rel="preconnect"/>
-<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
-<script type="text/javascript">WebFont.load({google:{families:["Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic"]}});</script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet"/>
 <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
 <link href="${site.favicon}" rel="shortcut icon" type="image/x-icon"/>
 <link href="${site.appleTouchIcon}" rel="apple-touch-icon"/>
@@ -172,11 +244,21 @@ function renderLayout({
   pageType,
   jsonLd,
   body,
+  preloadImage,
 }) {
   return `<!DOCTYPE html>
 <html lang="sv">
 <head>
-${renderHead({ pageTitle, description, urlPath, image, ogTitle, ogDescription, jsonLd })}
+${renderHead({
+  pageTitle,
+  description,
+  urlPath,
+  image,
+  ogTitle,
+  ogDescription,
+  jsonLd,
+  preloadImage,
+})}
 </head>
 <body data-page-type="${pageType}">
 ${renderNavigation(currentPath)}
@@ -246,9 +328,12 @@ function renderPastConcertCard(concert) {
   return `<article class="concert-card concert-card--past">
   ${
     concert.image
-      ? `<img src="${concert.image}" alt="${escapeHtml(
-          concert.imageAlt || concert.title
-        )}" class="concert-card-image"/>`
+      ? renderImage({
+          src: concert.image,
+          alt: concert.imageAlt || concert.title,
+          className: "concert-card-image",
+          sizes: "(max-width: 991px) 100vw, 46vw",
+        })
       : ""
   }
   <div class="concert-card-body">
@@ -344,9 +429,13 @@ function renderHomePage() {
         </ul>
       </div>
       <div class="hero-media">
-        <img src="${site.choirPerformanceImage}" alt="${escapeHtml(
-          site.choirPerformanceImageAlt
-        )}" class="hero-image"/>
+        ${renderImage({
+          src: site.choirPerformanceImage,
+          alt: site.choirPerformanceImageAlt,
+          className: "hero-image",
+          sizes: "(max-width: 991px) 100vw, 44vw",
+          eager: true,
+        })}
         <aside class="highlight-panel">
           <p class="highlight-panel-kicker">${homePage.nextConcertPanel.eyebrow}</p>
           <h2 class="highlight-panel-title">${nextConcert.title}</h2>
@@ -442,7 +531,12 @@ function renderHomePage() {
   <section class="section-block">
     <div class="site-container section-grid section-grid--reverse">
       <div class="media-card media-card--portrait">
-        <img src="${site.conductorImage}" alt="${escapeHtml(site.conductorImageAlt)}" class="media-card-image"/>
+        ${renderImage({
+          src: site.conductorImage,
+          alt: site.conductorImageAlt,
+          className: "media-card-image",
+          sizes: "(max-width: 991px) 100vw, 44vw",
+        })}
       </div>
       <div>
         <p class="eyebrow">${homePage.conductor.eyebrow}</p>
@@ -493,6 +587,10 @@ function renderHomePage() {
     pageType: "home",
     jsonLd,
     body,
+    preloadImage: {
+      src: site.choirPerformanceImage,
+      sizes: "(max-width: 991px) 100vw, 44vw",
+    },
   });
 }
 
@@ -538,9 +636,12 @@ function renderConcertsPage() {
         ${upcomingConcerts
           .map(
             (concert) => `<article class="concert-card concert-card--upcoming">
-          <img src="${concert.heroImage}" alt="${escapeHtml(
-              concert.heroImageAlt
-            )}" class="concert-card-image"/>
+          ${renderImage({
+            src: concert.heroImage,
+            alt: concert.heroImageAlt,
+            className: "concert-card-image",
+            sizes: "(max-width: 991px) 100vw, 42vw",
+          })}
           <div class="concert-card-body">
             <p class="concert-card-kicker">${
               upcomingConcerts.length === 1 ? "Nästa konsert" : "Kommande konsert"
@@ -623,6 +724,10 @@ function renderConcertsPage() {
       "Se nästa konsert, spara datumet i kalendern och upptäck tidigare program från Kammarkören Högalid.",
     pageType: "concerts",
     body,
+    preloadImage: {
+      src: nextConcert.heroImage,
+      sizes: "(max-width: 991px) 100vw, 42vw",
+    },
   });
 }
 
@@ -674,9 +779,13 @@ function renderConcertDetailPage(concert) {
         <p class="event-meta">${formatDateTime(concert.start)} · ${concert.venue}</p>
       </div>
       <div class="media-card">
-        <img src="${concert.heroImage}" alt="${escapeHtml(
-          concert.heroImageAlt
-        )}" class="media-card-image"/>
+        ${renderImage({
+          src: concert.heroImage,
+          alt: concert.heroImageAlt,
+          className: "media-card-image",
+          sizes: "(max-width: 991px) 100vw, 44vw",
+          eager: true,
+        })}
       </div>
     </div>
   </section>
@@ -799,6 +908,10 @@ function renderConcertDetailPage(concert) {
     pageType: "concert_detail",
     jsonLd,
     body,
+    preloadImage: {
+      src: concert.heroImage,
+      sizes: "(max-width: 991px) 100vw, 44vw",
+    },
   });
 }
 
@@ -825,7 +938,13 @@ function renderSimplePage({
       ${
         image
           ? `<div class="media-card media-card--portrait">
-        <img src="${image}" alt="${escapeHtml(imageAlt || title)}" class="media-card-image"/>
+        ${renderImage({
+          src: image,
+          alt: imageAlt || title,
+          className: "media-card-image",
+          sizes: "(max-width: 991px) 100vw, 44vw",
+          eager: true,
+        })}
         ${imageCredit ? `<p class="media-card-credit">${escapeHtml(imageCredit)}</p>` : ""}
       </div>`
           : ""
@@ -845,6 +964,12 @@ function renderSimplePage({
     ogDescription: description,
     pageType,
     body,
+    preloadImage: image
+      ? {
+          src: image,
+          sizes: "(max-width: 991px) 100vw, 44vw",
+        }
+      : undefined,
   });
 }
 
