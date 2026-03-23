@@ -177,9 +177,11 @@ async function cleanupLegacyPosterFiles() {
 async function prepareRasterImage(concert) {
   const candidates = [
     concert.posterImage,
+    concert.heroImage,
+    concert.socialImage,
     concert.image,
-    site.choirPerformanceImage,
     site.choirImageSocial,
+    site.choirPerformanceImage,
     site.choirImage,
   ]
     .map(resolveLocalAssetPath)
@@ -189,9 +191,15 @@ async function prepareRasterImage(concert) {
 
   for (const candidate of candidates) {
     try {
+      if (candidate.toLowerCase().endsWith(".avif")) {
+        continue;
+      }
+
       await fs.access(candidate);
+      const pngPath = path.join(tempDir, `${concert.slug || "poster"}.png`);
       const outputPath = path.join(tempDir, `${concert.slug || "poster"}.jpg`);
-      await execFileAsync("sips", ["-s", "format", "jpeg", candidate, "--out", outputPath]);
+      await execFileAsync("sips", ["-s", "format", "png", candidate, "--out", pngPath]);
+      await execFileAsync("sips", ["-s", "format", "jpeg", pngPath, "--out", outputPath]);
       const imageBuffer = await fs.readFile(outputPath);
       const { width, height } = await readImageSize(outputPath);
 
@@ -303,6 +311,18 @@ function sectionHeight(lineCount) {
   return 34 + lineCount * 14;
 }
 
+function wrapBulletItems(items, maxWidth, fontSize, variant = "body") {
+  return items.flatMap((item) => {
+    const wrapped = wrapText(item, maxWidth - 14, fontSize, variant);
+
+    if (!wrapped.length) {
+      return [];
+    }
+
+    return wrapped.map((line, index) => `${index === 0 ? "- " : "  "}${line}`);
+  });
+}
+
 function renderPosterCommands(concert, hasImage, imageWidth = 0, imageHeight = 0) {
   const commands = [];
 
@@ -349,9 +369,9 @@ function renderPosterCommands(concert, hasImage, imageWidth = 0, imageHeight = 0
   commands.push(...drawRect({ x: cardX, y: cardY, width: cardWidth, height: cardHeight, fill: palette.panel, stroke: palette.line }));
 
   const leftX = 58;
-  const leftWidth = 286;
-  const rightX = 372;
-  const rightWidth = 162;
+  const leftWidth = 276;
+  const rightX = 356;
+  const rightWidth = 178;
   const cardTop = cardY + cardHeight;
 
   commands.push(...buildTextBlock({
@@ -470,30 +490,35 @@ function renderPosterCommands(concert, hasImage, imageWidth = 0, imageHeight = 0
     ),
   }));
 
-  const ticketFill = concert.ticketUrl ? palette.successSoft : palette.accentSoft;
-  const ticketColor = concert.ticketUrl ? palette.success : palette.accent;
-  commands.push(...drawRect({
-    x: rightX,
-    y: cardTop - 74,
-    width: rightWidth,
-    height: 34,
-    fill: ticketFill,
-    stroke: null,
-  }));
-  commands.push(...buildTextBlock({
-    x: rightX + 12,
-    y: cardTop - 53,
-    font: "F2",
-    size: 10.5,
-    leading: 12,
-    color: ticketColor,
-    lines: [concert.ticketUrl ? "Biljetter finns nu" : "Biljettinformation publiceras snart"],
-  }));
+  let rightCursorY = cardTop - 42;
 
-  let rightCursorY = cardTop - 122;
+  if (concert.ticketUrl) {
+    commands.push(...drawRect({
+      x: rightX,
+      y: cardTop - 74,
+      width: rightWidth,
+      height: 34,
+      fill: palette.successSoft,
+      stroke: null,
+    }));
+    commands.push(...buildTextBlock({
+      x: rightX + 12,
+      y: cardTop - 53,
+      font: "F2",
+      size: 10.5,
+      leading: 12,
+      color: palette.success,
+      lines: ["Biljetter finns nu"],
+    }));
+
+    rightCursorY = cardTop - 122;
+  }
 
   if (concert.program?.length) {
-    const programLines = truncateLines(concert.program.map((item) => `- ${item}`), 5);
+    const programLines = truncateLines(
+      wrapBulletItems(concert.program, rightWidth - 24, 9.2, "body"),
+      7
+    );
     const boxHeight = sectionHeight(programLines.length);
     commands.push(...drawRect({
       x: rightX,
@@ -516,8 +541,8 @@ function renderPosterCommands(concert, hasImage, imageWidth = 0, imageHeight = 0
       x: rightX + 12,
       y: rightCursorY - 40,
       font: "F1",
-      size: 10.5,
-      leading: 14,
+      size: 9.2,
+      leading: 12.2,
       color: palette.ink,
       lines: programLines,
     }));
@@ -525,7 +550,10 @@ function renderPosterCommands(concert, hasImage, imageWidth = 0, imageHeight = 0
   }
 
   if (concert.performers?.length) {
-    const performerLines = truncateLines(concert.performers.slice(0, 6).map((item) => `- ${item}`), 7);
+    const performerLines = truncateLines(
+      wrapBulletItems(concert.performers.slice(0, 6), rightWidth - 24, 9.2, "body"),
+      12
+    );
     const boxHeight = sectionHeight(performerLines.length);
     commands.push(...drawRect({
       x: rightX,
@@ -548,8 +576,8 @@ function renderPosterCommands(concert, hasImage, imageWidth = 0, imageHeight = 0
       x: rightX + 12,
       y: rightCursorY - 40,
       font: "F1",
-      size: 10.5,
-      leading: 14,
+      size: 9.2,
+      leading: 12.2,
       color: palette.ink,
       lines: performerLines,
     }));
