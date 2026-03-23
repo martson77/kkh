@@ -504,24 +504,24 @@ function renderConcertsPage() {
     <div class="site-container page-header-grid">
       <div>
         <p class="eyebrow">Konserter</p>
-        <h1 class="page-title">Kommande konserter först. Historiken längre ner.</h1>
-        <p class="page-lead">Här hittar du nästa konsert, kalenderstöd och ett urval av tidigare program. Målet är att göra det enkelt att bestämma sig snabbt.</p>
+        <h1 class="page-title">Här hittar du nästa konsert med Kammarkören Högalid.</h1>
+        <p class="page-lead">Se vad som spelas härnäst, läs om programmet och spara datumet direkt i din kalender. Längre ner hittar du också ett urval av tidigare konserter.</p>
       </div>
       <aside class="calendar-panel">
-        <p class="calendar-panel-kicker">Säsongens kalender</p>
-        <h2 class="calendar-panel-title">Prenumerera på våra kommande konserter.</h2>
-        <p class="calendar-panel-copy">Lägg till hela konsertkalendern i din kalenderapp via en publik .ics-feed.</p>
+        <p class="calendar-panel-kicker">Missa inte nästa datum</p>
+        <h2 class="calendar-panel-title">Lägg till våra kommande konserter i din kalender.</h2>
+        <p class="calendar-panel-copy">Du kan antingen spara kalenderfilen själv eller prenumerera så att nya datum dyker upp automatiskt när vi lägger ut dem.</p>
         <div class="calendar-panel-actions">
           ${button({
             href: "/kalender/kammarkoren-hogalid.ics",
-            label: "Hämta kalenderfil",
+            label: "Spara hela konsertkalendern",
             track: "add_to_calendar",
             location: "concerts_feed",
             variant: "secondary",
           })}
           ${button({
             href: "webcal://www.kammarkorenhogalid.se/kalender/kammarkoren-hogalid.ics",
-            label: "Prenumerera via webcal",
+            label: "Prenumerera automatiskt",
             track: "add_to_calendar_feed",
             location: "concerts_feed",
             variant: "ghost",
@@ -533,8 +533,8 @@ function renderConcertsPage() {
   <section class="section-block">
     <div class="site-container">
       <div class="section-heading">
-        <p class="eyebrow">Kommande konserter</p>
-        <h2 class="section-title">Boka, dela eller lägg i kalendern direkt.</h2>
+        <p class="eyebrow">Nästa att uppleva</p>
+        <h2 class="section-title">Det här är konserten du kan planera för nu.</h2>
       </div>
       <div class="concert-list">
         ${upcomingConcerts
@@ -544,7 +544,9 @@ function renderConcertsPage() {
               concert.heroImageAlt
             )}" class="concert-card-image"/>
           <div class="concert-card-body">
-            <p class="concert-card-kicker">Kommande</p>
+            <p class="concert-card-kicker">${
+              upcomingConcerts.length === 1 ? "Nästa konsert" : "Kommande konsert"
+            }</p>
             <h3 class="concert-card-title">${concert.title}</h3>
             <p class="concert-card-meta">${formatDateTime(concert.start)} · ${concert.venue}</p>
             <p class="concert-card-copy">${concert.summary}</p>
@@ -562,7 +564,7 @@ function renderConcertsPage() {
               }
               ${button({
                 href: `/konserter/${concert.slug}/`,
-                label: "Läs mer",
+                label: "Se konsertinfo",
                 variant: "secondary",
               })}
               ${button({
@@ -583,8 +585,8 @@ function renderConcertsPage() {
   <section class="section-block section-block--muted">
     <div class="site-container">
       <div class="section-heading">
-        <p class="eyebrow">Tidigare konserter</p>
-        <h2 class="section-title">Ett tydligare arkiv över program som redan har klingat ut.</h2>
+        <p class="eyebrow">Tidigare program</p>
+        <h2 class="section-title">Här kan du se vad vi har framfört tidigare.</h2>
       </div>
       <div class="archive-grid">
         ${pastConcerts.map((concert) => renderPastConcertCard(concert)).join("")}
@@ -596,13 +598,13 @@ function renderConcertsPage() {
   return renderLayout({
     pageTitle: `Konserter | ${site.name}`,
     description:
-      "Se kommande konserter med Kammarkören Högalid, läs mer och prenumerera på säsongens kalender.",
+      "Se nästa konsert med Kammarkören Högalid, spara datumet i kalendern och bläddra bland tidigare program.",
     urlPath: "/konserter/",
     currentPath: "/konserter/",
     image: nextConcert.socialImage,
     ogTitle: `Konserter | ${site.name}`,
     ogDescription:
-      "Kommande konserter, biljettlänkar och kalenderstöd från Kammarkören Högalid.",
+      "Se nästa konsert, spara datumet i kalendern och upptäck tidigare program från Kammarkören Högalid.",
     pageType: "concerts",
     body,
   });
