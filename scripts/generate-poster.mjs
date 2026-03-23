@@ -331,9 +331,9 @@ function renderPosterCommands(concert, hasImage, imageWidth = 0, imageHeight = 0
   commands.push(...drawRect({ x: PAGE_WIDTH - 120, y: -40, width: 190, height: 190, fill: palette.accentWarm }));
 
   const heroX = 0;
-  const heroY = 520;
+  const heroY = 430;
   const heroWidth = PAGE_WIDTH;
-  const heroHeight = 322;
+  const heroHeight = 300;
 
   if (hasImage) {
     commands.push(...drawImageCover({ x: heroX, y: heroY, width: heroWidth, height: heroHeight, imageWidth, imageHeight }));
@@ -341,19 +341,19 @@ function renderPosterCommands(concert, hasImage, imageWidth = 0, imageHeight = 0
     commands.push(...drawRect({ x: heroX, y: heroY, width: heroWidth, height: heroHeight, fill: palette.accentSoft }));
   }
 
-  commands.push(...drawRect({ x: 42, y: 742, width: 208, height: 56, fill: "#fffdf9", stroke: palette.line }));
+  commands.push(...drawRect({ x: 42, y: 778, width: 230, height: 46, fill: "#fffdf9", stroke: palette.line }));
   commands.push(...buildTextBlock({
     x: 58,
-    y: 780,
+    y: 806,
     font: "F2",
-    size: 9,
-    leading: 11,
+    size: 8.5,
+    leading: 10,
     color: palette.accent,
     lines: ["KOMMANDE KONSERT"],
   }));
   commands.push(...buildTextBlock({
     x: 58,
-    y: 758,
+    y: 786,
     font: "F2",
     size: 15,
     leading: 16,
@@ -426,7 +426,8 @@ function renderPosterCommands(concert, hasImage, imageWidth = 0, imageHeight = 0
 
   const infoBoxWidth = leftWidth;
   const infoBoxHeight = 58;
-  const infoStartY = 186;
+  const summaryBottomY = currentY - summaryLines.length * 15 + 4;
+  const infoStartY = Math.max(126, Math.min(178, Math.round(summaryBottomY - 176)));
 
   commands.push(...drawRect({
     x: leftX,
