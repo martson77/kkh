@@ -28,6 +28,43 @@ export const site = {
   conductorImageAlt: "Benedikt Melichar, dirigent för Kammarkören Högalid.",
 };
 
+export const homePage = {
+  hero: {
+    eyebrow: "Kammarkören Högalid",
+    title: "Körmusik på hög nivå i Högalid.",
+    lead:
+      "Vi är en blandad kör på avancerad nivå i Stockholm. Här kan du upptäcka nästa konsert, lära känna kören och se hur du kan sjunga med oss.",
+    highlights: [
+      "Ca 25 sångare med höga ambitioner",
+      "4–6 konserter och större projekt per år",
+      "Högalidskyrkan på Södermalm i Stockholm",
+    ],
+  },
+  nextConcertPanel: {
+    eyebrow: "Nästa konsert",
+    withTicketTitle: "Planera besöket och säkra din plats.",
+    withoutTicketTitle: "Spara datumet och läs mer om programmet.",
+  },
+  about: {
+    eyebrow: "Kort om kören",
+    title: "En aktiv kör med höga ambitioner och varm gemenskap.",
+  },
+  join: {
+    eyebrow: "Sjung med oss",
+    title: "Nyfiken på att bli en del av Kammarkören Högalid?",
+  },
+  conductor: {
+    eyebrow: "Vår dirigent",
+    title: "Benedikt Melichar leder kören med både upptäckarglädje och precision.",
+  },
+  archive: {
+    eyebrow: "Tidigare program och nästa steg",
+    title: "Lär känna kören genom det vi nyligen gjort och det vi planerar framåt.",
+    lead:
+      "Vill du få en känsla för vår repertoar och vart kören är på väg, hittar du både tidigare program och kommande projekt här.",
+  },
+};
+
 export const choirFacts = [
   {
     value: "Sedan 2017",

@@ -6,6 +6,7 @@ import {
   concerts,
   conductorPage,
   futureProjects,
+  homePage,
   joinPage,
   proofCards,
   site,
@@ -13,7 +14,7 @@ import {
 
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const publicDir = path.join(rootDir, "public");
-const assetVersion = "20260323-aboutphoto";
+const assetVersion = "20260323-homehybrid";
 
 const now = new Date();
 const upcomingConcerts = concerts
@@ -208,14 +209,6 @@ function hasTicketLink(concert) {
   return Boolean(concert.ticketUrl);
 }
 
-function ticketPanelCopy(concert) {
-  if (hasTicketLink(concert)) {
-    return "Biljetter via Tickster. Lägg konserten i kalendern direkt så missar du den inte.";
-  }
-
-  return "Biljettinformation publiceras snart. Lägg konserten i kalendern redan nu så missar du den inte.";
-}
-
 function concertCalendarDetails(concert) {
   const detailsUrl = absoluteUrl(
     concert.slug ? `/konserter/${concert.slug}/` : "/konserter/"
@@ -249,21 +242,6 @@ function toGoogleDate(value) {
   )}Z`;
 }
 
-function renderFactStrip() {
-  return `<section class="fact-strip">
-  <div class="site-container fact-grid">
-    ${choirFacts
-      .map(
-        (fact) => `<article class="fact-card">
-      <p class="fact-value">${fact.value}</p>
-      <p class="fact-label">${fact.label}</p>
-    </article>`
-      )
-      .join("")}
-  </div>
-</section>`;
-}
-
 function renderPastConcertCard(concert) {
   return `<article class="concert-card concert-card--past">
   ${
@@ -295,6 +273,8 @@ function renderPastConcertCard(concert) {
 }
 
 function renderHomePage() {
+  const latestPastConcert = pastConcerts[0];
+  const featuredProject = futureProjects[0];
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "MusicGroup",
@@ -335,62 +315,53 @@ function renderHomePage() {
 
   const body = `<main>
   <section class="hero hero--home">
-    <div class="site-container hero-grid">
+    <div class="site-container hero-grid hero-grid--home">
       <div class="hero-copy">
-        <p class="eyebrow">Nästa konsert i Högalidskyrkan</p>
-        <h1 class="hero-title">${nextConcert.title}</h1>
-        <p class="hero-meta">${formatDateTime(nextConcert.start)} · ${nextConcert.venue}</p>
-        <p class="hero-lead">${nextConcert.teaser} ${nextConcert.summary}</p>
+        <p class="eyebrow">${homePage.hero.eyebrow}</p>
+        <h1 class="hero-title">${homePage.hero.title}</h1>
+        <p class="hero-lead">${homePage.hero.lead}</p>
         <div class="hero-actions">
-          ${
-            hasTicketLink(nextConcert)
-              ? button({
-                  href: nextConcert.ticketUrl,
-                  label: "Köp biljett",
-                  track: "buy_ticket",
-                  location: "home_hero",
-                  newTab: true,
-                })
-              : ""
-          }
           ${button({
             href: `/konserter/${nextConcert.slug}/`,
-            label: "Se konsertinfo",
-            variant: "secondary",
+            label: "Se nästa konsert",
             location: "home_hero",
           })}
           ${button({
-            href: `/kalender/${nextConcert.slug}.ics`,
-            label: "Spara i kalendern",
-            variant: "ghost",
-            track: "add_to_calendar",
+            href: "/sjung-med-oss/",
+            label: "Sjung med oss",
+            variant: "secondary",
+            track: "join_choir",
             location: "home_hero",
+          })}
+          ${button({
+            href: "/om-oss/",
+            label: "Om kören",
+            variant: "ghost",
           })}
         </div>
         <ul class="inline-list">
-          <li>${nextConcert.price}</li>
-          <li>${nextConcert.venue}</li>
-          <li>Spara enkelt i din kalender</li>
+          ${homePage.hero.highlights.map((item) => `<li>${item}</li>`).join("")}
         </ul>
       </div>
       <div class="hero-media">
-        <img src="${nextConcert.heroImage}" alt="${escapeHtml(
-          nextConcert.heroImageAlt
+        <img src="${site.choirPerformanceImage}" alt="${escapeHtml(
+          site.choirPerformanceImageAlt
         )}" class="hero-image"/>
         <aside class="highlight-panel">
-          <p class="highlight-panel-kicker">Planera besöket</p>
-          <h2 class="highlight-panel-title">${
+          <p class="highlight-panel-kicker">${homePage.nextConcertPanel.eyebrow}</p>
+          <h2 class="highlight-panel-title">${nextConcert.title}</h2>
+          <p class="highlight-panel-meta">${formatDateTime(nextConcert.start)} · ${nextConcert.venue}</p>
+          <p class="highlight-panel-copy">${
             hasTicketLink(nextConcert)
-              ? "Säkra din plats och håll datumet."
-              : "Spara datumet och håll utkik."
-          }</h2>
-          <p class="highlight-panel-copy">${ticketPanelCopy(nextConcert)}</p>
+              ? homePage.nextConcertPanel.withTicketTitle
+              : homePage.nextConcertPanel.withoutTicketTitle
+          } ${nextConcert.teaser}</p>
           <div class="highlight-panel-actions">
             ${
               hasTicketLink(nextConcert)
                 ? button({
                     href: nextConcert.ticketUrl,
-                    label: "Till Tickster",
+                    label: "Köp biljett",
                     track: "buy_ticket",
                     location: "home_panel",
                     newTab: true,
@@ -399,51 +370,48 @@ function renderHomePage() {
                     href: `/konserter/${nextConcert.slug}/`,
                     label: "Se konsertinfo",
                     variant: "secondary",
+                    location: "home_panel",
                   })
             }
+            ${button({
+              href: `/kalender/${nextConcert.slug}.ics`,
+              label: "Spara i kalendern",
+              variant: "ghost",
+              track: "add_to_calendar",
+              location: "home_panel",
+            })}
           </div>
         </aside>
+        <p class="hero-media-credit">${escapeHtml(site.choirPerformanceImageCredit)}</p>
       </div>
     </div>
   </section>
-  ${renderFactStrip()}
   <section class="section-block">
     <div class="site-container section-grid">
       <div>
-        <p class="eyebrow">Kort om kören</p>
-        <h2 class="section-title">Ambitiös körmusik med värme och närvaro.</h2>
+        <p class="eyebrow">${homePage.about.eyebrow}</p>
+        <h2 class="section-title">${homePage.about.title}</h2>
         <p class="section-copy">${aboutPage.intro}</p>
         <p class="section-copy">${aboutPage.paragraphs[0]}</p>
         <div class="section-actions">
           ${button({ href: "/om-oss/", label: "Läs mer om kören", variant: "secondary" })}
         </div>
       </div>
-      <div class="media-card">
-        <img src="${site.choirImage}" alt="${escapeHtml(site.choirImageAlt)}" class="media-card-image"/>
-      </div>
+      <aside class="info-panel">
+        <h3>Det här kännetecknar oss</h3>
+        <ul class="bullet-list">
+          ${choirFacts
+            .map((fact) => `<li><strong>${fact.value}</strong> ${fact.label}</li>`)
+            .join("")}
+        </ul>
+      </aside>
     </div>
   </section>
   <section class="section-block section-block--muted">
-    <div class="site-container section-grid section-grid--reverse">
-      <div class="media-card media-card--portrait">
-        <img src="${site.conductorImage}" alt="${escapeHtml(site.conductorImageAlt)}" class="media-card-image"/>
-      </div>
-      <div>
-        <p class="eyebrow">Vår dirigent</p>
-        <h2 class="section-title">Benedikt Melichar leder kören med både upptäckarglädje och precision.</h2>
-        <p class="section-copy">${conductorPage.intro}</p>
-        <p class="section-copy">${conductorPage.paragraphs[0]}</p>
-        <div class="section-actions">
-          ${button({ href: "/dirigenten/", label: "Läs mer om Benedikt", variant: "secondary" })}
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="section-block">
     <div class="site-container section-grid">
       <div>
-        <p class="eyebrow">Sjung med oss</p>
-        <h2 class="section-title">Nyfiken på att bli en del av Kammarkören Högalid?</h2>
+        <p class="eyebrow">${homePage.join.eyebrow}</p>
+        <h2 class="section-title">${homePage.join.title}</h2>
         <p class="section-copy">${joinPage.intro}</p>
         <p class="section-copy">${joinPage.paragraphs[0]}</p>
         <div class="section-actions">
@@ -471,36 +439,57 @@ function renderHomePage() {
       </div>
     </div>
   </section>
+  <section class="section-block">
+    <div class="site-container section-grid section-grid--reverse">
+      <div class="media-card media-card--portrait">
+        <img src="${site.conductorImage}" alt="${escapeHtml(site.conductorImageAlt)}" class="media-card-image"/>
+      </div>
+      <div>
+        <p class="eyebrow">${homePage.conductor.eyebrow}</p>
+        <h2 class="section-title">${homePage.conductor.title}</h2>
+        <p class="section-copy">${conductorPage.intro}</p>
+        <p class="section-copy">${conductorPage.paragraphs[0]}</p>
+        <div class="section-actions">
+          ${button({ href: "/dirigenten/", label: "Läs mer om Benedikt", variant: "secondary" })}
+        </div>
+      </div>
+    </div>
+  </section>
   <section class="section-block section-block--muted">
     <div class="site-container">
       <div class="section-heading">
-        <p class="eyebrow">Varför publiken hittar hit</p>
-        <h2 class="section-title">Ett aktivt musikliv med tydlig förankring i Högalid.</h2>
+        <p class="eyebrow">${homePage.archive.eyebrow}</p>
+        <h2 class="section-title">${homePage.archive.title}</h2>
+        <p class="section-copy">${homePage.archive.lead}</p>
       </div>
-      <div class="proof-grid">
-        ${proofCards
-          .map(
-            (card) => `<article class="proof-card">
-          <h3>${card.title}</h3>
-          <p>${card.body}</p>
-        </article>`
-          )
-          .join("")}
+      <div class="section-grid home-story-grid">
+        ${latestPastConcert ? renderPastConcertCard(latestPastConcert) : ""}
+        <aside class="info-panel home-project-panel">
+          <p class="eyebrow">Kommande projekt</p>
+          <h3>${featuredProject.title}</h3>
+          <p class="section-copy">${featuredProject.summary}</p>
+          <ul class="bullet-list">
+            ${featuredProject.bullets.map((item) => `<li>${item}</li>`).join("")}
+          </ul>
+          <div class="section-actions">
+            ${button({ href: "/konserter/", label: "Se alla konserter", variant: "secondary" })}
+          </div>
+        </aside>
       </div>
     </div>
   </section>
 </main>`;
 
   return renderLayout({
-    pageTitle: `${site.name} | Nästa konsert i Högalidskyrkan`,
-    description: `${nextConcert.title} ${formatShortDateTime(
-      nextConcert.start
-    )} i ${nextConcert.venue}. Läs mer och lägg konserten i kalendern.`,
+    pageTitle: `${site.name} | Konserter, körliv och provsjungning`,
+    description:
+      "Upptäck nästa konsert, lär känna Kammarkören Högalid och se hur du kan sjunga med oss i Högalid.",
     urlPath: "/",
     currentPath: "/",
-    image: nextConcert.socialImage,
-    ogTitle: `${nextConcert.title} | ${site.name}`,
-    ogDescription: nextConcert.summary,
+    image: site.choirPerformanceImage,
+    ogTitle: `${site.name} | Konserter och körliv i Högalid`,
+    ogDescription:
+      "Nästa konsert, körens profil och vägen in i en aktiv ensemble på avancerad nivå i Högalid.",
     pageType: "home",
     jsonLd,
     body,
