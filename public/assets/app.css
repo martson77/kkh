@@ -164,6 +164,13 @@ button {
   min-height: 460px;
 }
 
+.media-card-credit {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 10px 8px 0 0;
+  text-align: right;
+}
+
 .media-card--portrait .media-card-image {
   min-height: 520px;
 }

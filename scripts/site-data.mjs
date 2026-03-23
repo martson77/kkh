@@ -20,6 +20,9 @@ export const site = {
   choirImageSocial:
     "/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/666ae5ca3f97bf5f78d4a59c_Gruppbild-2-Kalles-.jpg",
   choirImageAlt: "Kammarkören Högalid utanför kyrkan hösten 2025.",
+  choirPerformanceImage: "/assets/imported/mikael-engstrom-jul2024.jpg",
+  choirPerformanceImageAlt: "Kammarkören Högalid under en konsert i Högalidskyrkan.",
+  choirPerformanceImageCredit: "Foto: Mikael Engström",
   conductorImage:
     "/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/664a2888c21987b02377b42f_Benedikt-4-3.jpg",
   conductorImageAlt: "Benedikt Melichar, dirigent för Kammarkören Högalid.",
@@ -66,6 +69,12 @@ export const aboutPage = {
     "Tidigare har kören framfört verk av Georg Friedrich Händel, Arvo Pärt, Marc-Antoine Charpentier, Johann Joseph Fux, Olivier Messiaen och Benjamin Britten. Vid Högalidskyrkans återinvigning och 100-årsjubileum uruppförde kören Högalidsmässan, ett beställningsverk av Matthew Peterson.",
     "Kammarkören Högalid är en del av Högalids församling och utgår från Högalidskyrkan på Södermalm i Stockholm.",
   ],
+  profileTitle: "Repertoar och profil",
+  profileParagraphs: [
+    "Kammarkören Högalid är en ensemble med höga musikaliska ambitioner och ett starkt engagemang. Vi söker både välkända och mindre kända verk, från a cappella till orkester, med tyngdpunkt i den klassiska körtraditionen.",
+    "Vår repertoar sträcker sig från renässansen till samtida och nyskriven körmusik. Bland tonsättare vi har arbetat med finns Händel, Charpentier, Fux, Scarlatti, Britten, MacMillan och Matthew Peterson.",
+    "Hos oss möts musikalisk fördjupning, självständigt arbete och en varm gemenskap som bär både konserter och gudstjänstmedverkan i Högalid.",
+  ],
 };
 
 export const conductorPage = {
@@ -82,8 +91,9 @@ export const conductorPage = {
 
 export const joinPage = {
   intro:
-    "Är du en erfaren körsångare som vill arbeta på avancerad nivå i en varm och ambitiös ensemble? Då vill vi gärna höra från dig.",
+    "En kör för dig med god körvana som vill sjunga musik i olika stilar på hög konstnärlig nivå, i en engagerad och varm gemenskap.",
   paragraphs: [
+    "Vi söker sångare med god notläsningsförmåga, säkert gehör och vana att arbeta självständigt mellan repetitionerna. Hos oss får du musicera tillsammans med engagerade körkollegor i produktioner som förenar musikalisk fördjupning med glädje och energi.",
     "Kammarkören Högalid tar vanligtvis in nya sångare i början av varje termin. Vi repeterar torsdagar 18.30–21.30 i Högalids församlingshus och arbetar både långsiktigt och projektbaserat med större produktioner.",
     "Förutom ordinarie repetitioner brukar vi ha en repetitionshelg i Stockholmsområdet i början av terminen. Kören medverkar i församlingens musikliv och framför normalt fyra till sex konserter per år.",
   ],

@@ -13,7 +13,7 @@ import {
 
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const publicDir = path.join(rootDir, "public");
-const assetVersion = "20260323-trackingfix";
+const assetVersion = "20260323-aboutphoto";
 
 const now = new Date();
 const upcomingConcerts = concerts
@@ -806,6 +806,7 @@ function renderSimplePage({
   lead,
   image,
   imageAlt,
+  imageCredit,
   sections,
   pageType,
 }) {
@@ -819,9 +820,10 @@ function renderSimplePage({
       </div>
       ${
         image
-          ? `<div class="media-card media-card--portrait"><img src="${image}" alt="${escapeHtml(
-              imageAlt || title
-            )}" class="media-card-image"/></div>`
+          ? `<div class="media-card media-card--portrait">
+        <img src="${image}" alt="${escapeHtml(imageAlt || title)}" class="media-card-image"/>
+        ${imageCredit ? `<p class="media-card-credit">${escapeHtml(imageCredit)}</p>` : ""}
+      </div>`
           : ""
       }
     </div>
@@ -850,6 +852,25 @@ function renderAboutPage() {
   </div>
 </section>
 <section class="section-block section-block--muted">
+  <div class="site-container section-grid">
+    <div>
+      <p class="eyebrow">${aboutPage.profileTitle}</p>
+      <h2 class="section-title">Bred repertoar, hög nivå och varm körgemenskap.</h2>
+      ${aboutPage.profileParagraphs
+        .map((paragraph) => `<p class="section-copy">${paragraph}</p>`)
+        .join("")}
+    </div>
+    <div class="info-panel">
+      <h2>Det här kännetecknar kören</h2>
+      <ul class="bullet-list">
+        <li>Från renässans till samtida och nyskriven körmusik</li>
+        <li>Både a cappella, gudstjänstmedverkan och större orkesterprojekt</li>
+        <li>Musikalisk fördjupning i en engagerad och varm ensemble</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<section class="section-block section-block--muted">
   <div class="site-container">
     <div class="section-heading">
       <p class="eyebrow">Det här präglar kören</p>
@@ -872,8 +893,9 @@ function renderAboutPage() {
       "Läs om Kammarkören Högalid, vår nivå, vår repertoar och hur kören är förankrad i Högalids församling.",
     title: "Om Kammarkören Högalid",
     lead: aboutPage.intro,
-    image: site.choirImage,
-    imageAlt: site.choirImageAlt,
+    image: site.choirPerformanceImage,
+    imageAlt: site.choirPerformanceImageAlt,
+    imageCredit: site.choirPerformanceImageCredit,
     sections,
     pageType: "about",
   });
@@ -903,6 +925,7 @@ function renderConductorPage() {
     lead: conductorPage.intro,
     image: site.conductorImage,
     imageAlt: site.conductorImageAlt,
+    imageCredit: "",
     sections,
     pageType: "conductor",
   });
@@ -964,6 +987,7 @@ function renderJoinPage() {
     lead: joinPage.intro,
     image: site.choirImage,
     imageAlt: site.choirImageAlt,
+    imageCredit: "",
     sections,
     pageType: "join",
   });
