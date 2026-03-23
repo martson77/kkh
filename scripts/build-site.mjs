@@ -13,7 +13,7 @@ import {
 
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const publicDir = path.join(rootDir, "public");
-const assetVersion = "20260323-archivecards";
+const assetVersion = "20260323-trackingfix";
 
 const now = new Date();
 const upcomingConcerts = concerts

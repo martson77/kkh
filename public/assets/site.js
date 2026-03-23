@@ -131,12 +131,6 @@
     });
 
     document.addEventListener("click", async (event) => {
-      const trackTarget = event.target.closest("[data-track]");
-
-      if (trackTarget) {
-        trackInteraction(trackTarget);
-      }
-
       const shareButton = event.target.closest("[data-share]");
 
       if (shareButton) {
@@ -164,6 +158,8 @@
         } catch (error) {
           flashButtonLabel(shareButton, "Kunde inte dela");
         }
+
+        return;
       }
 
       const copyButton = event.target.closest("[data-copy-url]");
@@ -178,6 +174,14 @@
         } catch (error) {
           flashButtonLabel(copyButton, "Kunde inte kopiera");
         }
+
+        return;
+      }
+
+      const trackTarget = event.target.closest("[data-track]");
+
+      if (trackTarget) {
+        trackInteraction(trackTarget);
       }
     });
   });
