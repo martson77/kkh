@@ -11,8 +11,8 @@ export const site = {
   googleVerification: "eP4VquGb-LcXUCL4y_VSRBXN8Eqhm_TilWk3hYbqidc",
   logo:
     "/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/662f3c601910a54fd0f26a92_Hogalid.svg",
-  favicon:
-    "/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/662ba49c4a259f9d06dd28ea_kammarkoren-hogalid.ico",
+  favicon: "/favicon.svg",
+  faviconType: "image/svg+xml",
   appleTouchIcon:
     "/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/6669dcc1d337a8ce79c7c0fb_hogalidstornen.jpg",
   choirImage:

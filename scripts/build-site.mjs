@@ -226,7 +226,8 @@ ${preloadImage?.src ? `<link rel="preload" as="image" href="${preloadImage.src}"
 <link href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet"/>
 <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
-<link href="${site.favicon}" rel="shortcut icon" type="image/x-icon"/>
+<link href="${site.favicon}" rel="icon" type="${site.faviconType || "image/x-icon"}"/>
+<link href="${site.favicon}" rel="shortcut icon" type="${site.faviconType || "image/x-icon"}"/>
 <link href="${site.appleTouchIcon}" rel="apple-touch-icon"/>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=${site.gaId}"></script>
 <script type="text/javascript">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag("set","developer_id.dZGVlNj",true);gtag("js",new Date());gtag("config","${site.gaId}");</script>
