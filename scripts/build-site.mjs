@@ -509,7 +509,7 @@ function renderHomePage() {
         </div>
       </div>
       <aside class="info-panel">
-        <h3>Det här kännetecknar oss</h3>
+        <h3>Fakta om kören</h3>
         <ul class="bullet-list">
           ${choirFacts
             .map((fact) => `<li><strong>${fact.value}</strong> ${fact.label}</li>`)
@@ -543,7 +543,7 @@ function renderHomePage() {
         </div>
       </div>
       <div class="info-panel">
-        <h3>Det här väntar dig</h3>
+        <h3>Detta gäller</h3>
         <ul class="bullet-list">
           ${joinPage.practicals.map((item) => `<li>${item}</li>`).join("")}
         </ul>
@@ -622,13 +622,13 @@ function renderConcertsPage() {
     <div class="site-container page-header-grid">
       <div>
         <p class="eyebrow">Konserter</p>
-        <h1 class="page-title">Här hittar du nästa konsert med Kammarkören Högalid.</h1>
-        <p class="page-lead">Se vad som spelas härnäst, läs om programmet och spara datumet direkt i din kalender. Längre ner hittar du också ett urval av tidigare konserter.</p>
+        <h1 class="page-title">Aktuella konserter och tidigare program</h1>
+        <p class="page-lead">Här finns information om kommande konserter samt ett urval av tidigare program.</p>
       </div>
       <aside class="calendar-panel">
-        <p class="calendar-panel-kicker">Missa inte nästa datum</p>
-        <h2 class="calendar-panel-title">Lägg till våra kommande konserter i din kalender.</h2>
-        <p class="calendar-panel-copy">Du kan antingen spara kalenderfilen själv eller prenumerera så att nya datum dyker upp automatiskt när vi lägger ut dem.</p>
+        <p class="calendar-panel-kicker">Kalender</p>
+        <h2 class="calendar-panel-title">Lägg till kommande konserter i kalendern.</h2>
+        <p class="calendar-panel-copy">Du kan spara kalenderfilen manuellt eller prenumerera på kalendern.</p>
         <div class="calendar-panel-actions">
           ${button({
             href: "/kalender/kammarkoren-hogalid.ics",
@@ -651,8 +651,8 @@ function renderConcertsPage() {
   <section class="section-block">
     <div class="site-container">
       <div class="section-heading">
-        <p class="eyebrow">Nästa att uppleva</p>
-        <h2 class="section-title">Det här är konserten du kan planera för nu.</h2>
+        <p class="eyebrow">Aktuell konsert</p>
+        <h2 class="section-title">Nästa konsert</h2>
       </div>
       <div class="concert-list">
         ${upcomingConcerts
@@ -736,7 +736,7 @@ function renderConcertsPage() {
           .join("")}
       </div>
       <aside class="info-panel">
-        <h3>Det här vet vi nu</h3>
+        <h3>Bekräftat hittills</h3>
         <ul class="bullet-list">
           ${futureProjects[0].bullets.map((item) => `<li>${item}</li>`).join("")}
         </ul>
@@ -1033,7 +1033,7 @@ function renderAboutPage() {
         .join("")}
     </div>
     <div class="info-panel">
-      <h2>Det här kännetecknar kören</h2>
+      <h2>Kören i korthet</h2>
       <ul class="bullet-list">
         <li>Från renässans till samtida och nyskriven körmusik</li>
         <li>Både a cappella, gudstjänstmedverkan och större orkesterprojekt</li>
@@ -1045,8 +1045,8 @@ function renderAboutPage() {
 <section class="section-block section-block--muted">
   <div class="site-container">
     <div class="section-heading">
-      <p class="eyebrow">Det här präglar kören</p>
-      <h2 class="section-title">Klang, koncentration och gemenskap.</h2>
+      <p class="eyebrow">Körens profil</p>
+      <h2 class="section-title">Repertoar, arbetssätt och sammanhang</h2>
     </div>
     <div class="proof-grid">
       ${proofCards
@@ -1127,9 +1127,9 @@ function renderJoinPage() {
       </ol>
     </div>
     <div class="calendar-panel">
-      <p class="calendar-panel-kicker">Ta kontakt</p>
-      <h2 class="calendar-panel-title">Vi vill gärna höra från dig.</h2>
-      <p class="calendar-panel-copy">Skicka en intresseanmälan via Svenska kyrkans formulär eller mejla oss direkt om du vill veta mer inför nästa provsjungning.</p>
+      <p class="calendar-panel-kicker">Kontakt</p>
+      <h2 class="calendar-panel-title">Intresseanmälan</h2>
+      <p class="calendar-panel-copy">Skicka en intresseanmälan via Svenska kyrkans formulär eller mejla kören om du vill veta mer inför nästa provsjungning.</p>
       <div class="calendar-panel-actions">
         ${button({
           href: joinPage.formUrl,

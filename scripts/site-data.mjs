@@ -33,7 +33,7 @@ export const homePage = {
     eyebrow: "Kammarkören Högalid",
     title: "Upplev körmusik i Högalid",
     lead:
-      "Vi är en blandad kör på avancerad nivå i Stockholm. Här kan du upptäcka nästa konsert, lära känna kören och se hur du kan sjunga med oss.",
+      "Kammarkören Högalid är en blandad kör på avancerad nivå i Stockholm. Här finns aktuell konsertinformation, information om kören och om provsjungning.",
     highlights: [
       "Ca 25 sångare med höga ambitioner",
       "4–6 konserter och större projekt per år",
@@ -42,26 +42,26 @@ export const homePage = {
   },
   nextConcertPanel: {
     eyebrow: "Nästa konsert",
-    withTicketTitle: "Planera besöket och säkra din plats.",
-    withoutTicketTitle: "Spara datumet och läs mer om programmet.",
+    withTicketTitle: "Läs om konserten och biljetterna.",
+    withoutTicketTitle: "Läs om programmet och lägg till konserten i kalendern.",
   },
   about: {
     eyebrow: "Kort om kören",
-    title: "En aktiv kör med höga ambitioner och varm gemenskap.",
+    title: "En blandad kör med bred repertoar och tydlig konstnärlig profil.",
   },
   join: {
     eyebrow: "Sjung med oss",
-    title: "Nyfiken på att bli en del av Kammarkören Högalid?",
+    title: "Information för dig som vill provsjunga.",
   },
   conductor: {
     eyebrow: "Vår dirigent",
-    title: "Benedikt Melichar leder kören med både upptäckarglädje och precision.",
+    title: "Benedikt Melichar är körens dirigent och konstnärliga ledare.",
   },
   archive: {
     eyebrow: "Tidigare program och nästa steg",
-    title: "Lär känna kören genom det vi nyligen gjort och det vi planerar framåt.",
+    title: "Tidigare program och kommande projekt.",
     lead:
-      "Vill du få en känsla för vår repertoar och vart kören är på väg, hittar du både tidigare program och kommande projekt här.",
+      "Här finns ett urval av tidigare konserter och information om kommande projekt.",
   },
 };
 
@@ -102,15 +102,15 @@ export const aboutPage = {
   intro:
     "Kammarkören Högalid bildades 2017 av körens dirigent och konstnärliga ledare Benedikt Melichar. Vi är en blandad kör på avancerad nivå med cirka 25 sångare.",
   paragraphs: [
-    "Vi arbetar med både a cappella- och orkesterrepertoar och söker ständigt musik som utmanar oss konstnärligt. Ambitionen är hög, men lika viktig är gemenskapen och lusten att musicera tillsammans.",
+    "Vi arbetar med både a cappella- och orkesterrepertoar och väljer musik som ställer höga krav på ensemble, stilkänsla och självständigt arbete.",
     "Tidigare har kören framfört verk av Georg Friedrich Händel, Arvo Pärt, Marc-Antoine Charpentier, Johann Joseph Fux, Olivier Messiaen och Benjamin Britten. Vid Högalidskyrkans återinvigning och 100-årsjubileum uruppförde kören Högalidsmässan, ett beställningsverk av Matthew Peterson.",
     "Kammarkören Högalid är en del av Högalids församling och utgår från Högalidskyrkan på Södermalm i Stockholm.",
   ],
   profileTitle: "Repertoar och profil",
   profileParagraphs: [
-    "Kammarkören Högalid är en ensemble med höga musikaliska ambitioner och ett starkt engagemang. Vi söker både välkända och mindre kända verk, från a cappella till orkester, med tyngdpunkt i den klassiska körtraditionen.",
+    "Kammarkören Högalid arbetar med både välkända och mindre kända verk, från a cappella till orkester, med tyngdpunkt i den klassiska körtraditionen.",
     "Vår repertoar sträcker sig från renässansen till samtida och nyskriven körmusik. Bland tonsättare vi har arbetat med finns Händel, Charpentier, Fux, Scarlatti, Britten, MacMillan och Matthew Peterson.",
-    "Hos oss möts musikalisk fördjupning, självständigt arbete och en varm gemenskap som bär både konserter och gudstjänstmedverkan i Högalid.",
+    "Hos oss förenas musikalisk fördjupning, självständigt arbete och ett långsiktigt arbete med konserter och gudstjänstmedverkan i Högalid.",
   ],
 };
 
@@ -128,9 +128,9 @@ export const conductorPage = {
 
 export const joinPage = {
   intro:
-    "En kör för dig med god körvana som vill sjunga musik i olika stilar på hög konstnärlig nivå, i en engagerad och varm gemenskap.",
+    "Kammarkören Högalid vänder sig till sångare med god körvana som vill arbeta självständigt och musicera på hög konstnärlig nivå.",
   paragraphs: [
-    "Vi söker sångare med god notläsningsförmåga, säkert gehör och vana att arbeta självständigt mellan repetitionerna. Hos oss får du musicera tillsammans med engagerade körkollegor i produktioner som förenar musikalisk fördjupning med glädje och energi.",
+    "Vi söker sångare med god notläsningsförmåga, säkert gehör och vana att arbeta självständigt mellan repetitionerna. Arbetet i kören kräver förberedelse, närvaro och intresse för både konsertrepertoar och kyrkomusik.",
     "Kammarkören Högalid tar vanligtvis in nya sångare i början av varje termin. Vi repeterar torsdagar 18.30–21.30 i Högalids församlingshus och arbetar både långsiktigt och projektbaserat med större produktioner.",
     "Förutom ordinarie repetitioner brukar vi ha en repetitionshelg i Stockholmsområdet i början av terminen. Kören medverkar i församlingens musikliv och framför normalt fyra till sex konserter per år.",
   ],
@@ -153,7 +153,7 @@ export const recruitment = {
   season: "Våren 2026",
   statusLabel: "Vi välkomnar nya sångare",
   shortPitch:
-    "Kammarkören Högalid söker sångare med god körvana som vill sjunga på hög konstnärlig nivå i en engagerad och varm gemenskap.",
+    "Kammarkören Högalid söker sångare med god körvana som vill sjunga på hög konstnärlig nivå.",
   voicesWanted: [],
   desiredProfile: [
     "god notläsningsförmåga",
@@ -162,7 +162,7 @@ export const recruitment = {
     "lust att arbeta långsiktigt med både konsert och gudstjänstmusik",
   ],
   campaignAngles: [
-    "hög konstnärlig nivå och varm gemenskap",
+    "hög konstnärlig nivå och långsiktigt ensemblearbete",
     "bred repertoar från a cappella till orkesterprojekt",
     "torsdagsrepetitioner i Högalids församlingshus",
   ],
@@ -217,7 +217,7 @@ export const concerts = [
     posterFocusY: 0.18,
     description: [
       "Martín Palmeris Misa Tango är ett verk som låter mässans klassiska form möta den argentinska tangons driv, värme och skärpa. I Högalidskyrkan får verket en inramning där kör, kammarorkester och piano bär fram både den liturgiska tyngden och den rytmiska pulsen.",
-      "Konserten riktar sig både till dig som redan älskar körmusik och till dig som vill uppleva ett verk där klassisk tradition och tango möts i samma andning.",
+      "Programmet vänder sig både till en van konsertpublik och till dig som är nyfiken på mötet mellan klassisk körmusik och tango.",
     ],
     program: ["Martín Palmeri (1965): Misa Tango"],
     performers: [
