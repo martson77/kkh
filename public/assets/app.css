@@ -601,24 +601,52 @@ button {
   }
 
   .menu-button {
+    -webkit-appearance: none;
+    appearance: none;
     width: 48px;
     height: 48px;
+    padding: 0;
     border: 1px solid rgba(24, 35, 29, 0.12);
     border-radius: 999px;
     background: rgba(255, 253, 249, 0.92);
     display: grid;
     place-items: center;
     box-shadow: 0 10px 24px rgba(24, 35, 29, 0.08);
+    cursor: pointer;
+    flex: 0 0 auto;
   }
 
   .menu-button.w--open {
     background: var(--surface);
   }
 
-  .menu-icon {
-    width: 22px;
-    height: auto;
+  .menu-button-lines {
+    width: 20px;
+    display: grid;
+    gap: 4px;
+  }
+
+  .menu-button-lines span {
+    width: 100%;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--ink);
     display: block;
+    transition:
+      transform 160ms ease,
+      opacity 160ms ease;
+  }
+
+  .menu-button.w--open .menu-button-lines span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .menu-button.w--open .menu-button-lines span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menu-button.w--open .menu-button-lines span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
   }
 
   .hero-grid,

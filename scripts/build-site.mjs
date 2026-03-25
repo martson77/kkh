@@ -15,7 +15,7 @@ import {
 
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const publicDir = path.join(rootDir, "public");
-const assetVersion = "20260325-mobile-menu";
+const assetVersion = "20260325-mobile-menu-icon";
 
 const imageVariantWidths = [500, 800, 1080, 1200, 1600, 2000, 2600, 3200];
 const knownImageWidths = {
@@ -162,7 +162,13 @@ function renderNavigation(currentPath) {
         ${navLink("Om kören", "/om-oss/", currentPath)}
         ${navLink("Dirigenten", "/dirigenten/", currentPath)}
       </nav>
-      <div class="menu-button w-nav-button"><img src="/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/66138d74ede779973813c51c_menu-icon.png" width="22" alt="Ikon med tre horisontella streck som symboliserar en meny." class="menu-icon"/></div>
+      <button type="button" class="menu-button w-nav-button" aria-label="Öppna meny">
+        <span class="menu-button-lines" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
     </div>
   </div>
 </div>`;

@@ -18,7 +18,7 @@
 <meta name="twitter:image" content="https://www.kammarkorenhogalid.se/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/692017f2d18d11b659fea9a2_Kammarkoren-Hogalid-HT25.avif"/>
 <link rel="preload" as="image" href="/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/692017f2d18d11b659fea9a2_Kammarkoren-Hogalid-HT25.avif" srcset="/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/692017f2d18d11b659fea9a2_Kammarkoren-Hogalid-HT25-p-500.avif 500w, /assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/692017f2d18d11b659fea9a2_Kammarkoren-Hogalid-HT25-p-800.avif 800w, /assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/692017f2d18d11b659fea9a2_Kammarkoren-Hogalid-HT25-p-1080.avif 1080w, /assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/692017f2d18d11b659fea9a2_Kammarkoren-Hogalid-HT25-p-1600.avif 1600w, /assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/692017f2d18d11b659fea9a2_Kammarkoren-Hogalid-HT25-p-2000.avif 2000w, /assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/692017f2d18d11b659fea9a2_Kammarkoren-Hogalid-HT25-p-2600.avif 2600w, /assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/692017f2d18d11b659fea9a2_Kammarkoren-Hogalid-HT25-p-3200.avif 3200w" sizes="(max-width: 991px) 100vw, 44vw"/>
 <link href="/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/css/kammarkoren-hogalid.webflow.shared.32559a67a.min.css" rel="stylesheet" type="text/css"/>
-<link href="/assets/app.css?v=20260325-mobile-menu" rel="stylesheet" type="text/css"/>
+<link href="/assets/app.css?v=20260325-mobile-menu-icon" rel="stylesheet" type="text/css"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet"/>
@@ -44,7 +44,13 @@
         <a href="/om-oss/" class="navigation-item w-nav-link">Om kören</a>
         <a href="/dirigenten/" class="navigation-item w-nav-link">Dirigenten</a>
       </nav>
-      <div class="menu-button w-nav-button"><img src="/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/66138d74ede779973813c51c_menu-icon.png" width="22" alt="Ikon med tre horisontella streck som symboliserar en meny." class="menu-icon"/></div>
+      <button type="button" class="menu-button w-nav-button" aria-label="Öppna meny">
+        <span class="menu-button-lines" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
     </div>
   </div>
 </div>
@@ -112,6 +118,6 @@
     </div>
   </div>
 </footer>
-<script src="/assets/site.js?v=20260325-mobile-menu" defer></script>
+<script src="/assets/site.js?v=20260325-mobile-menu-icon" defer></script>
 </body>
 </html>
