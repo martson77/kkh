@@ -61,7 +61,7 @@
     button.setAttribute("aria-controls", menuId);
     button.setAttribute("aria-haspopup", "menu");
     button.setAttribute("aria-expanded", "false");
-    button.setAttribute("aria-label", "menu");
+    button.setAttribute("aria-label", "Öppna meny");
 
     function isMobile() {
       return mobileQuery.matches;
@@ -70,6 +70,7 @@
     function closeMenu() {
       button.classList.remove("w--open");
       button.setAttribute("aria-expanded", "false");
+      button.setAttribute("aria-label", "Öppna meny");
       menu.removeAttribute("data-nav-menu-open");
     }
 
@@ -80,6 +81,7 @@
 
       button.classList.add("w--open");
       button.setAttribute("aria-expanded", "true");
+      button.setAttribute("aria-label", "Stäng meny");
       menu.setAttribute("data-nav-menu-open", "");
     }
 
