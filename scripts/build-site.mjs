@@ -398,6 +398,9 @@ function renderPastConcertCard(concert) {
 function renderHomePage() {
   const latestPastConcert = pastConcerts[0];
   const featuredProject = futureProjects[0];
+  const homeHeroImage = site.choirImage;
+  const homeHeroImageAlt = site.choirImageAlt;
+  const homeHeroImageCredit = site.choirImageCredit || "";
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "MusicGroup",
@@ -468,8 +471,8 @@ function renderHomePage() {
       </div>
       <div class="hero-media">
         ${renderImage({
-          src: site.choirPerformanceImage,
-          alt: site.choirPerformanceImageAlt,
+          src: homeHeroImage,
+          alt: homeHeroImageAlt,
           className: "hero-image",
           sizes: "(max-width: 991px) 100vw, 44vw",
           eager: true,
@@ -520,7 +523,7 @@ function renderHomePage() {
             })}
           </div>
         </aside>
-        <p class="hero-media-credit">${escapeHtml(site.choirPerformanceImageCredit)}</p>
+        ${homeHeroImageCredit ? `<p class="hero-media-credit">${escapeHtml(homeHeroImageCredit)}</p>` : ""}
       </div>
     </div>
   </section>
@@ -629,7 +632,7 @@ function renderHomePage() {
       "Upptäck nästa konsert, lär känna Kammarkören Högalid och se hur du kan sjunga med oss i Högalid.",
     urlPath: "/",
     currentPath: "/",
-    image: site.choirPerformanceImage,
+    image: homeHeroImage,
     ogTitle: `${site.name} | Konserter och körliv i Högalid`,
     ogDescription:
       "Nästa konsert, körens profil och vägen in i en aktiv ensemble på avancerad nivå i Högalid.",
@@ -637,7 +640,7 @@ function renderHomePage() {
     jsonLd,
     body,
     preloadImage: {
-      src: site.choirPerformanceImage,
+      src: homeHeroImage,
       sizes: "(max-width: 991px) 100vw, 44vw",
     },
   });
