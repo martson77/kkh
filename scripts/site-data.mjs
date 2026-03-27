@@ -30,7 +30,7 @@ export const site = {
 
 export const homePage = {
   hero: {
-    eyebrow: "Kammarkören Högalid",
+    eyebrow: "",
     title: "Kammarkören Högalid",
     lead:
       "Kammarkören Högalid är en blandad kör på avancerad nivå i Stockholm. Här finns aktuell konsertinformation, information om kören och om provsjungning.",

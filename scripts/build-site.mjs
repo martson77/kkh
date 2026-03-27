@@ -443,7 +443,7 @@ function renderHomePage() {
   <section class="hero hero--home">
     <div class="site-container hero-grid hero-grid--home">
       <div class="hero-copy">
-        <p class="eyebrow">${homePage.hero.eyebrow}</p>
+        ${homePage.hero.eyebrow ? `<p class="eyebrow">${homePage.hero.eyebrow}</p>` : ""}
         <h1 class="hero-title">${homePage.hero.title}</h1>
         <p class="hero-lead">${homePage.hero.lead}</p>
         <div class="hero-actions">
