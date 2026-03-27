@@ -24,7 +24,7 @@ const knownImageWidths = {
   "/assets/imported/concerts/palmeri-bandoneon.jpg": 2000,
   "/assets/imported/concerts/hamburg-kreuzkirche.jpg": 1800,
   "/assets/imported/concerts/hogalid-exterior.jpg": 1800,
-  "/assets/imported/concerts/monteverdi-portrait.jpg": 672,
+  "/assets/imported/concerts/monteverdi-portrait.jpg": 520,
   "/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/673f3e4497ad5ca1eb93445e_bach-juloratoriet.jpg":
     1826,
 };
