@@ -30,6 +30,7 @@ npm run serve
 - `npm run campaign` generates reusable concert and recruitment campaign drafts in `generated/campaigns/`.
 - `npm run check-content` writes a content-health report to `generated/reports/content-check.md`.
 - `npm run poster` creates A4 PDF posters for upcoming concerts in `generated/posters/` and publishes downloadable copies to `public/affischer/`.
+- `npm run visit-stockholm -- <slug> --email <address>` submits a concert from `scripts/site-data.mjs` to Visit Stockholm. Use `--dry-run` first if you want to inspect the payload before posting.
 - `npm run mirror` refreshes the original public snapshot and local asset copies.
 - `npm run serve` starts a local server at `http://127.0.0.1:4173`.
 
@@ -74,6 +75,24 @@ If you need to refresh the original mirrored source first:
 npm run mirror
 npm run publish-prep
 ```
+
+## Visit Stockholm flow
+
+Future Stockholm concerts can be sent to Visit Stockholm directly from this repo:
+
+```bash
+npm run visit-stockholm -- palmeri-misa-tango --email lindvall.martin@gmail.com --dry-run
+npm run visit-stockholm -- palmeri-misa-tango --email lindvall.martin@gmail.com
+```
+
+The script:
+
+- loads the selected concert from `scripts/site-data.mjs`
+- uses the current Visit Stockholm form metadata to resolve category IDs, with a fallback for our standard classical concert category
+- launches a temporary headless Chrome session to generate the required reCAPTCHA token
+- uploads the selected concert image and submits the event tip
+
+Details and caveats are documented in [docs/visit-stockholm.md](docs/visit-stockholm.md).
 
 ## Deployment
 

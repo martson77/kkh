@@ -10,6 +10,7 @@
     "mirror": "node scripts/mirror-site.mjs",
     "normalize-assets": "node scripts/normalize-assets.mjs",
     "poster": "node scripts/generate-poster.mjs",
+    "visit-stockholm": "node scripts/submit-visit-stockholm.mjs",
     "publish-prep": "npm run build-site && npm run check-content && npm run campaign && npm run poster",
     "serve": "python3 -m http.server 4173 -d public"
   }
