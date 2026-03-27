@@ -17,22 +17,87 @@ const repoRoot = path.resolve(scriptDir, "..");
 const publicDir = path.join(repoRoot, "public");
 const postersDir = path.join(repoRoot, automationSettings.generatedDir, "posters");
 const publicPosterDir = path.join(publicDir, "affischer");
+const grayProfilePath = "/System/Library/ColorSync/Profiles/Generic Gray Gamma 2.2 Profile.icc";
 
 const PAGE_WIDTH = 595.28;
 const PAGE_HEIGHT = 841.89;
 
 const palette = {
-  paper: "#f7f0e6",
-  panel: "#fffbf5",
-  line: "#d7cab6",
-  accent: "#91432f",
-  accentSoft: "#ead8c6",
-  accentWarm: "#ccb688",
-  ink: "#16231d",
-  inkSoft: "#405148",
-  success: "#2b6348",
-  successSoft: "#dce9df",
+  paper: "#f6f6f3",
+  panel: "#ffffff",
+  line: "#a7a7a2",
+  accent: "#232323",
+  accentSoft: "#e2e2dc",
+  accentWarm: "#d0d0c8",
+  ink: "#111111",
+  inkSoft: "#4d4d49",
+  success: "#303030",
+  successSoft: "#dfdfda",
 };
+
+async function detectFaceFocus(imagePath, tempDir) {
+  const detectorScript = path.join(scriptDir, "poster-face-focus.swift");
+  const moduleCacheDir = path.join(tempDir, "swift-module-cache");
+
+  try {
+    await fs.mkdir(moduleCacheDir, { recursive: true });
+    const { stdout } = await execFileAsync(
+      "swift",
+      ["-module-cache-path", moduleCacheDir, detectorScript, imagePath],
+      {
+        env: {
+          ...process.env,
+          CLANG_MODULE_CACHE_PATH: moduleCacheDir,
+        },
+        timeout: 5000,
+      }
+    );
+    const result = JSON.parse(stdout || "{}");
+
+    if (
+      typeof result.focusX === "number" &&
+      typeof result.focusY === "number"
+    ) {
+      return result;
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
+}
+
+function resolvePosterFocus(concert, imageWidth, imageHeight, detectedFocus) {
+  if (
+    typeof concert.posterFocusX === "number" &&
+    typeof concert.posterFocusY === "number"
+  ) {
+    return {
+      focusX: concert.posterFocusX,
+      focusY: concert.posterFocusY,
+    };
+  }
+
+  if (typeof concert.posterFocusY === "number") {
+    return {
+      focusX: typeof concert.posterFocusX === "number" ? concert.posterFocusX : 0.5,
+      focusY: concert.posterFocusY,
+    };
+  }
+
+  if (detectedFocus) {
+    return {
+      focusX: detectedFocus.focusX,
+      focusY: detectedFocus.focusY,
+    };
+  }
+
+  if (imageHeight > imageWidth) {
+    return { focusX: 0.5, focusY: 0.68 };
+  }
+
+  return { focusX: 0.5, focusY: 0.62 };
+}
 
 function formatNumber(value) {
   return Number(value).toFixed(2).replace(/\.00$/, "");
@@ -197,19 +262,30 @@ async function prepareRasterImage(concert) {
 
       await fs.access(candidate);
       const pngPath = path.join(tempDir, `${concert.slug || "poster"}.png`);
+      const grayPath = path.join(tempDir, `${concert.slug || "poster"}-gray.jpg`);
       const outputPath = path.join(tempDir, `${concert.slug || "poster"}.jpg`);
+      const detectedFocus = await detectFaceFocus(candidate, tempDir);
       await execFileAsync("sips", ["-s", "format", "png", candidate, "--out", pngPath]);
-      await execFileAsync("sips", ["-s", "format", "jpeg", pngPath, "--out", outputPath]);
+      await execFileAsync("sips", ["-m", grayProfilePath, pngPath, "--out", grayPath]);
+      await execFileAsync("sips", ["-s", "format", "jpeg", grayPath, "--out", outputPath]);
       const imageBuffer = await fs.readFile(outputPath);
       const { width, height } = await readImageSize(outputPath);
+      const focus = resolvePosterFocus(concert, width, height, detectedFocus);
 
-      return { imageBuffer, width, height, tempDir };
+      return { imageBuffer, width, height, tempDir, focus, colorSpace: "DeviceGray" };
     } catch {
       continue;
     }
   }
 
-  return { imageBuffer: null, width: 0, height: 0, tempDir };
+  return {
+    imageBuffer: null,
+    width: 0,
+    height: 0,
+    tempDir,
+    focus: { focusX: 0.5, focusY: 0.62 },
+    colorSpace: "DeviceGray",
+  };
 }
 
 async function readImageSize(filePath) {
@@ -294,15 +370,20 @@ function drawImageCover({
   height,
   imageWidth,
   imageHeight,
-  verticalAlign = 0.18,
+  focusX = 0.5,
+  focusY = 0.62,
 }) {
   const scale = Math.max(width / imageWidth, height / imageHeight);
   const drawWidth = imageWidth * scale;
   const drawHeight = imageHeight * scale;
-  const drawX = x + (width - drawWidth) / 2;
+  const overflowX = Math.max(0, drawWidth - width);
   const overflowY = Math.max(0, drawHeight - height);
-  const clampedAlign = Math.min(Math.max(verticalAlign, 0), 1);
-  const drawY = y - overflowY * clampedAlign;
+  const clampedFocusX = Math.min(Math.max(focusX, 0), 1);
+  const clampedFocusY = Math.min(Math.max(focusY, 0), 1);
+  const unclampedX = x + width / 2 - drawWidth * clampedFocusX;
+  const unclampedY = y + height / 2 - drawHeight * clampedFocusY;
+  const drawX = Math.min(x, Math.max(x - overflowX, unclampedX));
+  const drawY = Math.min(y, Math.max(y - overflowY, unclampedY));
 
   return [
     "q",
@@ -333,7 +414,7 @@ function wrapBulletItems(items, maxWidth, fontSize, variant = "body") {
   });
 }
 
-function renderPosterCommands(concert, hasImage, imageWidth = 0, imageHeight = 0) {
+function renderPosterCommands(concert, hasImage, imageWidth = 0, imageHeight = 0, focus = { focusX: 0.5, focusY: 0.62 }) {
   const commands = [];
 
   commands.push(...drawRect({ x: 0, y: 0, width: PAGE_WIDTH, height: PAGE_HEIGHT, fill: palette.paper }));
@@ -354,7 +435,8 @@ function renderPosterCommands(concert, hasImage, imageWidth = 0, imageHeight = 0
         height: heroHeight,
         imageWidth,
         imageHeight,
-        verticalAlign: concert.posterFocusY ?? 0.08,
+        focusX: focus.focusX,
+        focusY: focus.focusY,
       })
     );
   } else {
@@ -684,7 +766,7 @@ function renderPosterCommands(concert, hasImage, imageWidth = 0, imageHeight = 0
   return commands;
 }
 
-function buildPdf({ concert, imageBuffer, imageWidth, imageHeight }) {
+function buildPdf({ concert, imageBuffer, imageWidth, imageHeight, focus, colorSpace }) {
   const objects = [];
   const catalogId = addObject(objects, null);
   const pagesId = addObject(objects, null);
@@ -707,7 +789,7 @@ function buildPdf({ concert, imageBuffer, imageWidth, imageHeight }) {
         objects,
         Buffer.concat([
           Buffer.from(
-            `<< /Type /XObject /Subtype /Image /Width ${imageWidth} /Height ${imageHeight} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${imageBuffer.length} >>\nstream\n`,
+            `<< /Type /XObject /Subtype /Image /Width ${imageWidth} /Height ${imageHeight} /ColorSpace /${colorSpace} /BitsPerComponent 8 /Filter /DCTDecode /Length ${imageBuffer.length} >>\nstream\n`,
             "latin1"
           ),
           imageBuffer,
@@ -731,7 +813,7 @@ function buildPdf({ concert, imageBuffer, imageWidth, imageHeight }) {
   )} ${formatNumber(PAGE_HEIGHT)}] /Resources << ${resources.join(" ")} >> /Contents ${contentId} 0 R >>`;
 
   const contentStream = buildStream(
-    renderPosterCommands(concert, Boolean(imageId), imageWidth, imageHeight)
+    renderPosterCommands(concert, Boolean(imageId), imageWidth, imageHeight, focus)
   );
   objects[contentId - 1] = Buffer.concat([
     Buffer.from(`<< /Length ${contentStream.length} >>\nstream\n`, "latin1"),
@@ -769,7 +851,7 @@ function buildPdf({ concert, imageBuffer, imageWidth, imageHeight }) {
 }
 
 async function generatePoster(concert) {
-  const { imageBuffer, width, height, tempDir } = await prepareRasterImage(concert);
+  const { imageBuffer, width, height, tempDir, focus, colorSpace } = await prepareRasterImage(concert);
 
   try {
     const pdfBuffer = buildPdf({
@@ -777,6 +859,8 @@ async function generatePoster(concert) {
       imageBuffer,
       imageWidth: width,
       imageHeight: height,
+      focus,
+      colorSpace,
     });
 
     const generatedPdfPath = path.join(postersDir, `${concert.slug}.pdf`);
