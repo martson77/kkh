@@ -581,6 +581,10 @@ button {
 }
 
 @media screen and (max-width: 991px) {
+  .navigation {
+    padding: 18px 24px;
+  }
+
   .navigation-wrap {
     position: relative;
   }
@@ -600,11 +604,16 @@ button {
     position: relative;
   }
 
+  .logo-image {
+    height: 48px;
+    max-width: 180px;
+  }
+
   .menu-button {
     -webkit-appearance: none;
     appearance: none;
-    width: 48px;
-    height: 48px;
+    width: 42px;
+    height: 42px;
     padding: 0;
     border: 1px solid rgba(24, 35, 29, 0.12);
     border-radius: 999px;
@@ -621,9 +630,9 @@ button {
   }
 
   .menu-button-lines {
-    width: 20px;
+    width: 18px;
     display: grid;
-    gap: 4px;
+    gap: 3px;
   }
 
   .menu-button-lines span {
@@ -664,7 +673,7 @@ button {
   }
 
   .hero {
-    padding-top: 34px;
+    padding-top: 18px;
   }
 
   .hero-copy,
@@ -739,6 +748,29 @@ button {
 }
 
 @media screen and (max-width: 640px) {
+  .navigation {
+    padding: 14px 18px;
+  }
+
+  .navigation-wrap,
+  .site-container {
+    width: min(100%, calc(100% - 24px));
+  }
+
+  .logo-image {
+    height: 42px;
+    max-width: 160px;
+  }
+
+  .menu-button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .hero {
+    padding-top: 12px;
+  }
+
   .hero-copy,
   .page-header-grid > div:first-child,
   .calendar-panel,
