@@ -644,15 +644,32 @@ function renderPosterCommands(concert, hasImage, imageWidth = 0, imageHeight = 0
     lines: ["www.kammarkorenhogalid.se"],
   }));
 
+  const footerInfoY = concert.imageCredit ? 56 : 42;
+
   commands.push(...buildTextBlock({
     x: 40,
-    y: 42,
+    y: footerInfoY,
     font: "F1",
     size: 9.5,
     leading: 12,
     color: palette.inkSoft,
     lines: [`${site.name} · ${formatDate(concert.start)} · ${concert.venue}`],
   }));
+
+  if (concert.imageCredit) {
+    commands.push(...buildTextBlock({
+      x: 40,
+      y: 32,
+      font: "F1",
+      size: 7.2,
+      leading: 9,
+      color: palette.inkSoft,
+      lines: truncateLines(
+        wrapText(`Bild: ${concert.imageCredit}`, 320, 7.2, "body"),
+        2
+      ),
+    }));
+  }
 
   commands.push(...buildTextBlock({
     x: 384,

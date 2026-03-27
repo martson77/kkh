@@ -191,6 +191,12 @@ button {
   text-align: right;
 }
 
+.concert-card-credit {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 12px 0 0;
+}
+
 .media-card--portrait .media-card-image {
   min-height: 520px;
 }

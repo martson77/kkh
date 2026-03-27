@@ -15,12 +15,16 @@ import {
 
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const publicDir = path.join(rootDir, "public");
-const assetVersion = "20260327-mobile-menu-center";
+const assetVersion = "20260327-concert-images";
 
 const imageVariantWidths = [500, 800, 1080, 1200, 1600, 2000, 2600, 3200];
 const knownImageWidths = {
   [site.choirPerformanceImage]: 1600,
   [site.conductorImage]: 1280,
+  "/assets/imported/concerts/palmeri-bandoneon.jpg": 2000,
+  "/assets/imported/concerts/hamburg-kreuzkirche.jpg": 1800,
+  "/assets/imported/concerts/hogalid-exterior.jpg": 1800,
+  "/assets/imported/concerts/monteverdi-portrait.jpg": 672,
   "/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/673f3e4497ad5ca1eb93445e_bach-juloratoriet.jpg":
     1826,
 };
@@ -91,8 +95,13 @@ function getImageCandidates(src) {
   const ext = path.extname(src);
   const stem = src.slice(0, -ext.length);
   const candidates = [];
+  const originalWidth = knownImageWidths[src] || Infinity;
 
   for (const width of imageVariantWidths) {
+    if (width > originalWidth) {
+      continue;
+    }
+
     for (const variantPath of [`${stem}-p-${width}${ext}`, `${stem}-${width}${ext}`]) {
       if (existsSync(localAssetPath(variantPath))) {
         candidates.push({ src: variantPath, width });
@@ -296,6 +305,14 @@ function button({
   }${
     download ? ' download=""' : ""
   }>${label}</a>`;
+}
+
+function renderImageCredit(credit, className = "media-card-credit") {
+  if (!credit) {
+    return "";
+  }
+
+  return `<p class="${className}">Bild: ${escapeHtml(credit)}</p>`;
 }
 
 function hasTicketLink(concert) {
@@ -683,6 +700,7 @@ function renderConcertsPage() {
             <h3 class="concert-card-title">${concert.title}</h3>
             <p class="concert-card-meta">${formatDateTime(concert.start)} · ${concert.venue}</p>
             <p class="concert-card-copy">${concert.summary}</p>
+            ${renderImageCredit(concert.imageCredit, "concert-card-credit")}
             <div class="concert-card-actions">
               ${
                 hasTicketLink(concert)
@@ -837,6 +855,7 @@ function renderConcertDetailPage(concert) {
           sizes: "(max-width: 991px) 100vw, 44vw",
           eager: true,
         })}
+        ${renderImageCredit(concert.imageCredit)}
       </div>
     </div>
   </section>
