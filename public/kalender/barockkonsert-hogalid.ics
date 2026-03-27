@@ -1,0 +1,18 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Kammarkören Högalid//Konsertkalender//SV
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Barockkonsert i Högalid | Kammarkören Högalid
+X-WR-TIMEZONE:Europe/Stockholm
+BEGIN:VEVENT
+UID:barockkonsert-hogalid@kammarkorenhogalid.se
+DTSTAMP:20261025T150000Z
+DTSTART:20261025T150000Z
+DTEND:20261025T170000Z
+SUMMARY:Barockkonsert i Högalid
+DESCRIPTION:Kammarkören Högalid och Johann Sebastian Bach-Chor möts i Högalidskyrkan för ett gemensamt barockprogram.\n\nBiljettlänk publiceras på konsertsidan senare.\nMer information: https://www.kammarkorenhogalid.se/konserter/barockkonsert-hogalid/
+LOCATION:Högalidskyrkan\, Högalids kyrkväg 11\, 117 30 Stockholm
+URL:https://www.kammarkorenhogalid.se/konserter/barockkonsert-hogalid/
+END:VEVENT
+END:VCALENDAR

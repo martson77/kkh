@@ -139,6 +139,10 @@ function concertPosterPath(concert) {
   return concert.slug ? `/affischer/${concert.slug}.pdf` : "";
 }
 
+function hasPoster(concert) {
+  return Boolean(concert.slug && existsSync(localAssetPath(concertPosterPath(concert))));
+}
+
 function navLink(label, href, currentPath) {
   const isCurrent = href === currentPath;
   return `<a href="${href}"${
@@ -299,7 +303,7 @@ function hasTicketLink(concert) {
 }
 
 function hasTicketAlert(concert) {
-  return Boolean(!concert.ticketUrl && concert.slug);
+  return Boolean(!concert.ticketUrl && concert.slug && concert.ticketAlert !== false);
 }
 
 function concertTicketAlertUrl(concert) {
@@ -623,6 +627,10 @@ function renderHomePage() {
 }
 
 function renderConcertsPage() {
+  const upcomingSectionTitle =
+    upcomingConcerts.length > 1 ? "Kommande konserter" : "Nästa konsert";
+  const upcomingSectionEyebrow =
+    upcomingConcerts.length > 1 ? "Kommande konserter" : "Aktuell konsert";
   const body = `<main>
   <section class="page-header">
     <div class="site-container page-header-grid">
@@ -657,13 +665,13 @@ function renderConcertsPage() {
   <section class="section-block">
     <div class="site-container">
       <div class="section-heading">
-        <p class="eyebrow">Aktuell konsert</p>
-        <h2 class="section-title">Nästa konsert</h2>
+        <p class="eyebrow">${upcomingSectionEyebrow}</p>
+        <h2 class="section-title">${upcomingSectionTitle}</h2>
       </div>
       <div class="concert-list">
         ${upcomingConcerts
           .map(
-            (concert) => `<article class="concert-card concert-card--upcoming">
+            (concert, index) => `<article class="concert-card concert-card--upcoming">
           ${renderImage({
             src: concert.heroImage,
             alt: concert.heroImageAlt,
@@ -671,9 +679,7 @@ function renderConcertsPage() {
             sizes: "(max-width: 991px) 100vw, 42vw",
           })}
           <div class="concert-card-body">
-            <p class="concert-card-kicker">${
-              upcomingConcerts.length === 1 ? "Nästa konsert" : "Kommande konsert"
-            }</p>
+            <p class="concert-card-kicker">${index === 0 ? "Nästa konsert" : "Kommande konsert"}</p>
             <h3 class="concert-card-title">${concert.title}</h3>
             <p class="concert-card-meta">${formatDateTime(concert.start)} · ${concert.venue}</p>
             <p class="concert-card-copy">${concert.summary}</p>
@@ -771,6 +777,12 @@ function renderConcertsPage() {
 }
 
 function renderConcertDetailPage(concert) {
+  const detailEyebrow = concert.slug === nextConcert.slug ? "Nästa konsert" : "Kommande konsert";
+  const ticketActionsTitle = hasTicketLink(concert)
+    ? "Boka eller spara"
+    : hasTicketAlert(concert)
+      ? "Få biljettbesked eller spara"
+      : "Spara konserten";
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "MusicEvent",
@@ -812,7 +824,7 @@ function renderConcertDetailPage(concert) {
   <section class="page-header page-header--event">
     <div class="site-container page-header-grid">
       <div>
-        <p class="eyebrow">Nästa konsert</p>
+        <p class="eyebrow">${detailEyebrow}</p>
         <h1 class="page-title">${concert.title}</h1>
         <p class="page-lead">${concert.teaser} ${concert.summary}</p>
         <p class="event-meta">${formatDateTime(concert.start)} · ${concert.venue}</p>
@@ -868,9 +880,7 @@ function renderConcertDetailPage(concert) {
           <p>${concert.address}</p>
         </div>
         <div class="aside-card">
-          <p class="aside-label">${
-            hasTicketLink(concert) ? "Boka eller spara" : "Få biljettbesked eller spara"
-          }</p>
+          <p class="aside-label">${ticketActionsTitle}</p>
           <div class="stack-actions">
             ${
               hasTicketLink(concert)
@@ -908,14 +918,18 @@ function renderConcertDetailPage(concert) {
               variant: "secondary",
               newTab: true,
             })}
-            ${button({
-              href: concertPosterPath(concert),
-              label: "Ladda ner affisch (PDF)",
-              track: "download_poster",
-              location: "concert_detail_sidebar",
-              variant: "ghost",
-              download: true,
-            })}
+            ${
+              hasPoster(concert)
+                ? button({
+                    href: concertPosterPath(concert),
+                    label: "Ladda ner affisch (PDF)",
+                    track: "download_poster",
+                    location: "concert_detail_sidebar",
+                    variant: "ghost",
+                    download: true,
+                  })
+                : ""
+            }
           </div>
         </div>
         <div class="aside-card">

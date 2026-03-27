@@ -15,4 +15,34 @@ DESCRIPTION:Martín Palmeris Misa Tango förenar mässans liturgiska tradition m
 LOCATION:Högalidskyrkan\, Högalids kyrkväg 11\, 117 30 Stockholm
 URL:https://www.kammarkorenhogalid.se/konserter/palmeri-misa-tango/
 END:VEVENT
+BEGIN:VEVENT
+UID:barockkonsert-hamburg@kammarkorenhogalid.se
+DTSTAMP:20261011T160000Z
+DTSTART:20261011T160000Z
+DTEND:20261011T180000Z
+SUMMARY:Barockkonsert i Hamburg
+DESCRIPTION:Kammarkören Högalid gästar Kreuzkirche Ottensen i Hamburg för en barockkonsert tillsammans med Johann Sebastian Bach-Chor.\n\nBiljettlänk publiceras på konsertsidan senare.\nMer information: https://www.kammarkorenhogalid.se/konserter/barockkonsert-hamburg/
+LOCATION:Kreuzkirche Ottensen\, Hamburg
+URL:https://www.kammarkorenhogalid.se/konserter/barockkonsert-hamburg/
+END:VEVENT
+BEGIN:VEVENT
+UID:barockkonsert-hogalid@kammarkorenhogalid.se
+DTSTAMP:20261025T150000Z
+DTSTART:20261025T150000Z
+DTEND:20261025T170000Z
+SUMMARY:Barockkonsert i Högalid
+DESCRIPTION:Kammarkören Högalid och Johann Sebastian Bach-Chor möts i Högalidskyrkan för ett gemensamt barockprogram.\n\nBiljettlänk publiceras på konsertsidan senare.\nMer information: https://www.kammarkorenhogalid.se/konserter/barockkonsert-hogalid/
+LOCATION:Högalidskyrkan\, Högalids kyrkväg 11\, 117 30 Stockholm
+URL:https://www.kammarkorenhogalid.se/konserter/barockkonsert-hogalid/
+END:VEVENT
+BEGIN:VEVENT
+UID:monteverdis-mariavesper@kammarkorenhogalid.se
+DTSTAMP:20261220T181500Z
+DTSTART:20261220T181500Z
+DTEND:20261220T201500Z
+SUMMARY:Monteverdis Mariavesper
+DESCRIPTION:Kammarkören Högalid framför Monteverdis Mariavesper tillsammans med Högalids unga röster och Oratoriekör.\n\nBiljettlänk publiceras på konsertsidan senare.\nMer information: https://www.kammarkorenhogalid.se/konserter/monteverdis-mariavesper/
+LOCATION:Högalidskyrkan\, Högalids kyrkväg 11\, 117 30 Stockholm
+URL:https://www.kammarkorenhogalid.se/konserter/monteverdis-mariavesper/
+END:VEVENT
 END:VCALENDAR

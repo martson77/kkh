@@ -178,21 +178,22 @@ export const automationSettings = {
 
 export const futureProjects = [
   {
-    title: "Samarbete i Hamburg hösten 2026",
+    title: "Hösten 2026",
     summary:
-      "Kammarkören Högalid planerar ett samarbete med Johann Sebastian Bach-Chor i Hamburg i ett gemensamt barockprogram.",
+      "Under hösten 2026 följer ett samarbete med Johann Sebastian Bach-Chor i Hamburg, adventskonserter i Högalid och ett framförande av Monteverdis Mariavesper.",
     paragraphs: [
-      "Programmet kretsar kring verk av J.D. Zelenka, Christoph Bernhard och J.S. Bach. En konsert är planerad i Kreuzkirche Ottensen i Hamburg den 11 oktober 2026.",
-      "Därefter planeras ett återbesök i Stockholm senare under oktober, då programmet ska framföras igen i Högalid. Mer information publiceras när datum och praktiska detaljer är helt bekräftade.",
+      "Den 11 oktober gästar Kammarkören Högalid Kreuzkirche Ottensen i Hamburg för en barockkonsert tillsammans med Johann Sebastian Bach-Chor. Samma program framförs sedan i Högalidskyrkan den 25 oktober.",
+      "Därefter följer 1:a adventskonserter tillsammans med församlingens körer den 29 november och Monteverdis Mariavesper den 20 december tillsammans med Högalids unga röster och Oratoriekör.",
     ],
     bullets: [
       "Samarbete med Johann Sebastian Bach-Chor i Hamburg",
-      "Barockprogram av Zelenka, Bernhard och J.S. Bach",
-      "Planerad konsert i Hamburg den 11 oktober 2026",
-      "Stockholmsframförande väntas senare i oktober",
+      "Barockkonsert i Hamburg den 11 oktober kl 18.00",
+      "Barockkonsert i Högalid den 25 oktober kl 16.00",
+      "1:a adventskonserter den 29 november, tid publiceras senare",
+      "Monteverdis Mariavesper den 20 december kl 19.15",
     ],
     aboutNote:
-      "Hösten 2026 planerar kören ett internationellt samarbete med Johann Sebastian Bach-Chor i Hamburg, med ett gemensamt barockprogram som senare också väntas framföras i Stockholm.",
+      "Hösten 2026 omfattar ett internationellt samarbete med Johann Sebastian Bach-Chor i Hamburg, adventskonserter i Högalid och ett framförande av Monteverdis Mariavesper.",
   },
 ];
 
@@ -242,6 +243,160 @@ export const concerts = [
         title: "Biljetter och entré",
         body:
           "Biljetter släpps längre fram. Klicka på \"Få besked om biljetter\" om du vill att vi mejlar när länken är publicerad. Entré 150 kr. Kom gärna i god tid så att du hinner hitta din plats före start.",
+      },
+      {
+        title: "Tillgänglighet",
+        body:
+          "Om du behöver hjälp med tillgänglighet eller placering, hör av dig till kammarkorenhogalid@gmail.com i god tid före konserten.",
+      },
+    ],
+  },
+  {
+    slug: "barockkonsert-hamburg",
+    title: "Barockkonsert i Hamburg",
+    shortTitle: "Barockkonsert i Hamburg",
+    teaser: "Zelenka, Bernhard och J.S. Bach tillsammans med Johann Sebastian Bach-Chor.",
+    summary:
+      "Kammarkören Högalid gästar Kreuzkirche Ottensen i Hamburg för en barockkonsert tillsammans med Johann Sebastian Bach-Chor.",
+    start: "2026-10-11T18:00:00+02:00",
+    end: "2026-10-11T20:00:00+02:00",
+    venue: "Kreuzkirche Ottensen",
+    address: "Hamburg",
+    transport:
+      "Kreuzkirche Ottensen ligger i Hamburgs västra delar. Mer information om vägbeskrivning och biljetter publiceras närmare konserten.",
+    heroImage: site.choirImage,
+    heroImageAlt: site.choirImageAlt,
+    socialImage: site.choirImageSocial,
+    posterImage: site.choirImage,
+    description: [
+      "I oktober 2026 gästar Kammarkören Högalid Hamburg för ett gemensamt barockprogram tillsammans med Johann Sebastian Bach-Chor. Konserten är en del av ett utbyte mellan ensemblerna och följs senare under månaden av ett återbesök i Högalid.",
+      "Programmet samlar verk av J.D. Zelenka, Christoph Bernhard och J.S. Bach och knyter samman mässa, motett och kantat i ett koncentrerat barockprogram.",
+    ],
+    program: [
+      "J.D. Zelenka: Missa Sancti Josephi",
+      "Christoph Bernhard: Herr, nun lässest du deinen Diener...",
+      "J.S. Bach: Kantate BWV 79 Gott der Herr ist Sonn und Schild",
+    ],
+    performers: [
+      "Kammarkören Högalid",
+      "Johann Sebastian Bach-Chor (Hamburg)",
+    ],
+    ticketAlert: false,
+    planVisit: [
+      {
+        title: "Plats",
+        body:
+          "Konserten äger rum i Kreuzkirche Ottensen i Hamburg som del av körernas gemensamma utbyte hösten 2026.",
+      },
+      {
+        title: "Program",
+        body:
+          "Kvällen samlar verk av Zelenka, Bernhard och J.S. Bach i ett gemensamt barockprogram för körer och ensemble.",
+      },
+      {
+        title: "Mer information",
+        body:
+          "Praktisk information för publik och medverkande publiceras närmare konserten.",
+      },
+    ],
+  },
+  {
+    slug: "barockkonsert-hogalid",
+    title: "Barockkonsert i Högalid",
+    shortTitle: "Barockkonsert i Högalid",
+    teaser: "Zelenka, Bernhard och J.S. Bach tillsammans med Johann Sebastian Bach-Chor.",
+    summary:
+      "Kammarkören Högalid och Johann Sebastian Bach-Chor möts i Högalidskyrkan för ett gemensamt barockprogram.",
+    start: "2026-10-25T16:00:00+01:00",
+    end: "2026-10-25T18:00:00+01:00",
+    venue: "Högalidskyrkan",
+    address: "Högalids kyrkväg 11, 117 30 Stockholm",
+    transport:
+      "Tunnelbana till Hornstull och därefter en kort promenad upp mot Högalidskyrkan.",
+    heroImage: site.choirImage,
+    heroImageAlt: site.choirImageAlt,
+    socialImage: site.choirImageSocial,
+    posterImage: site.choirPerformanceImage,
+    posterFocusY: 0.18,
+    description: [
+      "Efter konserten i Hamburg återvänder det gemensamma barockprogrammet till Högalidskyrkan. Kammarkören Högalid sjunger då tillsammans med Johann Sebastian Bach-Chor i ett program som rör sig mellan mässa, motett och kantat.",
+      "Konserten är en del av körernas utbyte hösten 2026 och ger publiken i Högalid möjlighet att höra samma program som framförs i Kreuzkirche Ottensen tidigare under månaden.",
+    ],
+    program: [
+      "J.D. Zelenka: Missa Sancti Josephi",
+      "Christoph Bernhard: Herr, nun lässest du deinen Diener...",
+      "J.S. Bach: Kantate BWV 79 Gott der Herr ist Sonn und Schild",
+    ],
+    performers: [
+      "Kammarkören Högalid",
+      "Johann Sebastian Bach-Chor (Hamburg)",
+    ],
+    planVisit: [
+      {
+        title: "Hitta hit",
+        body:
+          "Högalidskyrkan ligger på Södermalm i Stockholm. Adress: Högalids kyrkväg 11, 117 30 Stockholm.",
+      },
+      {
+        title: "Resa hit",
+        body:
+          "Tunnelbana till Hornstull är smidigast. Räkna med en kort promenad upp till kyrkan.",
+      },
+      {
+        title: "Biljetter och entré",
+        body:
+          "Biljettinformation publiceras senare. Klicka på \"Få besked om biljetter\" om du vill att vi mejlar när länken publiceras.",
+      },
+      {
+        title: "Tillgänglighet",
+        body:
+          "Om du behöver hjälp med tillgänglighet eller placering, hör av dig till kammarkorenhogalid@gmail.com i god tid före konserten.",
+      },
+    ],
+  },
+  {
+    slug: "monteverdis-mariavesper",
+    title: "Monteverdis Mariavesper",
+    shortTitle: "Monteverdis Mariavesper",
+    teaser: "Monteverdi tillsammans med Högalids unga röster och Oratoriekör.",
+    summary:
+      "Kammarkören Högalid framför Monteverdis Mariavesper tillsammans med Högalids unga röster och Oratoriekör.",
+    start: "2026-12-20T19:15:00+01:00",
+    end: "2026-12-20T21:15:00+01:00",
+    venue: "Högalidskyrkan",
+    address: "Högalids kyrkväg 11, 117 30 Stockholm",
+    transport:
+      "Tunnelbana till Hornstull och därefter en kort promenad upp mot Högalidskyrkan.",
+    heroImage: site.choirPerformanceImage,
+    heroImageAlt: site.choirPerformanceImageAlt,
+    socialImage: site.choirImageSocial,
+    posterImage: site.choirPerformanceImage,
+    posterFocusY: 0.18,
+    description: [
+      "Säsongen avslutas med Monteverdis Mariavesper i Högalidskyrkan. Kammarkören Högalid medverkar tillsammans med Högalids unga röster och Oratoriekör i ett av den tidiga barockens mest betydande verk.",
+      "Mer information om medverkande och praktiska detaljer publiceras närmare konserten.",
+    ],
+    program: ["Claudio Monteverdi: Mariavesper"],
+    performers: [
+      "Kammarkören Högalid",
+      "Högalids unga röster",
+      "Oratoriekör",
+    ],
+    planVisit: [
+      {
+        title: "Hitta hit",
+        body:
+          "Högalidskyrkan ligger på Södermalm i Stockholm. Adress: Högalids kyrkväg 11, 117 30 Stockholm.",
+      },
+      {
+        title: "Resa hit",
+        body:
+          "Tunnelbana till Hornstull är smidigast. Räkna med en kort promenad upp till kyrkan.",
+      },
+      {
+        title: "Biljetter och entré",
+        body:
+          "Biljettinformation publiceras senare. Klicka på \"Få besked om biljetter\" om du vill att vi mejlar när länken publiceras.",
       },
       {
         title: "Tillgänglighet",
