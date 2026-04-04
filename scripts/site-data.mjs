@@ -210,7 +210,8 @@ export const concerts = [
     venue: "Högalidskyrkan",
     address: "Högalids kyrkväg 11, 117 30 Stockholm",
     transport: "Tunnelbana till Hornstull, följ sedan promenadstråket upp mot Högalidskyrkan.",
-    price: "Entré 150 kr",
+    price: "Fri entré",
+    ticketAlert: false,
     heroImage: "/assets/imported/concerts/palmeri-bandoneon.jpg",
     heroImageAlt: "Bandoneonspelare under en tangokonsert.",
     socialImage: "/assets/imported/concerts/palmeri-bandoneon.jpg",
@@ -242,7 +243,7 @@ export const concerts = [
       {
         title: "Biljetter och entré",
         body:
-          "Biljetter släpps längre fram. Klicka på \"Få besked om biljetter\" om du vill att vi mejlar när länken är publicerad. Entré 150 kr. Kom gärna i god tid så att du hinner hitta din plats före start.",
+          "Konserten är gratis – fri entré för alla. Kom gärna i god tid så att du hinner hitta din plats före start.",
       },
       {
         title: "Tillgänglighet",
