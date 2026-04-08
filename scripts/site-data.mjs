@@ -183,14 +183,15 @@ export const futureProjects = [
       "Under hösten 2026 följer ett samarbete med Johann Sebastian Bach-Chor i Hamburg, adventskonserter i Högalid och ett framförande av Monteverdis Mariavesper.",
     paragraphs: [
       "Den 11 oktober gästar Kammarkören Högalid Kreuzkirche Ottensen i Hamburg för en barockkonsert tillsammans med Johann Sebastian Bach-Chor. Samma program framförs sedan i Högalidskyrkan den 25 oktober.",
-      "Därefter följer 1:a adventskonserter tillsammans med församlingens körer den 29 november och Monteverdis Mariavesper den 20 december tillsammans med Högalids unga röster och Oratoriekör.",
+      "Därefter följer 1:a adventskonserter tillsammans med församlingens körer den 29 november kl 16.00 och 18.00, och Monteverdis Mariavesper den 20 december kl 16.00 tillsammans med Högalids unga röster och Oratoriekör.",
     ],
     bullets: [
       "Samarbete med Johann Sebastian Bach-Chor i Hamburg",
       "Barockkonsert i Hamburg den 11 oktober kl 18.00",
       "Barockkonsert i Högalid den 25 oktober kl 16.00",
-      "1:a adventskonserter den 29 november, tid publiceras senare",
-      "Monteverdis Mariavesper den 20 december kl 19.15",
+      "Högmässa den 8 november kl 11.00",
+      "1:a adventskonserter den 29 november kl 16.00 och 18.00",
+      "Monteverdis Mariavesper den 20 december kl 16.00",
     ],
     aboutNote:
       "Hösten 2026 omfattar ett internationellt samarbete med Johann Sebastian Bach-Chor i Hamburg, adventskonserter i Högalid och ett framförande av Monteverdis Mariavesper.",
@@ -363,8 +364,8 @@ export const concerts = [
     teaser: "Monteverdi tillsammans med Högalids unga röster och Oratoriekör.",
     summary:
       "Kammarkören Högalid framför Monteverdis Mariavesper tillsammans med Högalids unga röster och Oratoriekör.",
-    start: "2026-12-20T19:15:00+01:00",
-    end: "2026-12-20T21:15:00+01:00",
+    start: "2026-12-20T16:00:00+01:00",
+    end: "2026-12-20T18:00:00+01:00",
     venue: "Högalidskyrkan",
     address: "Högalids kyrkväg 11, 117 30 Stockholm",
     transport:
