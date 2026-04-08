@@ -975,6 +975,15 @@ function renderConcertDetailPage(concert) {
             variant: "ghost",
           })}
         </div>
+        <div class="aside-card">
+          ${button({
+            href: "/konserter/",
+            label: "Se alla konserter",
+            track: "all_concerts",
+            location: "concert_detail_sidebar",
+            variant: "secondary",
+          })}
+        </div>
       </aside>
     </div>
   </section>
