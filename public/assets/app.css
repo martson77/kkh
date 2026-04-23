@@ -177,6 +177,12 @@ button {
   min-height: 460px;
 }
 
+.hero--home .hero-image {
+  display: block;
+  height: auto;
+  min-height: 0;
+}
+
 .media-card-credit {
   color: var(--muted);
   font-size: 12px;
