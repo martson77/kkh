@@ -220,6 +220,11 @@ export const concerts = [
     heroImageAlt: "Illustration av ett tangopar i rörelse.",
     socialImage: "/assets/imported/concerts/toner-fran-buenos-aires-misa-tango.jpg",
     posterImage: "/assets/imported/concerts/toner-fran-buenos-aires-misa-tango.jpg",
+    posterPdfSource: "/assets/imported/concerts/affisch-musik-konsert-20260531-misa-tango.pdf",
+    posterTitle: "Misa Tango – Toner från Buenos Aires",
+    posterProgramText:
+      "Martín Palmeri: Misa Tango. Susanna Reuter, mezzosopran; Mikael Augustsson, bandoneon; Leon Tscholl, piano; Högalids kammarorkester; Kammarkören Högalid; Benedikt Melichar och Niklas Tamm, dirigenter.",
+    posterAccessText: "Fri entré, bidra gärna med en gåva till musik i Högalid",
     imageCredit: "Högalids församling / Kammarkören Högalid",
     description: [
       "Martín Palmeris Misa Tango är ett verk som låter mässans klassiska form möta den argentinska tangons driv, värme och skärpa. I Högalidskyrkan får verket en inramning där kör, kammarorkester och piano bär fram både den liturgiska tyngden och den rytmiska pulsen.",
@@ -229,6 +234,8 @@ export const concerts = [
     performers: [
       "Kammarkören Högalid",
       "Högalids kammarorkester",
+      "Susanna Reuter, mezzosopran",
+      "Mikael Augustsson, bandoneon",
       "Leon Tscholl, piano",
       "Benedikt Melichar, dirigent",
       "Niklas Tamm, dirigent",

@@ -17,22 +17,17 @@ const repoRoot = path.resolve(scriptDir, "..");
 const publicDir = path.join(repoRoot, "public");
 const postersDir = path.join(repoRoot, automationSettings.generatedDir, "posters");
 const publicPosterDir = path.join(publicDir, "affischer");
-const grayProfilePath = "/System/Library/ColorSync/Profiles/Generic Gray Gamma 2.2 Profile.icc";
 
 const PAGE_WIDTH = 595.28;
 const PAGE_HEIGHT = 841.89;
 
 const palette = {
-  paper: "#f6f6f3",
-  panel: "#ffffff",
-  line: "#a7a7a2",
-  accent: "#232323",
-  accentSoft: "#e2e2dc",
-  accentWarm: "#d0d0c8",
-  ink: "#111111",
-  inkSoft: "#4d4d49",
-  success: "#303030",
-  successSoft: "#dfdfda",
+  paper: "#ffffff",
+  header: "#a19abc",
+  blush: "#f4e2d9",
+  ink: "#1d1d1b",
+  inkSoft: "#33302d",
+  muted: "#6b625e",
 };
 
 async function detectFaceFocus(imagePath, tempDir) {
@@ -164,6 +159,17 @@ function formatPosterDateLine(concert) {
   return `${dateLabel} kl ${startTime}${endTime}`;
 }
 
+function formatPosterMetaLine(concert) {
+  const date = new Intl.DateTimeFormat("sv-SE", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    timeZone: stockholmTimeZone,
+  }).format(new Date(concert.start));
+  const startTime = formatPosterTime(concert.start).replace(".", ".");
+  return `${concert.venue} ${date} kl ${startTime}`.toUpperCase();
+}
+
 function measureText(text, fontSize, variant = "body") {
   const factorMap = {
     label: 0.46,
@@ -261,18 +267,14 @@ async function prepareRasterImage(concert) {
       }
 
       await fs.access(candidate);
-      const pngPath = path.join(tempDir, `${concert.slug || "poster"}.png`);
-      const grayPath = path.join(tempDir, `${concert.slug || "poster"}-gray.jpg`);
       const outputPath = path.join(tempDir, `${concert.slug || "poster"}.jpg`);
       const detectedFocus = await detectFaceFocus(candidate, tempDir);
-      await execFileAsync("sips", ["-s", "format", "png", candidate, "--out", pngPath]);
-      await execFileAsync("sips", ["-m", grayProfilePath, pngPath, "--out", grayPath]);
-      await execFileAsync("sips", ["-s", "format", "jpeg", grayPath, "--out", outputPath]);
+      await execFileAsync("sips", ["-s", "format", "jpeg", candidate, "--out", outputPath]);
       const imageBuffer = await fs.readFile(outputPath);
       const { width, height } = await readImageSize(outputPath);
       const focus = resolvePosterFocus(concert, width, height, detectedFocus);
 
-      return { imageBuffer, width, height, tempDir, focus, colorSpace: "DeviceGray" };
+      return { imageBuffer, width, height, tempDir, focus, colorSpace: "DeviceRGB" };
     } catch {
       continue;
     }
@@ -284,7 +286,7 @@ async function prepareRasterImage(concert) {
     height: 0,
     tempDir,
     focus: { focusX: 0.5, focusY: 0.62 },
-    colorSpace: "DeviceGray",
+    colorSpace: "DeviceRGB",
   };
 }
 
@@ -398,40 +400,46 @@ function drawImageCover({
   ];
 }
 
-function sectionHeight(lineCount) {
-  return 34 + lineCount * 14;
-}
-
-function wrapBulletItems(items, maxWidth, fontSize, variant = "body") {
-  return items.flatMap((item) => {
-    const wrapped = wrapText(item, maxWidth - 14, fontSize, variant);
-
-    if (!wrapped.length) {
-      return [];
-    }
-
-    return wrapped.map((line, index) => `${index === 0 ? "- " : "  "}${line}`);
-  });
-}
-
 function renderPosterCommands(concert, hasImage, imageWidth = 0, imageHeight = 0, focus = { focusX: 0.5, focusY: 0.62 }) {
   const commands = [];
 
-  commands.push(...drawRect({ x: 0, y: 0, width: PAGE_WIDTH, height: PAGE_HEIGHT, fill: palette.paper }));
-  commands.push(...drawRect({ x: -60, y: PAGE_HEIGHT - 130, width: 180, height: 180, fill: palette.accentSoft }));
-  commands.push(...drawRect({ x: PAGE_WIDTH - 120, y: -40, width: 190, height: 190, fill: palette.accentWarm }));
+  const margin = 22;
+  const contentWidth = PAGE_WIDTH - margin * 2;
+  const headerY = 682;
+  const headerHeight = 142;
+  const heroY = 354;
+  const heroHeight = 328;
+  const infoY = 22;
+  const infoHeight = 332;
 
-  const heroX = 0;
-  const heroY = 430;
-  const heroWidth = PAGE_WIDTH;
-  const heroHeight = 300;
+  commands.push(...drawRect({ x: 0, y: 0, width: PAGE_WIDTH, height: PAGE_HEIGHT, fill: palette.paper }));
+  commands.push(...drawRect({ x: margin, y: headerY, width: contentWidth, height: headerHeight, fill: palette.header }));
+
+  commands.push(...buildTextBlock({
+    x: margin + 26,
+    y: headerY + 84,
+    font: "F1",
+    size: 50,
+    leading: 52,
+    color: "#ffffff",
+    lines: [concert.posterSeriesTitle || "Musik i"],
+  }));
+  commands.push(...buildTextBlock({
+    x: margin + 28,
+    y: headerY + 50,
+    font: "F4",
+    size: 31,
+    leading: 33,
+    color: "#ffffff",
+    lines: [concert.posterSeriesSubtitle || "Högalids församling!"],
+  }));
 
   if (hasImage) {
     commands.push(
       ...drawImageCover({
-        x: heroX,
+        x: margin,
         y: heroY,
-        width: heroWidth,
+        width: contentWidth,
         height: heroHeight,
         imageWidth,
         imageHeight,
@@ -440,328 +448,102 @@ function renderPosterCommands(concert, hasImage, imageWidth = 0, imageHeight = 0
       })
     );
   } else {
-    commands.push(...drawRect({ x: heroX, y: heroY, width: heroWidth, height: heroHeight, fill: palette.accentSoft }));
+    commands.push(...drawRect({ x: margin, y: heroY, width: contentWidth, height: heroHeight, fill: palette.header }));
   }
 
-  commands.push(...drawRect({ x: 42, y: 778, width: 230, height: 46, fill: "#fffdf9", stroke: palette.line }));
+  commands.push(...drawRect({ x: margin, y: infoY, width: contentWidth, height: infoHeight, fill: palette.blush }));
+
+  const textX = margin + 32;
+  const textWidth = contentWidth - 64;
+  const metaLine = formatPosterMetaLine(concert);
   commands.push(...buildTextBlock({
-    x: 58,
-    y: 806,
-    font: "F2",
-    size: 8.5,
-    leading: 10,
-    color: palette.accent,
-    lines: ["KOMMANDE KONSERT"],
-  }));
-  commands.push(...buildTextBlock({
-    x: 58,
-    y: 786,
-    font: "F2",
-    size: 15,
-    leading: 16,
+    x: textX,
+    y: infoY + infoHeight - 28,
+    font: "F1",
+    size: 17,
+    leading: 20,
     color: palette.ink,
-    lines: [site.name],
+    lines: truncateLines(wrapText(metaLine, textWidth, 17, "body"), 2),
   }));
 
-  const cardX = 38;
-  const cardY = 82;
-  const cardWidth = 519;
-  const cardHeight = 454;
-
-  commands.push(...drawRect({ x: cardX, y: cardY, width: cardWidth, height: cardHeight, fill: palette.panel, stroke: palette.line }));
-
-  const leftX = 58;
-  const leftWidth = 276;
-  const rightX = 356;
-  const rightWidth = 178;
-  const cardTop = cardY + cardHeight;
-
+  const title = concert.posterTitle || concert.title;
+  const titleLines = truncateLines(wrapText(title, textWidth, 43, "bold"), 3);
+  const titleLeading = 47;
+  const titleTopY = infoY + infoHeight - 66;
   commands.push(...buildTextBlock({
-    x: leftX,
-    y: cardTop - 38,
-    font: "F2",
-    size: 10,
-    leading: 12,
-    color: palette.accent,
-    lines: ["SPARA DATUMET"],
-  }));
-
-  const titleLines = truncateLines(wrapText(concert.title, leftWidth, 31, "serif"), 3);
-  const titleLeading = 31;
-  const titleTopY = cardTop - 72;
-  commands.push(...buildTextBlock({
-    x: leftX,
+    x: textX,
     y: titleTopY,
-    font: "F3",
-    size: 31,
+    font: "F2",
+    size: 43,
     leading: titleLeading,
     color: palette.ink,
     lines: titleLines,
   }));
 
-  let currentY = titleTopY - titleLines.length * titleLeading - 8;
-
-  if (concert.teaser) {
-    const teaserLines = truncateLines(wrapText(concert.teaser, leftWidth, 16, "bold"), 2);
-    commands.push(...buildTextBlock({
-      x: leftX,
-      y: currentY,
-      font: "F2",
-      size: 16,
-      leading: 18,
-      color: palette.ink,
-      lines: teaserLines,
-    }));
-    currentY -= teaserLines.length * 18 + 10;
-  }
-
-  const summaryLines = truncateLines(wrapText(concert.summary, leftWidth, 12, "body"), 6);
+  let currentY = titleTopY - titleLines.length * titleLeading - 12;
+  const programSentence = concert.posterProgramText ||
+    [concert.program?.join(". "), concert.performers?.join("; ")]
+      .filter(Boolean)
+      .join(". ");
+  const detailsLines = truncateLines(wrapText(programSentence, textWidth, 18, "body"), 4);
   commands.push(...buildTextBlock({
-    x: leftX,
+    x: textX,
     y: currentY,
     font: "F1",
-    size: 12,
-    leading: 15,
-    color: palette.inkSoft,
-    lines: summaryLines,
-  }));
-
-  const infoBoxWidth = leftWidth;
-  const infoBoxHeight = 68;
-  const summaryBottomY = currentY - summaryLines.length * 15 + 4;
-  const infoStartY = Math.max(126, Math.min(178, Math.round(summaryBottomY - 176)));
-
-  commands.push(...drawRect({
-    x: leftX,
-    y: infoStartY + 72,
-    width: infoBoxWidth,
-    height: infoBoxHeight,
-    fill: "#fffdf9",
-    stroke: palette.line,
-  }));
-  commands.push(...buildTextBlock({
-    x: leftX + 14,
-    y: infoStartY + 124,
-    font: "F2",
-    size: 8.5,
-    leading: 10,
-    color: palette.accent,
-    lines: ["NÄR"],
-  }));
-  commands.push(...buildTextBlock({
-    x: leftX + 14,
-    y: infoStartY + 98,
-    font: "F2",
-    size: 14,
-    leading: 16,
+    size: 18,
+    leading: 24,
     color: palette.ink,
-    lines: truncateLines(wrapText(formatPosterDateLine(concert), infoBoxWidth - 28, 14, "bold"), 2),
+    lines: detailsLines,
   }));
 
-  commands.push(...drawRect({
-    x: leftX,
-    y: infoStartY,
-    width: infoBoxWidth,
-    height: infoBoxHeight + 8,
-    fill: "#fffdf9",
-    stroke: palette.line,
-  }));
+  currentY -= detailsLines.length * 24 + 8;
+  const accessLine = concert.posterAccessText ||
+    (concert.price ? `${concert.price}, bidra gärna med en gåva till musik i Högalid` : "");
+
+  if (accessLine) {
+    commands.push(...buildTextBlock({
+      x: textX,
+      y: Math.max(currentY, infoY + 84),
+      font: "F5",
+      size: 16,
+      leading: 19,
+      color: palette.ink,
+      lines: truncateLines(wrapText(accessLine, textWidth, 16, "body"), 2),
+    }));
+  }
+
+  const footerY = infoY + 18;
   commands.push(...buildTextBlock({
-    x: leftX + 14,
-    y: infoStartY + 60,
+    x: textX,
+    y: footerY + 26,
     font: "F2",
-    size: 8.5,
-    leading: 10,
-    color: palette.accent,
-    lines: ["VAR"],
-  }));
-  commands.push(...buildTextBlock({
-    x: leftX + 14,
-    y: infoStartY + 34,
-    font: "F2",
-    size: 13.5,
-    leading: 15,
+    size: 21,
+    leading: 18,
     color: palette.ink,
-    lines: truncateLines(
-      wrapText(
-        concert.address ? `${concert.venue} · ${concert.address}` : concert.venue,
-        infoBoxWidth - 28,
-        13.5,
-        "bold"
-      ),
-      3
-    ),
+    lines: ["Svenska", "kyrkan"],
   }));
-
-  let rightCursorY = cardTop - 42;
-
-  if (concert.ticketUrl) {
-    commands.push(...drawRect({
-      x: rightX,
-      y: cardTop - 74,
-      width: rightWidth,
-      height: 34,
-      fill: palette.successSoft,
-      stroke: null,
-    }));
-    commands.push(...buildTextBlock({
-      x: rightX + 12,
-      y: cardTop - 53,
-      font: "F2",
-      size: 10.5,
-      leading: 12,
-      color: palette.success,
-      lines: ["Biljetter finns nu"],
-    }));
-
-    rightCursorY = cardTop - 122;
-  }
-
-  if (concert.program?.length) {
-    const programLines = truncateLines(
-      wrapBulletItems(concert.program, rightWidth - 24, 9.2, "body"),
-      7
-    );
-    const boxHeight = sectionHeight(programLines.length);
-    commands.push(...drawRect({
-      x: rightX,
-      y: rightCursorY - boxHeight,
-      width: rightWidth,
-      height: boxHeight,
-      fill: "#fffdf9",
-      stroke: palette.line,
-    }));
-    commands.push(...buildTextBlock({
-      x: rightX + 12,
-      y: rightCursorY - 20,
-      font: "F2",
-      size: 8.5,
-      leading: 10,
-      color: palette.accent,
-      lines: ["PROGRAM"],
-    }));
-    commands.push(...buildTextBlock({
-      x: rightX + 12,
-      y: rightCursorY - 40,
-      font: "F1",
-      size: 9.2,
-      leading: 12.2,
-      color: palette.ink,
-      lines: programLines,
-    }));
-    rightCursorY -= boxHeight + 14;
-  }
-
-  if (concert.performers?.length) {
-    const performerLines = truncateLines(
-      wrapBulletItems(concert.performers.slice(0, 6), rightWidth - 24, 9.2, "body"),
-      12
-    );
-    const boxHeight = sectionHeight(performerLines.length);
-    commands.push(...drawRect({
-      x: rightX,
-      y: rightCursorY - boxHeight,
-      width: rightWidth,
-      height: boxHeight,
-      fill: "#fffdf9",
-      stroke: palette.line,
-    }));
-    commands.push(...buildTextBlock({
-      x: rightX + 12,
-      y: rightCursorY - 20,
-      font: "F2",
-      size: 8.5,
-      leading: 10,
-      color: palette.accent,
-      lines: ["MEDVERKANDE"],
-    }));
-    commands.push(...buildTextBlock({
-      x: rightX + 12,
-      y: rightCursorY - 40,
-      font: "F1",
-      size: 9.2,
-      leading: 12.2,
-      color: palette.ink,
-      lines: performerLines,
-    }));
-    rightCursorY -= boxHeight + 14;
-  }
-
-  commands.push(...drawRect({
-    x: rightX,
-    y: 128,
-    width: rightWidth,
-    height: 104,
-    fill: palette.accent,
-    stroke: null,
-  }));
+  const footerUrl = concert.posterFooterUrl || "svenskakyrkan.se/hogalid";
   commands.push(...buildTextBlock({
-    x: rightX + 12,
-    y: 212,
+    x: margin + contentWidth - 162,
+    y: footerY + 7,
     font: "F2",
-    size: 8.5,
-    leading: 10,
-    color: "#f8e8db",
-    lines: ["MER INFORMATION"],
-  }));
-  commands.push(...buildTextBlock({
-    x: rightX + 12,
-    y: 200,
-    font: "F2",
-    size: 11.5,
-    leading: 14,
-    color: "#ffffff",
-    lines: truncateLines(
-      wrapText("Läs mer och spara i kalendern på vår webbplats.", rightWidth - 24, 11.5, "bold"),
-      4
-    ),
-  }));
-  commands.push(...buildTextBlock({
-    x: rightX + 12,
-    y: 142,
-    font: "F2",
-    size: 10,
+    size: 11,
     leading: 12,
-    color: "#fff5eb",
-    lines: ["www.kammarkorenhogalid.se"],
-  }));
-
-  const footerInfoY = concert.imageCredit ? 56 : 42;
-
-  commands.push(...buildTextBlock({
-    x: 40,
-    y: footerInfoY,
-    font: "F1",
-    size: 9.5,
-    leading: 12,
-    color: palette.inkSoft,
-    lines: [`${site.name} · ${formatDate(concert.start)} · ${concert.venue}`],
+    color: palette.ink,
+    lines: [footerUrl],
   }));
 
   if (concert.imageCredit) {
     commands.push(...buildTextBlock({
-      x: 40,
-      y: 32,
+      x: margin + 6,
+      y: 8,
       font: "F1",
-      size: 7.2,
-      leading: 9,
-      color: palette.inkSoft,
-      lines: truncateLines(
-        wrapText(`Bild: ${concert.imageCredit}`, 320, 7.2, "body"),
-        2
-      ),
+      size: 5.8,
+      leading: 7,
+      color: palette.muted,
+      lines: truncateLines(wrapText(`Bild: ${concert.imageCredit}`, 300, 5.8, "body"), 1),
     }));
   }
-
-  commands.push(...buildTextBlock({
-    x: 384,
-    y: 42,
-    font: "F2",
-    size: 10,
-    leading: 12,
-    color: palette.accent,
-    lines: ["www.kammarkorenhogalid.se"],
-  }));
 
   return commands;
 }
@@ -784,6 +566,14 @@ function buildPdf({ concert, imageBuffer, imageWidth, imageHeight, focus, colorS
     objects,
     "<< /Type /Font /Subtype /Type1 /BaseFont /Times-Bold /Encoding /WinAnsiEncoding >>"
   );
+  const fontSerifItalicId = addObject(
+    objects,
+    "<< /Type /Font /Subtype /Type1 /BaseFont /Times-Italic /Encoding /WinAnsiEncoding >>"
+  );
+  const fontItalicId = addObject(
+    objects,
+    "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding >>"
+  );
   const imageId = imageBuffer
     ? addObject(
         objects,
@@ -799,7 +589,7 @@ function buildPdf({ concert, imageBuffer, imageWidth, imageHeight, focus, colorS
     : null;
 
   const resources = [
-    `/Font << /F1 ${fontRegularId} 0 R /F2 ${fontBoldId} 0 R /F3 ${fontSerifId} 0 R >>`,
+    `/Font << /F1 ${fontRegularId} 0 R /F2 ${fontBoldId} 0 R /F3 ${fontSerifId} 0 R /F4 ${fontSerifItalicId} 0 R /F5 ${fontItalicId} 0 R >>`,
   ];
 
   if (imageId) {
@@ -851,6 +641,21 @@ function buildPdf({ concert, imageBuffer, imageWidth, imageHeight, focus, colorS
 }
 
 async function generatePoster(concert) {
+  if (concert.posterPdfSource) {
+    const sourcePdfPath = resolveLocalAssetPath(concert.posterPdfSource);
+
+    if (!sourcePdfPath) {
+      throw new Error(`Ogiltig källaffisch för ${concert.slug}: ${concert.posterPdfSource}`);
+    }
+
+    const generatedPdfPath = path.join(postersDir, `${concert.slug}.pdf`);
+    const publicPdfPath = path.join(publicPosterDir, `${concert.slug}.pdf`);
+    await fs.copyFile(sourcePdfPath, generatedPdfPath);
+    await fs.copyFile(sourcePdfPath, publicPdfPath);
+    await fs.rm(path.join(postersDir, `${concert.slug}.html`), { force: true });
+    return { generatedPdfPath, publicPdfPath };
+  }
+
   const { imageBuffer, width, height, tempDir, focus, colorSpace } = await prepareRasterImage(concert);
 
   try {
