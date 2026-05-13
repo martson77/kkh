@@ -51,6 +51,36 @@ function escapeHtml(value) {
     .replaceAll('"', "&quot;");
 }
 
+function googleMapsSearchUrl(query) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
+
+function concertMapQuery(concert) {
+  return [concert.venue, concert.address].filter(Boolean).join(", ");
+}
+
+function renderMapLink(label, query = label, location = "unknown") {
+  return `<a class="inline-map-link" href="${googleMapsSearchUrl(
+    query
+  )}" target="_blank" rel="noopener noreferrer" data-track="open_map" data-track-location="${escapeHtml(
+    location
+  )}">${escapeHtml(label)}</a>`;
+}
+
+function renderTextWithAddressLink(text, concert, location = "unknown") {
+  const body = escapeHtml(text);
+
+  if (!concert.address) {
+    return body;
+  }
+
+  const escapedAddress = escapeHtml(concert.address);
+  return body.replaceAll(
+    escapedAddress,
+    renderMapLink(concert.address, concertMapQuery(concert), location)
+  );
+}
+
 function formatDateTime(value) {
   return new Intl.DateTimeFormat("sv-SE", {
     dateStyle: "full",
@@ -949,7 +979,7 @@ function renderConcertDetailPage(concert) {
               .map(
                 (item) => `<article class="visit-card">
               <h3>${item.title}</h3>
-              <p>${item.body}</p>
+              <p>${renderTextWithAddressLink(item.body, concert, "concert_detail_visit")}</p>
             </article>`
               )
               .join("")}
@@ -961,7 +991,7 @@ function renderConcertDetailPage(concert) {
           <p class="aside-label">Tid och plats</p>
           <h2>${concert.venue}</h2>
           <p>${formatDateTime(concert.start)}</p>
-          <p>${concert.address}</p>
+          <p>${renderMapLink(concert.address, concertMapQuery(concert), "concert_detail_sidebar")}</p>
         </div>
         <div class="aside-card">
           <p class="aside-label">${ticketActionsTitle}</p>

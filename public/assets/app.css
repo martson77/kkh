@@ -36,6 +36,17 @@ a {
   color: var(--accent-dark);
 }
 
+.inline-map-link {
+  color: var(--accent-dark);
+  font-weight: 600;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+
+.inline-map-link:hover {
+  color: var(--accent);
+}
+
 p,
 li {
   line-height: 1.7;
