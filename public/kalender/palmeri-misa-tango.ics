@@ -3,15 +3,15 @@ VERSION:2.0
 PRODID:-//Kammarkören Högalid//Konsertkalender//SV
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
-X-WR-CALNAME:Palmeri – Misa Tango | Kammarkören Högalid
+X-WR-CALNAME:Toner från Buenos Aires – Misa Tango | Kammarkören Högalid
 X-WR-TIMEZONE:Europe/Stockholm
 BEGIN:VEVENT
 UID:palmeri-misa-tango@kammarkorenhogalid.se
 DTSTAMP:20260531T140000Z
 DTSTART:20260531T140000Z
 DTEND:20260531T160000Z
-SUMMARY:Palmeri – Misa Tango
-DESCRIPTION:Martín Palmeris Misa Tango förenar mässans liturgiska tradition med rytm\, närhet och nerv från Buenos Aires.\n\nBiljettlänk publiceras på konsertsidan senare.\nMer information: https://www.kammarkorenhogalid.se/konserter/palmeri-misa-tango/
+SUMMARY:Toner från Buenos Aires – Misa Tango
+DESCRIPTION:Martín Palmeris Misa Tango förenar mässans liturgiska tradition med rytm\, närhet och nerv från Buenos Aires.\n\nEntré: Fri entré\nFacebook-evenemang: https://www.facebook.com/events/h%C3%B6galidskyrkan/toner-fr%C3%A5n-buenos-aires-misa-tango/1299358691597878/\nMer information: https://www.kammarkorenhogalid.se/konserter/palmeri-misa-tango/
 LOCATION:Högalidskyrkan\, Högalids kyrkväg 11\, 117 30 Stockholm
 URL:https://www.kammarkorenhogalid.se/konserter/palmeri-misa-tango/
 END:VEVENT

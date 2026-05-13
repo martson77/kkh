@@ -66,7 +66,11 @@ function validateConcert(concert) {
 
   const leadDays = daysUntil(concert.start, now);
 
-  if (leadDays <= automationSettings.staleConcertThresholdDays && !concert.ticketUrl) {
+  if (
+    leadDays <= automationSettings.staleConcertThresholdDays &&
+    !concert.ticketUrl &&
+    concert.ticketAlert !== false
+  ) {
     addIssue(
       "warning",
       "Ticket link missing close to concert date",

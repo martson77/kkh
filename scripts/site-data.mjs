@@ -201,8 +201,8 @@ export const futureProjects = [
 export const concerts = [
   {
     slug: "palmeri-misa-tango",
-    title: "Palmeri – Misa Tango",
-    shortTitle: "Palmeri – Misa Tango",
+    title: "Toner från Buenos Aires – Misa Tango",
+    shortTitle: "Toner från Buenos Aires – Misa Tango",
     teaser: "Mässa med tangokänsla från Buenos Aires.",
     summary:
       "Martín Palmeris Misa Tango förenar mässans liturgiska tradition med rytm, närhet och nerv från Buenos Aires.",
@@ -212,12 +212,15 @@ export const concerts = [
     address: "Högalids kyrkväg 11, 117 30 Stockholm",
     transport: "Tunnelbana till Hornstull, följ sedan promenadstråket upp mot Högalidskyrkan.",
     price: "Fri entré",
+    eventUrl:
+      "https://www.facebook.com/events/h%C3%B6galidskyrkan/toner-fr%C3%A5n-buenos-aires-misa-tango/1299358691597878/",
+    organizers: ["Högalids församling", "Kammarkören Högalid"],
     ticketAlert: false,
-    heroImage: "/assets/imported/concerts/palmeri-bandoneon.jpg",
-    heroImageAlt: "Bandoneonspelare under en tangokonsert.",
-    socialImage: "/assets/imported/concerts/palmeri-bandoneon.jpg",
-    posterImage: "/assets/imported/concerts/palmeri-bandoneon.jpg",
-    imageCredit: "Jogentle / Wikimedia Commons (CC BY-SA 4.0)",
+    heroImage: "/assets/imported/concerts/toner-fran-buenos-aires-misa-tango.jpg",
+    heroImageAlt: "Illustration av ett tangopar i rörelse.",
+    socialImage: "/assets/imported/concerts/toner-fran-buenos-aires-misa-tango.jpg",
+    posterImage: "/assets/imported/concerts/toner-fran-buenos-aires-misa-tango.jpg",
+    imageCredit: "Högalids församling / Kammarkören Högalid",
     description: [
       "Martín Palmeris Misa Tango är ett verk som låter mässans klassiska form möta den argentinska tangons driv, värme och skärpa. I Högalidskyrkan får verket en inramning där kör, kammarorkester och piano bär fram både den liturgiska tyngden och den rytmiska pulsen.",
       "Programmet vänder sig både till en van konsertpublik och till dig som är nyfiken på mötet mellan klassisk körmusik och tango.",

@@ -22,6 +22,7 @@ const knownImageWidths = {
   [site.choirPerformanceImage]: 1600,
   [site.conductorImage]: 1280,
   "/assets/imported/concerts/palmeri-bandoneon.jpg": 2000,
+  "/assets/imported/concerts/toner-fran-buenos-aires-misa-tango.jpg": 1951,
   "/assets/imported/concerts/hamburg-kreuzkirche.jpg": 1800,
   "/assets/imported/concerts/hogalid-exterior.jpg": 1800,
   "/assets/imported/concerts/monteverdi-portrait.jpg": 520,
@@ -323,21 +324,69 @@ function hasTicketAlert(concert) {
   return Boolean(!concert.ticketUrl && concert.slug && concert.ticketAlert !== false);
 }
 
+function hasEventLink(concert) {
+  return Boolean(concert.eventUrl);
+}
+
+function concertOrganizerJsonLd(concert) {
+  if (concert.organizers?.length) {
+    return concert.organizers.map((name) => ({
+      "@type": "Organization",
+      name,
+      ...(name === site.name ? { url: site.baseUrl } : {}),
+    }));
+  }
+
+  return {
+    "@type": "Organization",
+    name: site.name,
+    url: site.baseUrl,
+  };
+}
+
+function concertEventButtonLine(concert, location, indent = "            ") {
+  if (!hasEventLink(concert)) {
+    return "";
+  }
+
+  return `${indent}${button({
+    href: concert.eventUrl,
+    label: "Facebook-evenemang",
+    track: "facebook_event",
+    location,
+    variant: "ghost",
+    newTab: true,
+  })}\n`;
+}
+
 function concertTicketAlertUrl(concert) {
   const subject = `Biljettbesked: ${concert.title}`;
   const body = `Hej!\n\nJag vill gärna få besked när biljettlänken för ${concert.title} publiceras.\n\nNamn:\n`;
   return `mailto:${site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
+function concertAccessLine(concert) {
+  if (hasTicketLink(concert)) {
+    return `Biljetter: ${concert.ticketUrl}`;
+  }
+
+  if (concert.ticketAlert === false && concert.price) {
+    return `Entré: ${concert.price}`;
+  }
+
+  return "Biljettlänk publiceras på konsertsidan senare.";
+}
+
 function concertCalendarDetails(concert) {
   const detailsUrl = absoluteUrl(
     concert.slug ? `/konserter/${concert.slug}/` : "/konserter/"
   );
-  const ticketLine = hasTicketLink(concert)
-    ? `Biljetter: ${concert.ticketUrl}`
-    : "Biljettlänk publiceras på konsertsidan senare.";
+  const ticketLine = concertAccessLine(concert);
+  const eventLine = hasEventLink(concert)
+    ? `\nFacebook-evenemang: ${concert.eventUrl}`
+    : "";
 
-  return `${concert.summary}\n\n${ticketLine}\nMer info: ${detailsUrl}`;
+  return `${concert.summary}\n\n${ticketLine}${eventLine}\nMer info: ${detailsUrl}`;
 }
 
 function concertGoogleCalendarUrl(concert) {
@@ -422,6 +471,8 @@ function renderHomePage() {
       },
       image: [absoluteUrl(nextConcert.socialImage)],
       description: nextConcert.summary,
+      ...(hasEventLink(nextConcert) ? { sameAs: [nextConcert.eventUrl] } : {}),
+      organizer: concertOrganizerJsonLd(nextConcert),
       performer: nextConcert.performers.map((performer) => ({
         "@type": "PerformingGroup",
         name: performer,
@@ -521,6 +572,18 @@ function renderHomePage() {
               track: "add_to_calendar",
               location: "home_panel",
             })}
+            ${
+              hasEventLink(nextConcert)
+                ? button({
+                    href: nextConcert.eventUrl,
+                    label: "Facebook-evenemang",
+                    variant: "ghost",
+                    track: "facebook_event",
+                    location: "home_panel",
+                    newTab: true,
+                  })
+                : ""
+            }
           </div>
         </aside>
         ${homeHeroImageCredit ? `<p class="hero-media-credit">${escapeHtml(homeHeroImageCredit)}</p>` : ""}
@@ -739,7 +802,7 @@ function renderConcertsPage() {
                 location: "concerts_upcoming",
                 variant: "ghost",
               })}
-            </div>
+${concertEventButtonLine(concert, "concerts_upcoming", "              ")}            </div>
           </div>
         </article>`
           )
@@ -803,7 +866,9 @@ function renderConcertDetailPage(concert) {
     ? "Boka eller spara"
     : hasTicketAlert(concert)
       ? "Få biljettbesked eller spara"
-      : "Spara konserten";
+      : hasEventLink(concert)
+        ? "Följ eller spara"
+        : "Spara konserten";
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "MusicEvent",
@@ -819,11 +884,8 @@ function renderConcertDetailPage(concert) {
       name: concert.venue,
       address: concert.address,
     },
-    organizer: {
-      "@type": "Organization",
-      name: site.name,
-      url: site.baseUrl,
-    },
+    organizer: concertOrganizerJsonLd(concert),
+    ...(hasEventLink(concert) ? { sameAs: [concert.eventUrl] } : {}),
     performer: concert.performers.map((performer) => ({
       "@type": "PerformingGroup",
       name: performer,
@@ -925,7 +987,7 @@ function renderConcertDetailPage(concert) {
                   })
                 : ""
             }
-            ${button({
+${concertEventButtonLine(concert, "concert_detail_sidebar")}            ${button({
               href: `/kalender/${concert.slug}.ics`,
               label: "Lägg till i Apple/Outlook",
               track: "add_to_calendar",
@@ -1240,16 +1302,18 @@ function renderIcsCalendar(items, calendarName) {
       const detailsUrl = absoluteUrl(
         concert.slug ? `/konserter/${concert.slug}/` : "/konserter/"
       );
-      const description = hasTicketLink(concert)
-        ? `${concert.summary}\n\nBiljetter: ${concert.ticketUrl}\nMer information: ${detailsUrl}`
-        : `${concert.summary}\n\nBiljettlänk publiceras på konsertsidan senare.\nMer information: ${detailsUrl}`;
+      const description = `${concert.summary}\n\n${concertAccessLine(concert)}\nMer information: ${detailsUrl}`;
+      const eventLine = hasEventLink(concert)
+        ? `\nFacebook-evenemang: ${concert.eventUrl}`
+        : "";
+      const fullDescription = description.replace("\nMer information:", `${eventLine}\nMer information:`);
       return `BEGIN:VEVENT
 UID:${concert.slug || concert.title.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-")}@kammarkorenhogalid.se
 DTSTAMP:${toIcsTimestamp(concert.updatedAt || concert.start)}
 DTSTART:${toIcsTimestamp(concert.start)}
 DTEND:${toIcsTimestamp(concert.end || concert.start)}
 SUMMARY:${escapeIcs(concert.title)}
-DESCRIPTION:${escapeIcs(description)}
+DESCRIPTION:${escapeIcs(fullDescription)}
 LOCATION:${escapeIcs(`${concert.venue}${concert.address ? `, ${concert.address}` : ""}`)}
 URL:${detailsUrl}
 END:VEVENT`;
