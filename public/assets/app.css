@@ -565,6 +565,108 @@ button {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.audience-quote-carousel {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.audience-quote-frame {
+  display: grid;
+}
+
+.audience-quote-card {
+  min-height: 0;
+  margin: 0;
+  padding: 8px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.audience-quote-card blockquote {
+  margin: 0;
+  color: var(--ink);
+  font-size: 23px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.audience-quote-card figcaption {
+  color: var(--accent-forest);
+  margin-top: 16px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.audience-quote-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.quote-nav-button,
+.audience-quote-dot {
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.quote-nav-button {
+  width: 44px;
+  height: 44px;
+  color: var(--accent-dark);
+  background: rgba(255, 253, 249, 0.84);
+  border: 1px solid rgba(109, 39, 26, 0.18);
+  border-radius: 999px;
+  font-size: 30px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    transform 140ms ease,
+    background 140ms ease,
+    border-color 140ms ease;
+}
+
+.quote-nav-button:hover {
+  background: var(--surface);
+  border-color: rgba(109, 39, 26, 0.34);
+  transform: translateY(-1px);
+}
+
+.audience-quote-dots {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.audience-quote-dot {
+  width: 11px;
+  height: 11px;
+  background: transparent;
+  border: 1px solid rgba(109, 39, 26, 0.38);
+  border-radius: 999px;
+  padding: 0;
+}
+
+.audience-quote-dot[aria-current="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.quote-nav-button:focus-visible,
+.audience-quote-dot:focus-visible {
+  outline: 3px solid rgba(138, 61, 45, 0.3);
+  outline-offset: 3px;
+}
+
 .two-column-copy {
   display: grid;
   gap: 22px;
@@ -835,6 +937,7 @@ button {
   .calendar-panel-copy,
   .highlight-panel-copy,
   .proof-card p,
+  .audience-quote-card blockquote,
   .visit-card p,
   .footer-copy {
     font-size: 15px;

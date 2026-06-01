@@ -132,9 +132,64 @@
     });
   }
 
+  function initAudienceQuotes(root) {
+    const quotes = Array.from(root.querySelectorAll("[data-audience-quote]"));
+    const previousButton = root.querySelector("[data-quote-prev]");
+    const nextButton = root.querySelector("[data-quote-next]");
+    const dots = Array.from(root.querySelectorAll("[data-quote-dot]"));
+    let currentIndex = Math.max(
+      0,
+      quotes.findIndex((quote) => quote.classList.contains("is-active"))
+    );
+
+    if (quotes.length <= 1) {
+      root.querySelector(".audience-quote-controls")?.setAttribute("hidden", "");
+      return;
+    }
+
+    function showQuote(index) {
+      currentIndex = (index + quotes.length) % quotes.length;
+
+      quotes.forEach((quote, quoteIndex) => {
+        const isActive = quoteIndex === currentIndex;
+        quote.hidden = !isActive;
+        quote.classList.toggle("is-active", isActive);
+        quote.setAttribute("aria-hidden", String(!isActive));
+      });
+
+      dots.forEach((dot, dotIndex) => {
+        if (dotIndex === currentIndex) {
+          dot.setAttribute("aria-current", "true");
+        } else {
+          dot.removeAttribute("aria-current");
+        }
+      });
+    }
+
+    previousButton?.addEventListener("click", () => {
+      showQuote(currentIndex - 1);
+    });
+
+    nextButton?.addEventListener("click", () => {
+      showQuote(currentIndex + 1);
+    });
+
+    dots.forEach((dot) => {
+      dot.addEventListener("click", () => {
+        showQuote(Number(dot.dataset.quoteIndex || 0));
+      });
+    });
+
+    showQuote(currentIndex);
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".navigation.w-nav").forEach((nav, index) => {
       initNavigation(nav, index);
+    });
+
+    document.querySelectorAll("[data-audience-quotes]").forEach((root) => {
+      initAudienceQuotes(root);
     });
 
     document.addEventListener("click", async (event) => {

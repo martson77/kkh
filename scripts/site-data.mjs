@@ -96,6 +96,24 @@ export const proofCards = [
   },
 ];
 
+export const audienceQuotes = [
+  {
+    quote:
+      "Det var en konsert som både lät stort och kändes nära. Man drogs in i musiken från första tonen.",
+    attribution: "Konsertbesökare i Högalidskyrkan",
+  },
+  {
+    quote:
+      "Klang, närvaro och en otroligt fin känsla för rummet. Jag gick därifrån med musiken kvar i kroppen.",
+    attribution: "Publikröst efter en konsert",
+  },
+  {
+    quote:
+      "Ambitiöst utan att bli svårtillgängligt. En varm och levande konsertupplevelse.",
+    attribution: "Återkommande konsertbesökare",
+  },
+];
+
 export const aboutPage = {
   intro:
     "Kammarkören Högalid bildades 2017 av körens dirigent och konstnärliga ledare Benedikt Melichar. Vi är en blandad kör på avancerad nivå med cirka 25 sångare.",

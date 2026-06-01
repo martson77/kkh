@@ -3,6 +3,7 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import {
   aboutPage,
+  audienceQuotes,
   choirFacts,
   concerts,
   conductorPage,
@@ -15,7 +16,7 @@ import {
 
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const publicDir = path.join(rootDir, "public");
-const assetVersion = "20260601-choir-image";
+const assetVersion = "20260601-standalone-audience-quotes";
 
 const imageVariantWidths = [500, 800, 1080, 1200, 1600, 2000, 2600, 3200];
 const knownImageWidths = {
@@ -499,6 +500,40 @@ function renderPastConcertCard(concert) {
 </article>`;
 }
 
+function renderAudienceQuotesSection() {
+  return `<section class="section-block section-block--muted audience-quotes-section">
+    <div class="site-container">
+      <div class="audience-quote-carousel" data-audience-quotes>
+        <div class="audience-quote-frame">
+        ${audienceQuotes
+          .map(
+            (item, index) => `<figure class="audience-quote-card${index === 0 ? " is-active" : ""}" data-audience-quote${
+              index === 0 ? ' aria-hidden="false"' : ' hidden="" aria-hidden="true"'
+            }>
+          <blockquote>${escapeHtml(item.quote)}</blockquote>
+          <figcaption>${escapeHtml(item.attribution)}</figcaption>
+        </figure>`
+          )
+          .join("")}
+        </div>
+        <div class="audience-quote-controls" aria-label="Publikcitat">
+          <button type="button" class="quote-nav-button" data-quote-prev aria-label="Visa föregående citat">&lsaquo;</button>
+          <div class="audience-quote-dots" aria-label="Välj citat">
+            ${audienceQuotes
+              .map(
+                (_item, index) => `<button type="button" class="audience-quote-dot" data-quote-dot data-quote-index="${index}" aria-label="Visa citat ${
+                  index + 1
+                }"${index === 0 ? ' aria-current="true"' : ""}></button>`
+              )
+              .join("")}
+          </div>
+          <button type="button" class="quote-nav-button" data-quote-next aria-label="Visa nästa citat">&rsaquo;</button>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
 function renderHomePage() {
   const latestPastConcert = pastConcerts[0];
   const featuredProject = futureProjects[0];
@@ -666,6 +701,7 @@ function renderHomePage() {
       </aside>
     </div>
   </section>
+  ${renderAudienceQuotesSection()}
   <section class="section-block section-block--muted">
     <div class="site-container section-grid">
       <div>
