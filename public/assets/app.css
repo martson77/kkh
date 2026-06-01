@@ -584,6 +584,10 @@ button {
   text-align: center;
 }
 
+.audience-quote-card[hidden] {
+  display: none;
+}
+
 .audience-quote-card blockquote {
   margin: 0;
   color: var(--ink);
