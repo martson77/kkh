@@ -1408,7 +1408,25 @@ async function writeFile(relativePath, content) {
   await fs.writeFile(target, content, "utf8");
 }
 
+async function removeGeneratedConcertFiles() {
+  for (const concert of concerts) {
+    if (!concert.slug) {
+      continue;
+    }
+
+    await fs.rm(path.join(publicDir, "konserter", concert.slug), {
+      recursive: true,
+      force: true,
+    });
+    await fs.rm(path.join(publicDir, "kalender", `${concert.slug}.ics`), {
+      force: true,
+    });
+  }
+}
+
 async function main() {
+  await removeGeneratedConcertFiles();
+
   await writeFile("index.html", renderHomePage());
   await writeFile("konserter/index.html", renderConcertsPage());
   await writeFile("om-oss/index.html", renderAboutPage());
