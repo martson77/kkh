@@ -15,10 +15,11 @@ import {
 
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const publicDir = path.join(rootDir, "public");
-const assetVersion = "20260327-concert-images";
+const assetVersion = "20260601-choir-image";
 
 const imageVariantWidths = [500, 800, 1080, 1200, 1600, 2000, 2600, 3200];
 const knownImageWidths = {
+  [site.choirImage]: 1536,
   [site.choirPerformanceImage]: 1600,
   [site.conductorImage]: 1280,
   "/assets/imported/concerts/palmeri-bandoneon.jpg": 2000,

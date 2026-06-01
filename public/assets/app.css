@@ -190,8 +190,10 @@ button {
 
 .hero--home .hero-image {
   display: block;
+  aspect-ratio: 1 / 1;
   height: auto;
   min-height: 0;
+  object-position: 50% 42%;
 }
 
 .media-card-credit {

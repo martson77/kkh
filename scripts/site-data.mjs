@@ -15,11 +15,9 @@ export const site = {
   faviconType: "image/svg+xml",
   appleTouchIcon:
     "/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/6669dcc1d337a8ce79c7c0fb_hogalidstornen.jpg",
-  choirImage:
-    "/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/692017f2d18d11b659fea9a2_Kammarkoren-Hogalid-HT25.avif",
-  choirImageSocial:
-    "/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/666ae5ca3f97bf5f78d4a59c_Gruppbild-2-Kalles-.jpg",
-  choirImageAlt: "Kammarkören Högalid utanför kyrkan hösten 2025.",
+  choirImage: "/assets/imported/kammarkoren-hogalid-2026.jpg",
+  choirImageSocial: "/assets/imported/kammarkoren-hogalid-2026.jpg",
+  choirImageAlt: "Kammarkören Högalid utanför Högalidskyrkan.",
   choirPerformanceImage: "/assets/imported/mikael-engstrom-jul2024.jpg",
   choirPerformanceImageAlt: "Kammarkören Högalid under en konsert i Högalidskyrkan.",
   choirPerformanceImageCredit: "Foto: Mikael Engström",
