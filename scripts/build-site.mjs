@@ -43,6 +43,19 @@ if (!nextConcert) {
   throw new Error("Ingen kommande konsert hittades i site-data.mjs.");
 }
 
+function hasConcertDetailPage(concert) {
+  return Boolean(
+    concert.slug &&
+      concert.heroImage &&
+      concert.socialImage &&
+      concert.description?.length &&
+      concert.program?.length &&
+      concert.performers?.length
+  );
+}
+
+const detailedConcerts = concerts.filter((concert) => hasConcertDetailPage(concert));
+
 function escapeHtml(value) {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -458,6 +471,17 @@ function renderPastConcertCard(concert) {
     <h3 class="concert-card-title">${concert.title}</h3>
     <p class="concert-card-meta">${formatDate(concert.start)} · ${concert.venue}</p>
     <p class="concert-card-copy">${concert.summary}</p>
+    ${
+      hasConcertDetailPage(concert)
+        ? button({
+            href: `/konserter/${concert.slug}/`,
+            label: "Se program",
+            variant: "secondary",
+            track: "concert_archive_detail",
+            location: "concert_archive",
+          })
+        : ""
+    }
     ${
       concert.ticketUrl
         ? button({
@@ -891,14 +915,21 @@ ${concertEventButtonLine(concert, "concerts_upcoming", "              ")}       
 }
 
 function renderConcertDetailPage(concert) {
-  const detailEyebrow = concert.slug === nextConcert.slug ? "Nästa konsert" : "Kommande konsert";
-  const ticketActionsTitle = hasTicketLink(concert)
-    ? "Boka eller spara"
-    : hasTicketAlert(concert)
-      ? "Få biljettbesked eller spara"
-      : hasEventLink(concert)
-        ? "Följ eller spara"
-        : "Spara konserten";
+  const isPastConcert = new Date(concert.start) < now;
+  const detailEyebrow = isPastConcert
+    ? "Tidigare konsert"
+    : concert.slug === nextConcert.slug
+      ? "Nästa konsert"
+      : "Kommande konsert";
+  const ticketActionsTitle = isPastConcert
+    ? "Affisch och länkar"
+    : hasTicketLink(concert)
+      ? "Boka eller spara"
+      : hasTicketAlert(concert)
+        ? "Få biljettbesked eller spara"
+        : hasEventLink(concert)
+          ? "Följ eller spara"
+          : "Spara konserten";
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "MusicEvent",
@@ -906,7 +937,9 @@ function renderConcertDetailPage(concert) {
     startDate: concert.start,
     endDate: concert.end,
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-    eventStatus: "https://schema.org/EventScheduled",
+    eventStatus: isPastConcert
+      ? "https://schema.org/EventCompleted"
+      : "https://schema.org/EventScheduled",
     description: concert.summary,
     image: [absoluteUrl(concert.socialImage)],
     location: {
@@ -922,7 +955,7 @@ function renderConcertDetailPage(concert) {
     })),
   };
 
-  if (hasTicketLink(concert)) {
+  if (!isPastConcert && hasTicketLink(concert)) {
     jsonLd.offers = {
       "@type": "Offer",
       url: concert.ticketUrl,
@@ -972,7 +1005,10 @@ function renderConcertDetailPage(concert) {
             ${concert.performers.map((item) => `<li>${item}</li>`).join("")}
           </ul>
         </section>
-        <section class="detail-section">
+        ${
+          isPastConcert
+            ? ""
+            : `<section class="detail-section">
           <h2>Planera ditt besök</h2>
           <div class="visit-grid">
             ${concert.planVisit
@@ -984,7 +1020,8 @@ function renderConcertDetailPage(concert) {
               )
               .join("")}
           </div>
-        </section>
+        </section>`
+        }
       </div>
       <aside class="detail-aside">
         <div class="aside-card">
@@ -997,7 +1034,7 @@ function renderConcertDetailPage(concert) {
           <p class="aside-label">${ticketActionsTitle}</p>
           <div class="stack-actions">
             ${
-              hasTicketLink(concert)
+              !isPastConcert && hasTicketLink(concert)
                 ? button({
                     href: concert.ticketUrl,
                     label: "Köp biljett",
@@ -1008,7 +1045,7 @@ function renderConcertDetailPage(concert) {
                 : ""
             }
             ${
-              hasTicketAlert(concert)
+              !isPastConcert && hasTicketAlert(concert)
                 ? button({
                     href: concertTicketAlertUrl(concert),
                     label: "Få besked om biljetter",
@@ -1017,21 +1054,29 @@ function renderConcertDetailPage(concert) {
                   })
                 : ""
             }
-${concertEventButtonLine(concert, "concert_detail_sidebar")}            ${button({
+${concertEventButtonLine(concert, "concert_detail_sidebar")}            ${
+              isPastConcert
+                ? ""
+                : button({
               href: `/kalender/${concert.slug}.ics`,
               label: "Lägg till i Apple/Outlook",
               track: "add_to_calendar",
               location: "concert_detail_sidebar",
               variant: "secondary",
-            })}
-            ${button({
+            })
+            }
+            ${
+              isPastConcert
+                ? ""
+                : button({
               href: concertGoogleCalendarUrl(concert),
               label: "Lägg till i Google Kalender",
               track: "add_to_calendar",
               location: "concert_detail_sidebar",
               variant: "secondary",
               newTab: true,
-            })}
+            })
+            }
             ${
               hasPoster(concert)
                 ? button({
@@ -1083,9 +1128,13 @@ ${concertEventButtonLine(concert, "concert_detail_sidebar")}            ${button
 
   return renderLayout({
     pageTitle: `${concert.title} | ${formatDate(concert.start)} | ${site.name}`,
-    description: `${concert.title} i ${concert.venue} ${formatShortDateTime(
-      concert.start
-    )}. Läs mer, lägg i kalendern och planera ditt besök.`,
+    description: isPastConcert
+      ? `${concert.title} framfördes i ${concert.venue} ${formatShortDateTime(
+          concert.start
+        )}. Läs mer om programmet och medverkande.`
+      : `${concert.title} i ${concert.venue} ${formatShortDateTime(
+          concert.start
+        )}. Läs mer, lägg i kalendern och planera ditt besök.`,
     urlPath: `/konserter/${concert.slug}/`,
     currentPath: `/konserter/${concert.slug}/`,
     image: concert.socialImage,
@@ -1386,7 +1435,7 @@ function renderSitemapXml() {
     "/om-oss/",
     "/dirigenten/",
     "/sjung-med-oss/",
-    ...upcomingConcerts.map((concert) => `/konserter/${concert.slug}/`),
+    ...detailedConcerts.map((concert) => `/konserter/${concert.slug}/`),
   ];
 
   const entries = urls
@@ -1433,11 +1482,14 @@ async function main() {
   await writeFile("dirigenten/index.html", renderConductorPage());
   await writeFile("sjung-med-oss/index.html", renderJoinPage());
 
-  for (const concert of upcomingConcerts) {
+  for (const concert of detailedConcerts) {
     await writeFile(
       `konserter/${concert.slug}/index.html`,
       renderConcertDetailPage(concert)
     );
+  }
+
+  for (const concert of upcomingConcerts) {
     await writeFile(
       `kalender/${concert.slug}.ics`,
       renderIcsCalendar([concert], `${concert.title} | ${site.name}`)
