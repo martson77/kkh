@@ -565,6 +565,11 @@ button {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.audience-quotes-section {
+  padding-top: 24px;
+  padding-bottom: 34px;
+}
+
 .audience-quote-carousel {
   max-width: 760px;
   margin: 0 auto;

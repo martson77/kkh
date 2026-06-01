@@ -16,7 +16,7 @@ import {
 
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const publicDir = path.join(rootDir, "public");
-const assetVersion = "20260601-quote-hidden-fix";
+const assetVersion = "20260601-quote-background-fix";
 
 const imageVariantWidths = [500, 800, 1080, 1200, 1600, 2000, 2600, 3200];
 const knownImageWidths = {
@@ -501,7 +501,7 @@ function renderPastConcertCard(concert) {
 }
 
 function renderAudienceQuotesSection() {
-  return `<section class="section-block section-block--muted audience-quotes-section">
+  return `<section class="section-block audience-quotes-section">
     <div class="site-container">
       <div class="audience-quote-carousel" data-audience-quotes>
         <div class="audience-quote-frame">
