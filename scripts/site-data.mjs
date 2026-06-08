@@ -69,6 +69,30 @@ export const homePage = {
   },
 };
 
+const misaTangoSocialVideo = {
+  platform: "facebook",
+  platformLabel: "Facebook Reel",
+  layout: "vertical",
+  aspectRatio: "9 / 16",
+  width: 267,
+  height: 476,
+  title: "Misa Tango inför konserten",
+  description:
+    "Ett kort klipp inför Toner från Buenos Aires – Misa Tango i Högalidskyrkan.",
+  url: "https://www.facebook.com/reel/1699917361154401/",
+};
+
+const passionConcertSocialVideo = {
+  platform: "facebook",
+  platformLabel: "Facebook",
+  layout: "link",
+  title: "Passionskonsert – Lidandets vägar",
+  description:
+    "Klipp från passionsprogrammet med Marcuspassion, Hiob och Stabat Mater.",
+  url: "https://www.facebook.com/reel/2274917186371013/",
+  embedUnavailable: true,
+};
+
 export const socialMedia = {
   facebookPage: {
     url: "https://www.facebook.com/kammarkorenhogalid",
@@ -78,20 +102,7 @@ export const socialMedia = {
     width: 500,
     height: 680,
   },
-  featuredVideos: [
-    {
-      platform: "facebook",
-      platformLabel: "Facebook Reel",
-      layout: "vertical",
-      aspectRatio: "9 / 16",
-      width: 267,
-      height: 476,
-      title: "Misa Tango inför konserten",
-      description:
-        "Ett kort klipp inför Toner från Buenos Aires – Misa Tango i Högalidskyrkan.",
-      url: "https://www.facebook.com/reel/1699917361154401/",
-    },
-  ],
+  featuredVideos: [misaTangoSocialVideo, passionConcertSocialVideo],
 };
 
 export const choirFacts = [
@@ -273,18 +284,7 @@ export const concerts = [
       "Martín Palmeri: Misa Tango. Susanna Reuter, mezzosopran; Mikael Augustsson, bandoneon; Leon Tscholl, piano; Högalids kammarorkester; Kammarkören Högalid; Benedikt Melichar och Niklas Tamm, dirigenter.",
     posterAccessText: "Fri entré, bidra gärna med en gåva till musik i Högalid",
     imageCredit: "Högalids församling / Kammarkören Högalid",
-    socialVideo: {
-      platform: "facebook",
-      platformLabel: "Facebook Reel",
-      layout: "vertical",
-      aspectRatio: "9 / 16",
-      width: 267,
-      height: 476,
-      title: "Misa Tango inför konserten",
-      description:
-        "Ett kort klipp inför Toner från Buenos Aires – Misa Tango i Högalidskyrkan.",
-      url: "https://www.facebook.com/reel/1699917361154401/",
-    },
+    socialVideo: misaTangoSocialVideo,
     description: [
       "Martín Palmeris Misa Tango är ett verk som låter mässans klassiska form möta den argentinska tangons driv, värme och skärpa. I Högalidskyrkan får verket en inramning där kör, kammarorkester och piano bär fram både den liturgiska tyngden och den rytmiska pulsen.",
       "Programmet vänder sig både till en van konsertpublik och till dig som är nyfiken på mötet mellan klassisk körmusik och tango.",
@@ -486,6 +486,7 @@ export const concerts = [
     start: "2026-03-08T16:00:00+01:00",
     venue: "Högalidskyrkan",
     performers: ["Kammarkören Högalid", "Benedikt Melichar, dirigent"],
+    socialVideo: passionConcertSocialVideo,
   },
   {
     title: "Bach Juloratorium",

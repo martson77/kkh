@@ -17,7 +17,7 @@ import {
 
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const publicDir = path.join(rootDir, "public");
-const assetVersion = "20260608-misa-tango-video";
+const assetVersion = "20260608-social-video-links";
 
 const imageVariantWidths = [500, 800, 1080, 1200, 1600, 2000, 2600, 3200];
 const knownImageWidths = {
@@ -457,6 +457,16 @@ function renderSocialVideoEmbed(video, location = "home_social") {
     return "";
   }
 
+  if (video.embedUnavailable) {
+    return `<a class="social-video-link-preview" href="${video.url}" target="_blank" rel="noreferrer" data-track="social_video" data-track-location="${escapeHtml(
+      location
+    )}">
+      <span class="social-video-link-label">${escapeHtml(video.platformLabel || "Video")}</span>
+      <span class="social-video-link-title">${escapeHtml(video.title)}</span>
+      <span class="social-video-link-copy">Se klippet på Facebook</span>
+    </a>`;
+  }
+
   if (video.platform === "facebook") {
     return `<iframe class="social-video-iframe" title="${escapeHtml(
       video.title
@@ -481,7 +491,17 @@ function renderSocialVideoEmbed(video, location = "home_social") {
 }
 
 function socialVideoModifier(video, className) {
-  return video.layout === "vertical" ? ` ${className}--vertical` : "";
+  const modifiers = [];
+
+  if (video.layout === "vertical") {
+    modifiers.push(`${className}--vertical`);
+  }
+
+  if (video.layout === "link" || video.embedUnavailable) {
+    modifiers.push(`${className}--link`);
+  }
+
+  return modifiers.map((modifier) => ` ${modifier}`).join("");
 }
 
 function socialVideoFrameStyle(video) {
@@ -519,9 +539,9 @@ function renderSocialVideoCard(video, location = "home_social") {
 }
 
 function renderFeaturedSocialVideo() {
-  const video = socialMedia.featuredVideos?.[0];
+  const videos = socialMedia.featuredVideos || [];
 
-  if (!video) {
+  if (!videos.length) {
     return `<div class="social-video-fallback">
       <p class="social-panel-label">Video</p>
       <h3>Korta klipp och konsertinlägg</h3>
@@ -537,7 +557,9 @@ function renderFeaturedSocialVideo() {
     </div>`;
   }
 
-  return renderSocialVideoCard(video);
+  return `<div class="social-video-list">
+    ${videos.map((video) => renderSocialVideoCard(video)).join("")}
+  </div>`;
 }
 
 function renderConcertSocialVideoSection(concert) {
@@ -656,45 +678,62 @@ function toGoogleDate(value) {
 }
 
 function renderPastConcertCard(concert) {
-  return `<article class="concert-card concert-card--past">
-  ${
-    concert.image
-      ? renderImage({
-          src: concert.image,
-          alt: concert.imageAlt || concert.title,
-          className: "concert-card-image",
-          sizes: "(max-width: 991px) 100vw, 46vw",
-        })
-      : ""
+  const image = concert.image
+    ? renderImage({
+        src: concert.image,
+        alt: concert.imageAlt || concert.title,
+        className: "concert-card-image",
+        sizes: "(max-width: 991px) 100vw, 46vw",
+      })
+    : "";
+  const actions = [];
+
+  if (hasConcertDetailPage(concert)) {
+    actions.push(
+      button({
+        href: `/konserter/${concert.slug}/`,
+        label: "Se program",
+        variant: "secondary",
+        track: "concert_archive_detail",
+        location: "concert_archive",
+      })
+    );
   }
+
+  if (concert.ticketUrl) {
+    actions.push(
+      button({
+        href: concert.ticketUrl,
+        label: "Se biljettlänk",
+        variant: "ghost",
+        track: "buy_ticket_archive",
+        location: "concert_archive",
+        newTab: true,
+      })
+    );
+  }
+
+  if (concert.socialVideo) {
+    actions.push(
+      button({
+        href: concert.socialVideo.url,
+        label: "Se klipp",
+        variant: "ghost",
+        track: "social_video",
+        location: "concert_archive",
+        newTab: true,
+      })
+    );
+  }
+
+  const actionMarkup = actions.length ? `\n    ${actions.join("\n    ")}` : "";
+
+  return `<article class="concert-card concert-card--past">${image ? `\n  ${image}` : ""}
   <div class="concert-card-body">
     <p class="concert-card-kicker">Tidigare konsert</p>
     <h3 class="concert-card-title">${concert.title}</h3>
     <p class="concert-card-meta">${formatDate(concert.start)} · ${concert.venue}</p>
-    <p class="concert-card-copy">${concert.summary}</p>
-    ${
-      hasConcertDetailPage(concert)
-        ? button({
-            href: `/konserter/${concert.slug}/`,
-            label: "Se program",
-            variant: "secondary",
-            track: "concert_archive_detail",
-            location: "concert_archive",
-          })
-        : ""
-    }
-    ${
-      concert.ticketUrl
-        ? button({
-            href: concert.ticketUrl,
-            label: "Se biljettlänk",
-            variant: "ghost",
-            track: "buy_ticket_archive",
-            location: "concert_archive",
-            newTab: true,
-          })
-        : ""
-    }
+    <p class="concert-card-copy">${concert.summary}</p>${actionMarkup}
   </div>
 </article>`;
 }
