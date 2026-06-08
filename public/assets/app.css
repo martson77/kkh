@@ -779,24 +779,27 @@ button {
 }
 
 .social-video-showcase .social-video-card {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-  max-width: 360px;
+  display: grid;
+  grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
+  align-items: stretch;
+  max-width: none;
   margin-top: 0;
 }
 
 .social-video-showcase .social-video-card--vertical {
-  max-width: 360px;
+  max-width: none;
 }
 
 .social-video-showcase .social-video-card--vertical .social-video-frame {
-  width: min(100%, 220px);
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
 }
 
 .social-video-showcase .social-video-body {
-  padding: 22px;
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .social-video-showcase .social-video-card h3 {
@@ -1083,6 +1086,22 @@ button {
   .social-content-grid {
     grid-template-columns: minmax(220px, 0.85fr) minmax(260px, 1fr);
     gap: 20px;
+  }
+
+  .social-video-showcase .social-video-card {
+    display: flex;
+    flex-direction: column;
+    max-width: 360px;
+  }
+
+  .social-video-showcase .social-video-card--vertical .social-video-frame {
+    width: min(100%, 220px);
+    margin: 0 auto;
+  }
+
+  .social-video-showcase .social-video-body {
+    padding: 22px;
+    display: block;
   }
 
   .social-embed-panel--feed {
