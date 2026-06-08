@@ -800,6 +800,18 @@ button {
   margin: 0;
 }
 
+.social-video-showcase .social-video-card.social-video-card--link {
+  display: block;
+}
+
+.social-video-showcase .social-video-card.social-video-card--link .social-video-frame {
+  display: none;
+}
+
+.social-video-showcase .social-video-card.social-video-card--link .social-video-body {
+  display: block;
+}
+
 .social-video-showcase .social-video-body {
   padding: 26px;
   display: flex;
