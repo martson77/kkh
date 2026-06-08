@@ -12,11 +12,12 @@ import {
   joinPage,
   proofCards,
   site,
+  socialMedia,
 } from "./site-data.mjs";
 
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const publicDir = path.join(rootDir, "public");
-const assetVersion = "20260601-quote-background-fix";
+const assetVersion = "20260608-social-embeds";
 
 const imageVariantWidths = [500, 800, 1080, 1200, 1600, 2000, 2600, 3200];
 const knownImageWidths = {
@@ -404,6 +405,144 @@ function concertEventButtonLine(concert, location, indent = "            ") {
   })}\n`;
 }
 
+function facebookPagePluginUrl(config) {
+  const params = new URLSearchParams({
+    href: config.url,
+    tabs: config.tabs || "timeline",
+    width: String(config.width || 500),
+    height: String(config.height || 680),
+    small_header: "false",
+    adapt_container_width: "true",
+    hide_cover: "false",
+    show_facepile: "false",
+  });
+
+  return `https://www.facebook.com/plugins/page.php?${params.toString()}`;
+}
+
+function facebookVideoPluginUrl(video) {
+  const params = new URLSearchParams({
+    href: video.url,
+    show_text: "false",
+    width: String(video.width || 560),
+  });
+
+  return `https://www.facebook.com/plugins/video.php?${params.toString()}`;
+}
+
+function youtubeEmbedUrl(url) {
+  const parsedUrl = new URL(url);
+  const host = parsedUrl.hostname.replace(/^www\./, "");
+  let videoId = "";
+
+  if (host === "youtu.be") {
+    videoId = parsedUrl.pathname.replace(/^\//, "");
+  } else if (host === "youtube.com" || host === "youtube-nocookie.com") {
+    if (parsedUrl.pathname.startsWith("/shorts/")) {
+      videoId = parsedUrl.pathname.split("/")[2] || "";
+    } else if (parsedUrl.pathname.startsWith("/embed/")) {
+      videoId = parsedUrl.pathname.split("/")[2] || "";
+    } else {
+      videoId = parsedUrl.searchParams.get("v") || "";
+    }
+  }
+
+  return videoId
+    ? `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}`
+    : "";
+}
+
+function renderSocialVideoEmbed(video) {
+  if (!video?.url) {
+    return "";
+  }
+
+  if (video.platform === "facebook") {
+    return `<iframe class="social-video-iframe" title="${escapeHtml(
+      video.title
+    )}" src="${facebookVideoPluginUrl(video)}" width="560" height="315" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+  }
+
+  if (video.platform === "youtube") {
+    const embedUrl = youtubeEmbedUrl(video.url);
+
+    if (embedUrl) {
+      return `<iframe class="social-video-iframe" title="${escapeHtml(
+        video.title
+      )}" src="${embedUrl}" width="560" height="315" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+    }
+  }
+
+  return `<a href="${video.url}" class="cta-button cta-button--secondary" target="_blank" rel="noreferrer" data-track="social_video" data-track-location="home_social">Öppna video</a>`;
+}
+
+function renderFeaturedSocialVideo() {
+  const video = socialMedia.featuredVideos?.[0];
+
+  if (!video) {
+    return `<div class="social-video-fallback">
+      <p class="social-panel-label">Video</p>
+      <h3>Korta klipp och konsertinlägg</h3>
+      <p>Offentliga videoinlägg från Facebook visas i flödet. Fler klipp finns samlade hos oss på Facebook.</p>
+      ${button({
+        href: socialMedia.facebookPage.videosUrl,
+        label: "Se videor på Facebook",
+        track: "facebook_videos",
+        location: "home_social",
+        variant: "secondary",
+        newTab: true,
+      })}
+    </div>`;
+  }
+
+  return `<article class="social-video-card">
+    <div class="social-video-frame">
+      ${renderSocialVideoEmbed(video)}
+    </div>
+    <div class="social-video-body">
+      <p class="social-panel-label">${escapeHtml(video.platformLabel || "Video")}</p>
+      <h3>${escapeHtml(video.title)}</h3>
+      ${video.description ? `<p>${escapeHtml(video.description)}</p>` : ""}
+    </div>
+  </article>`;
+}
+
+function renderSocialSection() {
+  return `<section class="section-block social-section">
+    <div class="site-container social-grid">
+      <div class="social-copy">
+        <p class="eyebrow">${homePage.social.eyebrow}</p>
+        <h2 class="section-title">${homePage.social.title}</h2>
+        <p class="section-copy">${homePage.social.lead}</p>
+        <div class="section-actions">
+          ${button({
+            href: socialMedia.facebookPage.fallbackUrl,
+            label: "Följ på Facebook",
+            track: "facebook_page",
+            location: "home_social",
+            variant: "secondary",
+            newTab: true,
+          })}
+          ${button({
+            href: site.instagram,
+            label: "Följ på Instagram",
+            track: "instagram_profile",
+            location: "home_social",
+            variant: "ghost",
+            newTab: true,
+          })}
+        </div>
+        ${renderFeaturedSocialVideo()}
+      </div>
+      <div class="social-embed-panel" aria-label="Facebookflöde">
+        <iframe class="facebook-page-embed" title="Facebookflöde från Kammarkören Högalid" src="${facebookPagePluginUrl(
+          socialMedia.facebookPage
+        )}" width="${socialMedia.facebookPage.width}" height="${socialMedia.facebookPage.height}" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
+    </div>
+  </section>`;
+}
+
 function concertTicketAlertUrl(concert) {
   const subject = `Biljettbesked: ${concert.title}`;
   const body = `Hej!\n\nJag vill gärna få besked när biljettlänken för ${concert.title} publiceras.\n\nNamn:\n`;
@@ -702,6 +841,7 @@ function renderHomePage() {
     </div>
   </section>
   ${renderAudienceQuotesSection()}
+  ${renderSocialSection()}
   <section class="section-block section-block--muted">
     <div class="site-container section-grid">
       <div>

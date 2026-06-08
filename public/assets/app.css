@@ -266,6 +266,8 @@ button {
 .concert-card-copy,
 .calendar-panel-copy,
 .highlight-panel-copy,
+.social-video-fallback p,
+.social-video-card p,
 .proof-card p,
 .visit-card p,
 .footer-copy {
@@ -682,6 +684,90 @@ button {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.social-section {
+  background: linear-gradient(180deg, rgba(255, 253, 249, 0), rgba(240, 229, 215, 0.58));
+}
+
+.social-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 500px);
+  align-items: start;
+  gap: 32px;
+}
+
+.social-copy {
+  padding-top: 8px;
+}
+
+.social-video-fallback,
+.social-video-card,
+.social-embed-panel {
+  background: var(--surface);
+  border: 1px solid rgba(24, 35, 29, 0.08);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+}
+
+.social-video-fallback,
+.social-video-body {
+  padding: 26px;
+}
+
+.social-video-fallback {
+  max-width: 620px;
+  margin-top: 28px;
+}
+
+.social-panel-label {
+  color: var(--accent-dark);
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.social-video-fallback h3,
+.social-video-card h3 {
+  margin: 0 0 12px;
+  font-size: 26px;
+  line-height: 1.18;
+  font-weight: 500;
+}
+
+.social-video-card {
+  max-width: 620px;
+  margin-top: 28px;
+  overflow: hidden;
+}
+
+.social-video-frame {
+  background: var(--surface-contrast);
+  aspect-ratio: 16 / 9;
+}
+
+.social-video-iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.social-embed-panel {
+  padding: 12px;
+  overflow: hidden;
+}
+
+.facebook-page-embed {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  min-height: 680px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: calc(var(--radius-md) - 8px);
+}
+
 .quote-panel blockquote {
   margin: 10px 0 0;
   color: var(--ink);
@@ -806,6 +892,7 @@ button {
   .section-grid,
   .detail-layout,
   .proof-grid,
+  .social-grid,
   .archive-grid,
   .visit-grid,
   .fact-grid,
@@ -920,11 +1007,21 @@ button {
   .highlight-panel,
   .info-panel,
   .aside-card,
+  .social-video-fallback,
+  .social-video-body,
   .proof-card,
   .visit-card,
   .detail-section,
   .concert-card-body {
     padding: 22px;
+  }
+
+  .social-embed-panel {
+    padding: 10px;
+  }
+
+  .facebook-page-embed {
+    min-height: 620px;
   }
 
   .hero-title,
@@ -945,6 +1042,8 @@ button {
   .concert-card-copy,
   .calendar-panel-copy,
   .highlight-panel-copy,
+  .social-video-fallback p,
+  .social-video-card p,
   .proof-card p,
   .audience-quote-card blockquote,
   .visit-card p,

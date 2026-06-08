@@ -61,6 +61,24 @@ export const homePage = {
     lead:
       "Här finns ett urval av tidigare konserter och information om kommande projekt.",
   },
+  social: {
+    eyebrow: "Följ oss",
+    title: "Se och hör mer från kören mellan konserterna.",
+    lead:
+      "I Facebook-flödet delar vi konsertbilder, korta klipp, evenemang och uppdateringar från körens arbete i Högalid.",
+  },
+};
+
+export const socialMedia = {
+  facebookPage: {
+    url: "https://www.facebook.com/kammarkorenhogalid",
+    fallbackUrl: site.facebook,
+    videosUrl: "https://www.facebook.com/kammarkorenhogalid/videos",
+    tabs: "timeline",
+    width: 500,
+    height: 680,
+  },
+  featuredVideos: [],
 };
 
 export const choirFacts = [
