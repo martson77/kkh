@@ -17,7 +17,7 @@ import {
 
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const publicDir = path.join(rootDir, "public");
-const assetVersion = "20260608-social-video-links";
+const assetVersion = "20260608-social-video-layout";
 
 const imageVariantWidths = [500, 800, 1080, 1200, 1600, 2000, 2600, 3200];
 const knownImageWidths = {
@@ -591,32 +591,36 @@ function renderConcertSocialVideoSection(concert) {
 
 function renderSocialSection() {
   return `<section class="section-block social-section">
-    <div class="site-container social-grid">
-      <div class="social-copy">
-        <p class="eyebrow">${homePage.social.eyebrow}</p>
-        <h2 class="section-title">${homePage.social.title}</h2>
-        <p class="section-copy">${homePage.social.lead}</p>
-        <div class="section-actions">
-          ${button({
-            href: socialMedia.facebookPage.fallbackUrl,
-            label: "Följ på Facebook",
-            track: "facebook_page",
-            location: "home_social",
-            variant: "secondary",
-            newTab: true,
-          })}
-          ${button({
-            href: site.instagram,
-            label: "Följ på Instagram",
-            track: "instagram_profile",
-            location: "home_social",
-            variant: "ghost",
-            newTab: true,
-          })}
+    <div class="site-container social-stack">
+      <div class="social-grid social-grid--featured">
+        <div class="social-copy">
+          <p class="eyebrow">${homePage.social.eyebrow}</p>
+          <h2 class="section-title">${homePage.social.title}</h2>
+          <p class="section-copy">${homePage.social.lead}</p>
+          <div class="section-actions">
+            ${button({
+              href: socialMedia.facebookPage.fallbackUrl,
+              label: "Följ på Facebook",
+              track: "facebook_page",
+              location: "home_social",
+              variant: "secondary",
+              newTab: true,
+            })}
+            ${button({
+              href: site.instagram,
+              label: "Följ på Instagram",
+              track: "instagram_profile",
+              location: "home_social",
+              variant: "ghost",
+              newTab: true,
+            })}
+          </div>
         </div>
-        ${renderFeaturedSocialVideo()}
+        <div class="social-video-showcase" aria-label="Utvalda klipp från sociala medier">
+          ${renderFeaturedSocialVideo()}
+        </div>
       </div>
-      <div class="social-embed-panel" aria-label="Facebookflöde">
+      <div class="social-embed-panel social-embed-panel--feed" aria-label="Facebookflöde">
         <iframe class="facebook-page-embed" title="Facebookflöde från Kammarkören Högalid" src="${facebookPagePluginUrl(
           socialMedia.facebookPage
         )}" width="${socialMedia.facebookPage.width}" height="${socialMedia.facebookPage.height}" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>

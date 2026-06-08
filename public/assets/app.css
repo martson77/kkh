@@ -688,11 +688,21 @@ button {
   background: linear-gradient(180deg, rgba(255, 253, 249, 0), rgba(240, 229, 215, 0.58));
 }
 
+.social-stack {
+  display: grid;
+  gap: 28px;
+}
+
 .social-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, 500px);
   align-items: start;
   gap: 32px;
+}
+
+.social-grid--featured {
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 36px;
 }
 
 .social-copy {
@@ -734,6 +744,35 @@ button {
 
 .social-video-list .social-video-card--vertical {
   max-width: 360px;
+}
+
+.social-video-showcase .social-video-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: none;
+  margin-top: 0;
+}
+
+.social-video-showcase .social-video-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.social-video-showcase .social-video-card--vertical {
+  max-width: none;
+}
+
+.social-video-showcase .social-video-card--vertical .social-video-frame {
+  width: min(100%, 220px);
+  margin: 0 auto;
+}
+
+.social-video-showcase .social-video-body {
+  padding: 22px;
+}
+
+.social-video-showcase .social-video-card h3 {
+  font-size: 22px;
 }
 
 .social-panel-label {
@@ -838,6 +877,11 @@ button {
 .social-embed-panel {
   padding: 12px;
   overflow: hidden;
+}
+
+.social-embed-panel--feed {
+  width: min(100%, 720px);
+  justify-self: end;
 }
 
 .facebook-page-embed {
@@ -1003,6 +1047,10 @@ button {
     margin: 18px 0 0;
   }
 
+  .social-embed-panel--feed {
+    justify-self: stretch;
+  }
+
   .concert-card--upcoming {
     display: block;
   }
@@ -1104,6 +1152,14 @@ button {
 
   .facebook-page-embed {
     min-height: 620px;
+  }
+
+  .social-video-showcase .social-video-list {
+    grid-template-columns: 1fr;
+  }
+
+  .social-video-showcase .social-video-card--vertical .social-video-frame {
+    width: min(100%, 260px);
   }
 
   .hero-title,
