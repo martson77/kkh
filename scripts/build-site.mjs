@@ -17,7 +17,7 @@ import {
 
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const publicDir = path.join(rootDir, "public");
-const assetVersion = "20260608-social-section-rows";
+const assetVersion = "20260608-single-latest-clip";
 
 const imageVariantWidths = [500, 800, 1080, 1200, 1600, 2000, 2600, 3200];
 const knownImageWidths = {
@@ -539,9 +539,9 @@ function renderSocialVideoCard(video, location = "home_social") {
 }
 
 function renderFeaturedSocialVideo() {
-  const videos = socialMedia.featuredVideos || [];
+  const video = socialMedia.featuredVideos?.[0];
 
-  if (!videos.length) {
+  if (!video) {
     return `<div class="social-video-fallback">
       <p class="social-panel-label">Video</p>
       <h3>Korta klipp och konsertinlägg</h3>
@@ -557,9 +557,7 @@ function renderFeaturedSocialVideo() {
     </div>`;
   }
 
-  return `<div class="social-video-list">
-    ${videos.map((video) => renderSocialVideoCard(video)).join("")}
-  </div>`;
+  return renderSocialVideoCard(video);
 }
 
 function renderConcertSocialVideoSection(concert) {

@@ -778,20 +778,16 @@ button {
   text-transform: uppercase;
 }
 
-.social-video-showcase .social-video-list {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  max-width: none;
-  margin-top: 0;
-}
-
 .social-video-showcase .social-video-card {
   display: flex;
   flex-direction: column;
   min-height: 100%;
+  max-width: 360px;
+  margin-top: 0;
 }
 
 .social-video-showcase .social-video-card--vertical {
-  max-width: none;
+  max-width: 360px;
 }
 
 .social-video-showcase .social-video-card--vertical .social-video-frame {
@@ -1190,10 +1186,6 @@ button {
 
   .facebook-page-embed {
     min-height: 620px;
-  }
-
-  .social-video-showcase .social-video-list {
-    grid-template-columns: 1fr;
   }
 
   .social-video-showcase .social-video-card--vertical .social-video-frame {
