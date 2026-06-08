@@ -693,6 +693,13 @@ button {
   gap: 28px;
 }
 
+.social-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 32px;
+}
+
 .social-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, 500px);
@@ -700,13 +707,28 @@ button {
   gap: 32px;
 }
 
-.social-grid--featured {
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-  gap: 36px;
+.social-content-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 500px);
+  align-items: start;
+  gap: 32px;
 }
 
 .social-copy {
   padding-top: 8px;
+}
+
+.social-copy .section-copy {
+  max-width: 760px;
+}
+
+.social-header-actions {
+  justify-content: flex-end;
+  margin-top: 0;
+}
+
+.social-feed-column {
+  min-width: 0;
 }
 
 .social-video-fallback,
@@ -744,6 +766,16 @@ button {
 
 .social-video-list .social-video-card--vertical {
   max-width: 360px;
+}
+
+.social-column-label {
+  color: var(--accent-dark);
+  margin: 0 0 14px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
 }
 
 .social-video-showcase .social-video-list {
@@ -880,8 +912,8 @@ button {
 }
 
 .social-embed-panel--feed {
-  width: min(100%, 720px);
-  justify-self: end;
+  width: 100%;
+  justify-self: stretch;
 }
 
 .facebook-page-embed {
@@ -1019,6 +1051,8 @@ button {
   .detail-layout,
   .proof-grid,
   .social-grid,
+  .social-header,
+  .social-content-grid,
   .archive-grid,
   .visit-grid,
   .fact-grid,
@@ -1045,6 +1079,10 @@ button {
   .highlight-panel {
     max-width: none;
     margin: 18px 0 0;
+  }
+
+  .social-header-actions {
+    justify-content: flex-start;
   }
 
   .social-embed-panel--feed {

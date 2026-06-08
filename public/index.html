@@ -18,7 +18,7 @@
 <meta name="twitter:image" content="https://www.kammarkorenhogalid.se/assets/imported/kammarkoren-hogalid-2026.jpg"/>
 <link rel="preload" as="image" href="/assets/imported/kammarkoren-hogalid-2026.jpg" srcset="/assets/imported/kammarkoren-hogalid-2026-500.jpg 500w, /assets/imported/kammarkoren-hogalid-2026-800.jpg 800w, /assets/imported/kammarkoren-hogalid-2026-1080.jpg 1080w, /assets/imported/kammarkoren-hogalid-2026-1200.jpg 1200w, /assets/imported/kammarkoren-hogalid-2026.jpg 1536w" sizes="(max-width: 991px) 100vw, 44vw"/>
 <link href="/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/css/kammarkoren-hogalid.webflow.shared.32559a67a.min.css" rel="stylesheet" type="text/css"/>
-<link href="/assets/app.css?v=20260608-social-video-layout" rel="stylesheet" type="text/css"/>
+<link href="/assets/app.css?v=20260608-social-section-rows" rel="stylesheet" type="text/css"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet"/>
@@ -134,17 +134,20 @@
   </section>
   <section class="section-block social-section">
     <div class="site-container social-stack">
-      <div class="social-grid social-grid--featured">
+      <div class="social-header">
         <div class="social-copy">
           <p class="eyebrow">Följ oss</p>
           <h2 class="section-title">Se och hör mer från kören mellan konserterna.</h2>
           <p class="section-copy">I Facebook-flödet delar vi konsertbilder, korta klipp, evenemang och uppdateringar från körens arbete i Högalid.</p>
-          <div class="section-actions">
-            <a href="https://www.facebook.com/kammarkorenhogalid/?locale=sv_SE" class="cta-button cta-button--secondary" data-track="facebook_page" data-track-location="home_social" target="_blank" rel="noreferrer">Följ på Facebook</a>
-            <a href="https://www.instagram.com/kammarkoren_hogalid/" class="cta-button cta-button--ghost" data-track="instagram_profile" data-track-location="home_social" target="_blank" rel="noreferrer">Följ på Instagram</a>
-          </div>
         </div>
+        <div class="section-actions social-header-actions">
+          <a href="https://www.facebook.com/kammarkorenhogalid/?locale=sv_SE" class="cta-button cta-button--secondary" data-track="facebook_page" data-track-location="home_social" target="_blank" rel="noreferrer">Följ på Facebook</a>
+          <a href="https://www.instagram.com/kammarkoren_hogalid/" class="cta-button cta-button--ghost" data-track="instagram_profile" data-track-location="home_social" target="_blank" rel="noreferrer">Följ på Instagram</a>
+        </div>
+      </div>
+      <div class="social-content-grid">
         <div class="social-video-showcase" aria-label="Utvalda klipp från sociala medier">
+          <p class="social-column-label">Senaste klipp</p>
           <div class="social-video-list">
     <article class="social-video-card social-video-card--vertical">
     <div class="social-video-frame social-video-frame--vertical" style="aspect-ratio:9 / 16">
@@ -177,9 +180,12 @@
   </article>
   </div>
         </div>
-      </div>
-      <div class="social-embed-panel social-embed-panel--feed" aria-label="Facebookflöde">
-        <iframe class="facebook-page-embed" title="Facebookflöde från Kammarkören Högalid" src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fkammarkorenhogalid&tabs=timeline&width=500&height=680&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false" width="500" height="680" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        <div class="social-feed-column">
+          <p class="social-column-label">Facebookflöde</p>
+          <div class="social-embed-panel social-embed-panel--feed" aria-label="Facebookflöde">
+            <iframe class="facebook-page-embed" title="Facebookflöde från Kammarkören Högalid" src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fkammarkorenhogalid&tabs=timeline&width=500&height=680&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false" width="500" height="680" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -268,6 +274,6 @@
     </div>
   </div>
 </footer>
-<script src="/assets/site.js?v=20260608-social-video-layout" defer></script>
+<script src="/assets/site.js?v=20260608-social-section-rows" defer></script>
 </body>
 </html>
