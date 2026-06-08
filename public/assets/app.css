@@ -1048,7 +1048,6 @@ button {
   .proof-grid,
   .social-grid,
   .social-header,
-  .social-content-grid,
   .archive-grid,
   .visit-grid,
   .fact-grid,
@@ -1079,6 +1078,11 @@ button {
 
   .social-header-actions {
     justify-content: flex-start;
+  }
+
+  .social-content-grid {
+    grid-template-columns: minmax(220px, 0.85fr) minmax(260px, 1fr);
+    gap: 20px;
   }
 
   .social-embed-panel--feed {
@@ -1186,6 +1190,10 @@ button {
 
   .facebook-page-embed {
     min-height: 620px;
+  }
+
+  .social-content-grid {
+    grid-template-columns: 1fr;
   }
 
   .social-video-showcase .social-video-card--vertical .social-video-frame {
