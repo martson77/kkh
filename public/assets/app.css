@@ -742,15 +742,37 @@ button {
   overflow: hidden;
 }
 
+.social-video-card--vertical {
+  max-width: 360px;
+}
+
 .social-video-frame {
   background: var(--surface-contrast);
   aspect-ratio: 16 / 9;
+}
+
+.social-video-frame--vertical {
+  aspect-ratio: 9 / 16;
 }
 
 .social-video-iframe {
   width: 100%;
   height: 100%;
   display: block;
+}
+
+.detail-section--social-video {
+  overflow: hidden;
+  padding: 0;
+}
+
+.detail-section--social-video .social-video-frame {
+  width: min(100%, 360px);
+  margin: 0 auto;
+}
+
+.detail-section--social-video .social-video-body {
+  padding: 26px 28px 28px;
 }
 
 .social-embed-panel {

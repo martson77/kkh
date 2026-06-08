@@ -17,7 +17,7 @@ import {
 
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const publicDir = path.join(rootDir, "public");
-const assetVersion = "20260608-social-embeds";
+const assetVersion = "20260608-misa-tango-video";
 
 const imageVariantWidths = [500, 800, 1080, 1200, 1600, 2000, 2600, 3200];
 const knownImageWidths = {
@@ -452,7 +452,7 @@ function youtubeEmbedUrl(url) {
     : "";
 }
 
-function renderSocialVideoEmbed(video) {
+function renderSocialVideoEmbed(video, location = "home_social") {
   if (!video?.url) {
     return "";
   }
@@ -460,7 +460,9 @@ function renderSocialVideoEmbed(video) {
   if (video.platform === "facebook") {
     return `<iframe class="social-video-iframe" title="${escapeHtml(
       video.title
-    )}" src="${facebookVideoPluginUrl(video)}" width="560" height="315" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+    )}" src="${facebookVideoPluginUrl(video)}" width="${video.width || 560}" height="${
+      video.height || 315
+    }" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
   }
 
   if (video.platform === "youtube") {
@@ -473,7 +475,47 @@ function renderSocialVideoEmbed(video) {
     }
   }
 
-  return `<a href="${video.url}" class="cta-button cta-button--secondary" target="_blank" rel="noreferrer" data-track="social_video" data-track-location="home_social">Öppna video</a>`;
+  return `<a href="${video.url}" class="cta-button cta-button--secondary" target="_blank" rel="noreferrer" data-track="social_video" data-track-location="${escapeHtml(
+    location
+  )}">Öppna video</a>`;
+}
+
+function socialVideoModifier(video, className) {
+  return video.layout === "vertical" ? ` ${className}--vertical` : "";
+}
+
+function socialVideoFrameStyle(video) {
+  return video.aspectRatio ? ` style="aspect-ratio:${escapeHtml(video.aspectRatio)}"` : "";
+}
+
+function renderSocialVideoFrame(video, location) {
+  return `<div class="social-video-frame${socialVideoModifier(
+    video,
+    "social-video-frame"
+  )}"${socialVideoFrameStyle(video)}>
+      ${renderSocialVideoEmbed(video, location)}
+    </div>`;
+}
+
+function renderSocialVideoCard(video, location = "home_social") {
+  return `<article class="social-video-card${socialVideoModifier(video, "social-video-card")}">
+    ${renderSocialVideoFrame(video, location)}
+    <div class="social-video-body">
+      <p class="social-panel-label">${escapeHtml(video.platformLabel || "Video")}</p>
+      <h3>${escapeHtml(video.title)}</h3>
+      ${video.description ? `<p>${escapeHtml(video.description)}</p>` : ""}
+      <div class="section-actions">
+        ${button({
+          href: video.url,
+          label: "Öppna på Facebook",
+          track: "social_video",
+          location,
+          variant: "secondary",
+          newTab: true,
+        })}
+      </div>
+    </div>
+  </article>`;
 }
 
 function renderFeaturedSocialVideo() {
@@ -495,16 +537,34 @@ function renderFeaturedSocialVideo() {
     </div>`;
   }
 
-  return `<article class="social-video-card">
-    <div class="social-video-frame">
-      ${renderSocialVideoEmbed(video)}
-    </div>
-    <div class="social-video-body">
-      <p class="social-panel-label">${escapeHtml(video.platformLabel || "Video")}</p>
-      <h3>${escapeHtml(video.title)}</h3>
-      ${video.description ? `<p>${escapeHtml(video.description)}</p>` : ""}
-    </div>
-  </article>`;
+  return renderSocialVideoCard(video);
+}
+
+function renderConcertSocialVideoSection(concert) {
+  const video = concert.socialVideo;
+
+  if (!video) {
+    return "";
+  }
+
+  return `<section class="detail-section detail-section--social-video">
+          ${renderSocialVideoFrame(video, "concert_detail_social")}
+          <div class="social-video-body social-video-body--detail">
+            <p class="social-panel-label">${escapeHtml(video.platformLabel || "Video")}</p>
+            <h2>${escapeHtml(video.title)}</h2>
+            ${video.description ? `<p>${escapeHtml(video.description)}</p>` : ""}
+            <div class="section-actions">
+              ${button({
+                href: video.url,
+                label: "Öppna på Facebook",
+                track: "social_video",
+                location: "concert_detail_social",
+                variant: "secondary",
+                newTab: true,
+              })}
+            </div>
+          </div>
+        </section>`;
 }
 
 function renderSocialSection() {
@@ -1182,6 +1242,7 @@ function renderConcertDetailPage(concert) {
             ${concert.performers.map((item) => `<li>${item}</li>`).join("")}
           </ul>
         </section>
+        ${renderConcertSocialVideoSection(concert)}
         ${
           isPastConcert
             ? ""
