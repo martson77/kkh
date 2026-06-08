@@ -17,7 +17,7 @@ import {
 
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const publicDir = path.join(rootDir, "public");
-const assetVersion = "20260608-wide-latest-clip";
+const assetVersion = "20260608-more-clips-button";
 
 const imageVariantWidths = [500, 800, 1080, 1200, 1600, 2000, 2600, 3200];
 const knownImageWidths = {
@@ -619,6 +619,16 @@ function renderSocialSection() {
         <div class="social-video-showcase" aria-label="Utvalda klipp från sociala medier">
           <p class="social-column-label">Senaste klipp</p>
           ${renderFeaturedSocialVideo()}
+          <div class="section-actions social-more-actions">
+            ${button({
+              href: socialMedia.facebookPage.videosUrl,
+              label: "Hämta fler klipp",
+              track: "facebook_videos",
+              location: "home_social_latest_clip",
+              variant: "ghost",
+              newTab: true,
+            })}
+          </div>
         </div>
         <div class="social-feed-column">
           <p class="social-column-label">Facebookflöde</p>

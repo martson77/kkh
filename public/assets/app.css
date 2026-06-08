@@ -806,6 +806,10 @@ button {
   font-size: 22px;
 }
 
+.social-more-actions {
+  margin-top: 16px;
+}
+
 .social-panel-label {
   color: var(--accent-dark);
   margin: 0 0 8px;
