@@ -102,7 +102,7 @@ export const socialMedia = {
     width: 500,
     height: 680,
   },
-  featuredVideos: [misaTangoSocialVideo],
+  featuredVideos: [misaTangoSocialVideo, passionConcertSocialVideo],
 };
 
 export const choirFacts = [

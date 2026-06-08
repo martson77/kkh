@@ -778,6 +778,11 @@ button {
   text-transform: uppercase;
 }
 
+.social-video-stack {
+  display: grid;
+  gap: 16px;
+}
+
 .social-video-showcase .social-video-card {
   display: grid;
   grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);

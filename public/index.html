@@ -18,7 +18,7 @@
 <meta name="twitter:image" content="https://www.kammarkorenhogalid.se/assets/imported/kammarkoren-hogalid-2026.jpg"/>
 <link rel="preload" as="image" href="/assets/imported/kammarkoren-hogalid-2026.jpg" srcset="/assets/imported/kammarkoren-hogalid-2026-500.jpg 500w, /assets/imported/kammarkoren-hogalid-2026-800.jpg 800w, /assets/imported/kammarkoren-hogalid-2026-1080.jpg 1080w, /assets/imported/kammarkoren-hogalid-2026-1200.jpg 1200w, /assets/imported/kammarkoren-hogalid-2026.jpg 1536w" sizes="(max-width: 991px) 100vw, 44vw"/>
 <link href="/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/css/kammarkoren-hogalid.webflow.shared.32559a67a.min.css" rel="stylesheet" type="text/css"/>
-<link href="/assets/app.css?v=20260608-more-clips-button" rel="stylesheet" type="text/css"/>
+<link href="/assets/app.css?v=20260608-show-more-clips" rel="stylesheet" type="text/css"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet"/>
@@ -146,9 +146,10 @@
         </div>
       </div>
       <div class="social-content-grid">
-        <div class="social-video-showcase" aria-label="Utvalda klipp från sociala medier">
+        <div class="social-video-showcase" aria-label="Utvalda klipp från sociala medier" data-social-video-gallery>
           <p class="social-column-label">Senaste klipp</p>
-          <article class="social-video-card social-video-card--vertical">
+          <div class="social-video-stack">
+            <article class="social-video-card social-video-card--vertical">
     <div class="social-video-frame social-video-frame--vertical" style="aspect-ratio:9 / 16">
       <iframe class="social-video-iframe" title="Misa Tango inför konserten" src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1699917361154401%2F&show_text=false&width=267" width="267" height="476" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
     </div>
@@ -161,8 +162,26 @@
       </div>
     </div>
   </article>
+            <div data-social-video-extra hidden aria-hidden="true"><article class="social-video-card social-video-card--link">
+    <div class="social-video-frame social-video-frame--link">
+      <a class="social-video-link-preview" href="https://www.facebook.com/reel/2274917186371013/" target="_blank" rel="noreferrer" data-track="social_video" data-track-location="home_social_more_clips">
+      <span class="social-video-link-label">Facebook</span>
+      <span class="social-video-link-title">Passionskonsert – Lidandets vägar</span>
+      <span class="social-video-link-copy">Se klippet på Facebook</span>
+    </a>
+    </div>
+    <div class="social-video-body">
+      <p class="social-panel-label">Facebook</p>
+      <h3>Passionskonsert – Lidandets vägar</h3>
+      <p>Klipp från passionsprogrammet med Marcuspassion, Hiob och Stabat Mater.</p>
+      <div class="section-actions">
+        <a href="https://www.facebook.com/reel/2274917186371013/" class="cta-button cta-button--secondary" data-track="social_video" data-track-location="home_social_more_clips" target="_blank" rel="noreferrer">Öppna på Facebook</a>
+      </div>
+    </div>
+  </article></div>
+          </div>
           <div class="section-actions social-more-actions">
-            <a href="https://www.facebook.com/kammarkorenhogalid/videos" class="cta-button cta-button--ghost" data-track="facebook_videos" data-track-location="home_social_latest_clip" target="_blank" rel="noreferrer">Hämta fler klipp</a>
+            <button type="button" class="cta-button cta-button--ghost" data-social-video-reveal data-reveal-count="2" data-track="show_more_social_videos" data-track-location="home_social_latest_clip">Visa fler klipp</button>
           </div>
         </div>
         <div class="social-feed-column">
@@ -259,6 +278,6 @@
     </div>
   </div>
 </footer>
-<script src="/assets/site.js?v=20260608-more-clips-button" defer></script>
+<script src="/assets/site.js?v=20260608-show-more-clips" defer></script>
 </body>
 </html>

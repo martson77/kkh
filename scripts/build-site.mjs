@@ -17,7 +17,7 @@ import {
 
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const publicDir = path.join(rootDir, "public");
-const assetVersion = "20260608-more-clips-button";
+const assetVersion = "20260608-show-more-clips";
 
 const imageVariantWidths = [500, 800, 1080, 1200, 1600, 2000, 2600, 3200];
 const knownImageWidths = {
@@ -560,6 +560,41 @@ function renderFeaturedSocialVideo() {
   return renderSocialVideoCard(video);
 }
 
+function renderAdditionalSocialVideos() {
+  const videos = socialMedia.featuredVideos?.slice(1) || [];
+
+  return videos
+    .map(
+      (video) =>
+        `<div data-social-video-extra hidden aria-hidden="true">${renderSocialVideoCard(
+          video,
+          "home_social_more_clips"
+        )}</div>`
+    )
+    .join("");
+}
+
+function renderSocialVideoRevealControls() {
+  const additionalVideos = socialMedia.featuredVideos?.slice(1) || [];
+
+  if (additionalVideos.length) {
+    return `<div class="section-actions social-more-actions">
+            <button type="button" class="cta-button cta-button--ghost" data-social-video-reveal data-reveal-count="2" data-track="show_more_social_videos" data-track-location="home_social_latest_clip">Visa fler klipp</button>
+          </div>`;
+  }
+
+  return `<div class="section-actions social-more-actions">
+            ${button({
+              href: socialMedia.facebookPage.videosUrl,
+              label: "Se fler klipp på Facebook",
+              track: "facebook_videos",
+              location: "home_social_latest_clip",
+              variant: "ghost",
+              newTab: true,
+            })}
+          </div>`;
+}
+
 function renderConcertSocialVideoSection(concert) {
   const video = concert.socialVideo;
 
@@ -616,19 +651,13 @@ function renderSocialSection() {
         </div>
       </div>
       <div class="social-content-grid">
-        <div class="social-video-showcase" aria-label="Utvalda klipp från sociala medier">
+        <div class="social-video-showcase" aria-label="Utvalda klipp från sociala medier" data-social-video-gallery>
           <p class="social-column-label">Senaste klipp</p>
-          ${renderFeaturedSocialVideo()}
-          <div class="section-actions social-more-actions">
-            ${button({
-              href: socialMedia.facebookPage.videosUrl,
-              label: "Hämta fler klipp",
-              track: "facebook_videos",
-              location: "home_social_latest_clip",
-              variant: "ghost",
-              newTab: true,
-            })}
+          <div class="social-video-stack">
+            ${renderFeaturedSocialVideo()}
+            ${renderAdditionalSocialVideos()}
           </div>
+          ${renderSocialVideoRevealControls()}
         </div>
         <div class="social-feed-column">
           <p class="social-column-label">Facebookflöde</p>
