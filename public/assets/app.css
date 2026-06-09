@@ -266,8 +266,6 @@ button {
 .concert-card-copy,
 .calendar-panel-copy,
 .highlight-panel-copy,
-.social-video-fallback p,
-.social-video-card p,
 .proof-card p,
 .visit-card p,
 .footer-copy {
@@ -688,26 +686,7 @@ button {
   background: linear-gradient(180deg, rgba(255, 253, 249, 0), rgba(240, 229, 215, 0.58));
 }
 
-.social-stack {
-  display: grid;
-  gap: 28px;
-}
-
-.social-header {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: end;
-  gap: 32px;
-}
-
 .social-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 500px);
-  align-items: start;
-  gap: 32px;
-}
-
-.social-content-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, 500px);
   align-items: start;
@@ -722,17 +701,10 @@ button {
   max-width: 760px;
 }
 
-.social-header-actions {
-  justify-content: flex-end;
-  margin-top: 0;
-}
-
 .social-feed-column {
   min-width: 0;
 }
 
-.social-video-fallback,
-.social-video-card,
 .social-embed-panel {
   background: var(--surface);
   border: 1px solid rgba(24, 35, 29, 0.08);
@@ -740,32 +712,8 @@ button {
   box-shadow: var(--shadow);
 }
 
-.social-video-fallback,
 .social-video-body {
   padding: 26px;
-}
-
-.social-video-fallback {
-  max-width: 620px;
-  margin-top: 28px;
-}
-
-.social-video-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  align-items: start;
-  gap: 18px;
-  max-width: 820px;
-  margin-top: 28px;
-}
-
-.social-video-list .social-video-card {
-  max-width: none;
-  margin-top: 0;
-}
-
-.social-video-list .social-video-card--vertical {
-  max-width: 360px;
 }
 
 .social-column-label {
@@ -778,55 +726,6 @@ button {
   text-transform: uppercase;
 }
 
-.social-video-stack {
-  display: grid;
-  gap: 16px;
-}
-
-.social-video-showcase .social-video-card {
-  display: grid;
-  grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
-  align-items: stretch;
-  max-width: none;
-  margin-top: 0;
-}
-
-.social-video-showcase .social-video-card--vertical {
-  max-width: none;
-}
-
-.social-video-showcase .social-video-card--vertical .social-video-frame {
-  width: 100%;
-  margin: 0;
-}
-
-.social-video-showcase .social-video-card.social-video-card--link {
-  display: block;
-}
-
-.social-video-showcase .social-video-card.social-video-card--link .social-video-frame {
-  display: none;
-}
-
-.social-video-showcase .social-video-card.social-video-card--link .social-video-body {
-  display: block;
-}
-
-.social-video-showcase .social-video-body {
-  padding: 26px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.social-video-showcase .social-video-card h3 {
-  font-size: 22px;
-}
-
-.social-more-actions {
-  margin-top: 16px;
-}
-
 .social-panel-label {
   color: var(--accent-dark);
   margin: 0 0 8px;
@@ -835,24 +734,6 @@ button {
   letter-spacing: 0.14em;
   line-height: 1.4;
   text-transform: uppercase;
-}
-
-.social-video-fallback h3,
-.social-video-card h3 {
-  margin: 0 0 12px;
-  font-size: 26px;
-  line-height: 1.18;
-  font-weight: 500;
-}
-
-.social-video-card {
-  max-width: 620px;
-  margin-top: 28px;
-  overflow: hidden;
-}
-
-.social-video-card--vertical {
-  max-width: 360px;
 }
 
 .social-video-frame {
@@ -1071,7 +952,6 @@ button {
   .detail-layout,
   .proof-grid,
   .social-grid,
-  .social-header,
   .archive-grid,
   .visit-grid,
   .fact-grid,
@@ -1098,31 +978,6 @@ button {
   .highlight-panel {
     max-width: none;
     margin: 18px 0 0;
-  }
-
-  .social-header-actions {
-    justify-content: flex-start;
-  }
-
-  .social-content-grid {
-    grid-template-columns: minmax(220px, 0.85fr) minmax(260px, 1fr);
-    gap: 20px;
-  }
-
-  .social-video-showcase .social-video-card {
-    display: flex;
-    flex-direction: column;
-    max-width: 360px;
-  }
-
-  .social-video-showcase .social-video-card--vertical .social-video-frame {
-    width: min(100%, 220px);
-    margin: 0 auto;
-  }
-
-  .social-video-showcase .social-video-body {
-    padding: 22px;
-    display: block;
   }
 
   .social-embed-panel--feed {
@@ -1215,7 +1070,6 @@ button {
   .highlight-panel,
   .info-panel,
   .aside-card,
-  .social-video-fallback,
   .social-video-body,
   .proof-card,
   .visit-card,
@@ -1230,14 +1084,6 @@ button {
 
   .facebook-page-embed {
     min-height: 620px;
-  }
-
-  .social-content-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .social-video-showcase .social-video-card--vertical .social-video-frame {
-    width: min(100%, 260px);
   }
 
   .hero-title,
@@ -1258,8 +1104,6 @@ button {
   .concert-card-copy,
   .calendar-panel-copy,
   .highlight-panel-copy,
-  .social-video-fallback p,
-  .social-video-card p,
   .proof-card p,
   .audience-quote-card blockquote,
   .visit-card p,

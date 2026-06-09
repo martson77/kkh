@@ -17,7 +17,7 @@ import {
 
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const publicDir = path.join(rootDir, "public");
-const assetVersion = "20260608-clean-link-clips";
+const assetVersion = "20260609-facebook-feed-only";
 
 const imageVariantWidths = [500, 800, 1080, 1200, 1600, 2000, 2600, 3200];
 const knownImageWidths = {
@@ -517,84 +517,6 @@ function renderSocialVideoFrame(video, location) {
     </div>`;
 }
 
-function renderSocialVideoCard(video, location = "home_social") {
-  return `<article class="social-video-card${socialVideoModifier(video, "social-video-card")}">
-    ${renderSocialVideoFrame(video, location)}
-    <div class="social-video-body">
-      <p class="social-panel-label">${escapeHtml(video.platformLabel || "Video")}</p>
-      <h3>${escapeHtml(video.title)}</h3>
-      ${video.description ? `<p>${escapeHtml(video.description)}</p>` : ""}
-      <div class="section-actions">
-        ${button({
-          href: video.url,
-          label: "Öppna på Facebook",
-          track: "social_video",
-          location,
-          variant: "secondary",
-          newTab: true,
-        })}
-      </div>
-    </div>
-  </article>`;
-}
-
-function renderFeaturedSocialVideo() {
-  const video = socialMedia.featuredVideos?.[0];
-
-  if (!video) {
-    return `<div class="social-video-fallback">
-      <p class="social-panel-label">Video</p>
-      <h3>Korta klipp och konsertinlägg</h3>
-      <p>Offentliga videoinlägg från Facebook visas i flödet. Fler klipp finns samlade hos oss på Facebook.</p>
-      ${button({
-        href: socialMedia.facebookPage.videosUrl,
-        label: "Se videor på Facebook",
-        track: "facebook_videos",
-        location: "home_social",
-        variant: "secondary",
-        newTab: true,
-      })}
-    </div>`;
-  }
-
-  return renderSocialVideoCard(video);
-}
-
-function renderAdditionalSocialVideos() {
-  const videos = socialMedia.featuredVideos?.slice(1) || [];
-
-  return videos
-    .map(
-      (video) =>
-        `<div data-social-video-extra hidden aria-hidden="true">${renderSocialVideoCard(
-          video,
-          "home_social_more_clips"
-        )}</div>`
-    )
-    .join("");
-}
-
-function renderSocialVideoRevealControls() {
-  const additionalVideos = socialMedia.featuredVideos?.slice(1) || [];
-
-  if (additionalVideos.length) {
-    return `<div class="section-actions social-more-actions">
-            <button type="button" class="cta-button cta-button--ghost" data-social-video-reveal data-reveal-count="2" data-track="show_more_social_videos" data-track-location="home_social_latest_clip">Visa fler klipp</button>
-          </div>`;
-  }
-
-  return `<div class="section-actions social-more-actions">
-            ${button({
-              href: socialMedia.facebookPage.videosUrl,
-              label: "Se fler klipp på Facebook",
-              track: "facebook_videos",
-              location: "home_social_latest_clip",
-              variant: "ghost",
-              newTab: true,
-            })}
-          </div>`;
-}
-
 function renderConcertSocialVideoSection(concert) {
   const video = concert.socialVideo;
 
@@ -624,14 +546,12 @@ function renderConcertSocialVideoSection(concert) {
 
 function renderSocialSection() {
   return `<section class="section-block social-section">
-    <div class="site-container social-stack">
-      <div class="social-header">
-        <div class="social-copy">
-          <p class="eyebrow">${homePage.social.eyebrow}</p>
-          <h2 class="section-title">${homePage.social.title}</h2>
-          <p class="section-copy">${homePage.social.lead}</p>
-        </div>
-        <div class="section-actions social-header-actions">
+    <div class="site-container social-grid">
+      <div class="social-copy">
+        <p class="eyebrow">${homePage.social.eyebrow}</p>
+        <h2 class="section-title">${homePage.social.title}</h2>
+        <p class="section-copy">${homePage.social.lead}</p>
+        <div class="section-actions">
           ${button({
             href: socialMedia.facebookPage.fallbackUrl,
             label: "Följ på Facebook",
@@ -650,22 +570,12 @@ function renderSocialSection() {
           })}
         </div>
       </div>
-      <div class="social-content-grid">
-        <div class="social-video-showcase" aria-label="Utvalda klipp från sociala medier" data-social-video-gallery>
-          <p class="social-column-label">Senaste klipp</p>
-          <div class="social-video-stack">
-            ${renderFeaturedSocialVideo()}
-            ${renderAdditionalSocialVideos()}
-          </div>
-          ${renderSocialVideoRevealControls()}
-        </div>
-        <div class="social-feed-column">
-          <p class="social-column-label">Facebookflöde</p>
-          <div class="social-embed-panel social-embed-panel--feed" aria-label="Facebookflöde">
-            <iframe class="facebook-page-embed" title="Facebookflöde från Kammarkören Högalid" src="${facebookPagePluginUrl(
-              socialMedia.facebookPage
-            )}" width="${socialMedia.facebookPage.width}" height="${socialMedia.facebookPage.height}" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-          </div>
+      <div class="social-feed-column">
+        <p class="social-column-label">Facebookflöde</p>
+        <div class="social-embed-panel social-embed-panel--feed" aria-label="Facebookflöde">
+          <iframe class="facebook-page-embed" title="Facebookflöde från Kammarkören Högalid" src="${facebookPagePluginUrl(
+            socialMedia.facebookPage
+          )}" width="${socialMedia.facebookPage.width}" height="${socialMedia.facebookPage.height}" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
         </div>
       </div>
     </div>

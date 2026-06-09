@@ -183,40 +183,6 @@
     showQuote(currentIndex);
   }
 
-  function initSocialVideoGallery(root) {
-    const revealButton = root.querySelector("[data-social-video-reveal]");
-
-    if (!revealButton) {
-      return;
-    }
-
-    function hiddenVideos() {
-      return Array.from(root.querySelectorAll("[data-social-video-extra][hidden]"));
-    }
-
-    function updateButton() {
-      revealButton.hidden = hiddenVideos().length === 0;
-    }
-
-    revealButton.addEventListener("click", (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      trackInteraction(revealButton, "show_more_social_videos");
-
-      const revealCount = Number(revealButton.dataset.revealCount || 2);
-      hiddenVideos()
-        .slice(0, revealCount)
-        .forEach((video) => {
-          video.hidden = false;
-          video.setAttribute("aria-hidden", "false");
-        });
-
-      updateButton();
-    });
-
-    updateButton();
-  }
-
   document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".navigation.w-nav").forEach((nav, index) => {
       initNavigation(nav, index);
@@ -224,10 +190,6 @@
 
     document.querySelectorAll("[data-audience-quotes]").forEach((root) => {
       initAudienceQuotes(root);
-    });
-
-    document.querySelectorAll("[data-social-video-gallery]").forEach((root) => {
-      initSocialVideoGallery(root);
     });
 
     document.addEventListener("click", async (event) => {
