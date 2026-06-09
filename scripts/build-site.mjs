@@ -17,7 +17,7 @@ import {
 
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const publicDir = path.join(rootDir, "public");
-const assetVersion = "20260609-facebook-feed-only";
+const assetVersion = "20260609-centered-facebook-feed";
 
 const imageVariantWidths = [500, 800, 1080, 1200, 1600, 2000, 2600, 3200];
 const knownImageWidths = {
@@ -546,7 +546,7 @@ function renderConcertSocialVideoSection(concert) {
 
 function renderSocialSection() {
   return `<section class="section-block social-section">
-    <div class="site-container social-grid">
+    <div class="site-container social-feed-layout">
       <div class="social-copy">
         <p class="eyebrow">${homePage.social.eyebrow}</p>
         <h2 class="section-title">${homePage.social.title}</h2>
@@ -571,7 +571,6 @@ function renderSocialSection() {
         </div>
       </div>
       <div class="social-feed-column">
-        <p class="social-column-label">Facebookflöde</p>
         <div class="social-embed-panel social-embed-panel--feed" aria-label="Facebookflöde">
           <iframe class="facebook-page-embed" title="Facebookflöde från Kammarkören Högalid" src="${facebookPagePluginUrl(
             socialMedia.facebookPage

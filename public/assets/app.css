@@ -686,6 +686,12 @@ button {
   background: linear-gradient(180deg, rgba(255, 253, 249, 0), rgba(240, 229, 215, 0.58));
 }
 
+.social-feed-layout {
+  display: grid;
+  justify-items: center;
+  gap: 30px;
+}
+
 .social-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, 500px);
@@ -697,11 +703,27 @@ button {
   padding-top: 8px;
 }
 
+.social-feed-layout .social-copy {
+  max-width: 920px;
+  padding-top: 0;
+  text-align: center;
+}
+
 .social-copy .section-copy {
   max-width: 760px;
 }
 
+.social-feed-layout .section-copy {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.social-feed-layout .section-actions {
+  justify-content: center;
+}
+
 .social-feed-column {
+  width: min(100%, 560px);
   min-width: 0;
 }
 
