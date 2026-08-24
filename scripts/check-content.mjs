@@ -69,7 +69,7 @@ function validateConcert(concert) {
   if (
     leadDays <= automationSettings.staleConcertThresholdDays &&
     !concert.ticketUrl &&
-    concert.ticketAlert !== false
+    !concert.price
   ) {
     addIssue(
       "warning",

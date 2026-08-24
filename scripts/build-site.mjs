@@ -366,10 +366,6 @@ function hasTicketLink(concert) {
   return Boolean(concert.ticketUrl);
 }
 
-function hasTicketAlert(concert) {
-  return Boolean(!concert.ticketUrl && concert.slug && concert.ticketAlert !== false);
-}
-
 function hasEventLink(concert) {
   return Boolean(concert.eventUrl);
 }
@@ -581,18 +577,12 @@ function renderSocialSection() {
   </section>`;
 }
 
-function concertTicketAlertUrl(concert) {
-  const subject = `Biljettbesked: ${concert.title}`;
-  const body = `Hej!\n\nJag vill gärna få besked när biljettlänken för ${concert.title} publiceras.\n\nNamn:\n`;
-  return `mailto:${site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-}
-
 function concertAccessLine(concert) {
   if (hasTicketLink(concert)) {
     return `Biljetter: ${concert.ticketUrl}`;
   }
 
-  if (concert.ticketAlert === false && concert.price) {
+  if (concert.price) {
     return `Entré: ${concert.price}`;
   }
 
@@ -838,17 +828,6 @@ function renderHomePage() {
                     location: "home_panel",
                   })
             }
-            ${
-              hasTicketAlert(nextConcert)
-                ? button({
-                    href: concertTicketAlertUrl(nextConcert),
-                    label: "Få besked om biljetter",
-                    variant: "ghost",
-                    track: "ticket_alert_interest",
-                    location: "home_panel",
-                  })
-                : ""
-            }
             ${button({
               href: `/kalender/${nextConcert.slug}.ics`,
               label: "Spara i kalendern",
@@ -1065,17 +1044,6 @@ function renderConcertsPage() {
                     })
                   : ""
               }
-              ${
-                hasTicketAlert(concert)
-                  ? button({
-                      href: concertTicketAlertUrl(concert),
-                      label: "Få besked om biljetter",
-                      track: "ticket_alert_interest",
-                      location: "concerts_upcoming",
-                      variant: "ghost",
-                    })
-                  : ""
-              }
               ${button({
                 href: `/konserter/${concert.slug}/`,
                 label: "Se konsertinfo",
@@ -1157,11 +1125,9 @@ function renderConcertDetailPage(concert) {
     ? "Affisch och länkar"
     : hasTicketLink(concert)
       ? "Boka eller spara"
-      : hasTicketAlert(concert)
-        ? "Få biljettbesked eller spara"
-        : hasEventLink(concert)
-          ? "Följ eller spara"
-          : "Spara konserten";
+      : hasEventLink(concert)
+        ? "Följ eller spara"
+        : "Spara konserten";
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "MusicEvent",
@@ -1274,16 +1240,6 @@ function renderConcertDetailPage(concert) {
                     track: "buy_ticket",
                     location: "concert_detail_sidebar",
                     newTab: true,
-                  })
-                : ""
-            }
-            ${
-              !isPastConcert && hasTicketAlert(concert)
-                ? button({
-                    href: concertTicketAlertUrl(concert),
-                    label: "Få besked om biljetter",
-                    track: "ticket_alert_interest",
-                    location: "concert_detail_sidebar",
                   })
                 : ""
             }

@@ -272,7 +272,6 @@ export const concerts = [
     eventUrl:
       "https://www.facebook.com/events/h%C3%B6galidskyrkan/toner-fr%C3%A5n-buenos-aires-misa-tango/1299358691597878/",
     organizers: ["Högalids församling", "Kammarkören Högalid"],
-    ticketAlert: false,
     heroImage: "/assets/imported/concerts/toner-fran-buenos-aires-misa-tango.jpg",
     heroImageAlt: "Illustration av ett tangopar i rörelse.",
     socialImage: "/assets/imported/concerts/toner-fran-buenos-aires-misa-tango.jpg",
@@ -352,7 +351,6 @@ export const concerts = [
       "Kammarkören Högalid",
       "Johann Sebastian Bach-Chor (Hamburg)",
     ],
-    ticketAlert: false,
     planVisit: [
       {
         title: "Plats",
@@ -415,8 +413,7 @@ export const concerts = [
       },
       {
         title: "Biljetter och entré",
-        body:
-          "Biljettinformation publiceras senare. Klicka på \"Få besked om biljetter\" om du vill att vi mejlar när länken publiceras.",
+        body: "Biljettinformation publiceras närmare konserten.",
       },
       {
         title: "Tillgänglighet",
@@ -466,8 +463,7 @@ export const concerts = [
       },
       {
         title: "Biljetter och entré",
-        body:
-          "Biljettinformation publiceras senare. Klicka på \"Få besked om biljetter\" om du vill att vi mejlar när länken publiceras.",
+        body: "Biljettinformation publiceras närmare konserten.",
       },
       {
         title: "Tillgänglighet",

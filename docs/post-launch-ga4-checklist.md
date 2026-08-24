@@ -31,7 +31,6 @@ Mark these as key events in GA4:
 - `join_choir`
 - `share_concert`
 - `copy_link`
-- `ticket_alert_interest`
 
 ## 4. Build two reports
 
@@ -71,23 +70,4 @@ Focus on:
 - traffic to `/konserter/`
 - traffic to the current concert page
 - `add_to_calendar`
-- `ticket_alert_interest`
 - `join_choir`
-
-## 6. Low-manual ticket alert workflow
-
-The current site uses a low-maintenance temporary solution when no ticket link exists.
-
-User flow:
-
-- Visitor clicks `Få besked om biljetter`
-- Their email client opens with a pre-filled subject and message
-- They send the email to `kammarkorenhogalid@gmail.com`
-
-Suggested admin workflow:
-
-1. In Gmail, create a filter for the subject prefix `Biljettbesked:`.
-2. Apply a label such as `Biljettbesked`.
-3. When the ticket link is published, send one BCC email to everyone with that label.
-
-This keeps the workflow simple until a dedicated signup form is needed.
