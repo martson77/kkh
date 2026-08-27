@@ -366,6 +366,18 @@ function hasTicketLink(concert) {
   return Boolean(concert.ticketUrl);
 }
 
+function concertTicketOffer(concert) {
+  return {
+    "@type": "Offer",
+    url: concert.ticketUrl,
+    ...(concert.ticketPrice ? { price: concert.ticketPrice } : {}),
+    ...(concert.ticketCurrency
+      ? { priceCurrency: concert.ticketCurrency }
+      : {}),
+    availability: "https://schema.org/InStock",
+  };
+}
+
 function hasEventLink(concert) {
   return Boolean(concert.eventUrl);
 }
@@ -755,13 +767,7 @@ function renderHomePage() {
   };
 
   if (hasTicketLink(nextConcert)) {
-    jsonLd.event.offers = {
-      "@type": "Offer",
-      url: nextConcert.ticketUrl,
-      price: "150",
-      priceCurrency: "SEK",
-      availability: "https://schema.org/InStock",
-    };
+    jsonLd.event.offers = concertTicketOffer(nextConcert);
   }
 
   const body = `<main>
@@ -1154,14 +1160,7 @@ function renderConcertDetailPage(concert) {
   };
 
   if (!isPastConcert && hasTicketLink(concert)) {
-    jsonLd.offers = {
-      "@type": "Offer",
-      url: concert.ticketUrl,
-      price: "150",
-      priceCurrency: "SEK",
-      availability: "https://schema.org/InStock",
-      validFrom: concert.start,
-    };
+    jsonLd.offers = concertTicketOffer(concert);
   }
 
   const body = `<main>
