@@ -17,7 +17,7 @@ import {
 
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const publicDir = path.join(rootDir, "public");
-const assetVersion = "20260609-centered-facebook-feed";
+const assetVersion = "20260911-concert-lunches";
 
 const imageVariantWidths = [500, 800, 1080, 1200, 1600, 2000, 2600, 3200];
 const knownImageWidths = {
@@ -730,6 +730,40 @@ function renderAudienceQuotesSection() {
   </section>`;
 }
 
+function renderLunchTeaser(concert, location, indent = "            ") {
+  const lunch = concert.lunch;
+  if (!lunch || new Date(lunch.start) < now) {
+    return "";
+  }
+
+  const lunchDate = new Intl.DateTimeFormat("sv-SE", {
+    day: "numeric",
+    month: "long",
+    timeZone: "Europe/Stockholm",
+  }).format(new Date(lunch.start));
+
+  return `\n${indent}<p class="concert-lunch-teaser"><a href="/konserter/${escapeHtml(concert.slug)}/#lunch" data-track="concert_lunch" data-track-location="${escapeHtml(location)}">${escapeHtml(lunch.title)} ${lunchDate} – soppa och introduktion till musiken</a></p>`;
+}
+
+function renderConcertLunch(concert) {
+  const lunch = concert.lunch;
+  if (!lunch) {
+    return "";
+  }
+
+  return `\n        <section class="detail-section concert-lunch" id="lunch" aria-labelledby="lunch-title">
+          <h2 id="lunch-title">Inför konserten: ${escapeHtml(lunch.title)}</h2>
+          <p class="concert-lunch-time"><time datetime="${escapeHtml(lunch.start)}">${formatDateTime(lunch.start)}</time></p>
+          <p class="concert-lunch-note">${escapeHtml(lunch.concertNote)}</p>
+          <p>${escapeHtml(lunch.description)}</p>
+          <dl class="concert-lunch-details">
+            <dt>Plats</dt><dd>${escapeHtml(lunch.venue)}</dd>
+            <dt>Lunch</dt><dd>${escapeHtml(lunch.menu)}</dd>
+            <dt>Pris</dt><dd>${escapeHtml(lunch.price)}</dd>
+          </dl>
+        </section>`;
+}
+
 function renderHomePage() {
   const latestPastConcert = pastConcerts[0];
   const featuredProject = futureProjects[0];
@@ -816,7 +850,7 @@ function renderHomePage() {
             hasTicketLink(nextConcert)
               ? homePage.nextConcertPanel.withTicketTitle
               : homePage.nextConcertPanel.withoutTicketTitle
-          } ${nextConcert.teaser}</p>
+          } ${nextConcert.teaser}</p>${renderLunchTeaser(nextConcert, "home_panel", "          ")}
           <div class="highlight-panel-actions">
             ${
               hasTicketLink(nextConcert)
@@ -1036,7 +1070,7 @@ function renderConcertsPage() {
             <p class="concert-card-kicker">${index === 0 ? "Nästa konsert" : "Kommande konsert"}</p>
             <h3 class="concert-card-title">${concert.title}</h3>
             <p class="concert-card-meta">${formatDateTime(concert.start)} · ${concert.venue}</p>
-            <p class="concert-card-copy">${concert.summary}</p>
+            <p class="concert-card-copy">${concert.summary}</p>${renderLunchTeaser(concert, "concerts_upcoming")}
             ${renderImageCredit(concert.imageCredit, "concert-card-credit")}
             <div class="concert-card-actions">
               ${
@@ -1189,7 +1223,7 @@ function renderConcertDetailPage(concert) {
       <div class="detail-main">
         ${concert.description
           .map((paragraph) => `<p class="section-copy">${paragraph}</p>`)
-          .join("")}
+          .join("")}${renderConcertLunch(concert)}
         <section class="detail-section">
           <h2>Program</h2>
           <ul class="bullet-list">

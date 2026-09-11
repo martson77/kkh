@@ -388,9 +388,11 @@ export const concerts = [
     shortTitle: "Barockkonsert i Högalid",
     teaser: "Zelenka, Bernhard och J.S. Bach tillsammans med Johann Sebastian Bach-Chor.",
     summary:
-      "Kammarkören Högalid och Johann Sebastian Bach-Chor möts i Högalidskyrkan för ett gemensamt barockprogram.",
+      "Kammarkören Högalid och Johann Sebastian Bach-Chor möts i Högalidskyrkan för ett gemensamt barockprogram. Fri entré.",
     start: "2026-10-25T16:00:00+01:00",
     end: "2026-10-25T18:00:00+01:00",
+    price: "Fri entré",
+    posterAccessText: "Fri entré",
     venue: "Högalidskyrkan",
     address: "Högalids kyrkväg 11, 117 30 Stockholm",
     transport:
@@ -404,6 +406,16 @@ export const concerts = [
       "Efter konserten i Hamburg återvänder det gemensamma barockprogrammet till Högalidskyrkan. Kammarkören Högalid sjunger då tillsammans med Johann Sebastian Bach-Chor i ett program som rör sig mellan mässa, motett och kantat.",
       "Konserten är en del av körernas utbyte hösten 2026 och ger publiken i Högalid möjlighet att höra samma program som framförs i Kreuzkirche Ottensen tidigare under månaden.",
     ],
+    lunch: {
+      title: "Lunch med Zelenka",
+      start: "2026-10-22T12:30:00+02:00",
+      venue: "Högalids församlingshus, stora salen",
+      menu: "Bramborová polévka – tjeckisk potatissoppa",
+      price: "50 kr (självkostnadspris)",
+      description:
+        "Benedikt Melichar och Åsa Bertilsson berättar om tonsättaren Jan Dismas Zelenka och hans mässa medan sopplunchen serveras.",
+      concertNote: "Lunchen hålls tre dagar före konserten söndag 25 oktober kl. 16.00.",
+    },
     program: [
       "J.D. Zelenka: Missa Sancti Josephi",
       "Christoph Bernhard: Herr, nun lässest du deinen Diener...",
@@ -426,7 +438,7 @@ export const concerts = [
       },
       {
         title: "Biljetter och entré",
-        body: "Biljettinformation publiceras närmare konserten.",
+        body: "Konserten har fri entré. Välkommen!",
       },
       {
         title: "Tillgänglighet",
@@ -457,6 +469,16 @@ export const concerts = [
       "Säsongen avslutas med Monteverdis Mariavesper i Högalidskyrkan. Kammarkören Högalid medverkar tillsammans med Högalids unga röster och Oratoriekör i ett av den tidiga barockens mest betydande verk.",
       "Mer information om medverkande och praktiska detaljer publiceras närmare konserten.",
     ],
+    lunch: {
+      title: "Lunch med Monteverdi",
+      start: "2026-12-20T12:30:00+01:00",
+      venue: "Högalids församlingshus, stora salen",
+      menu: "Italiensk grönsakssoppa med pistou",
+      price: "50 kr (självkostnadspris)",
+      description:
+        "Karin Birgersson från Sveriges Radio och Åsa Bertilsson berättar om tonsättaren Claudio Monteverdi och hans Mariavesper medan sopplunchen serveras.",
+      concertNote: "Lunchen hålls på konsertdagen. Konserten börjar kl. 16.00 samma dag.",
+    },
     program: ["Claudio Monteverdi: Mariavesper"],
     performers: [
       "Kammarkören Högalid",
