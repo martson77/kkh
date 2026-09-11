@@ -46,6 +46,15 @@ if (!nextConcert) {
   throw new Error("Ingen kommande konsert hittades i site-data.mjs.");
 }
 
+// Prioritize our local audience without changing the chronological concert list.
+const nextHomeConcert = upcomingConcerts.find(
+  (concert) => concert.venue === "Högalidskyrkan"
+);
+const featuredConcert = nextHomeConcert || nextConcert;
+const featuredConcertLabel = nextHomeConcert
+  ? "Nästa konsert i Högalid"
+  : homePage.nextConcertPanel.eyebrow;
+
 function hasConcertDetailPage(concert) {
   return Boolean(
     concert.slug &&
@@ -216,7 +225,7 @@ function renderNavigation(currentPath) {
         <img src="${site.logo}" width="Auto" height="70" alt="Kammarkören Högalid" class="logo-image"/>
       </a>
       <nav role="navigation" class="navigation-items w-nav-menu">
-        ${navLink("Nästa konsert", `/konserter/${nextConcert.slug}/`, currentPath)}
+        ${navLink(featuredConcertLabel, `/konserter/${featuredConcert.slug}/`, currentPath)}
         ${navLink("Konserter", "/konserter/", currentPath)}
         ${navLink("Sjung med oss", "/sjung-med-oss/", currentPath)}
         ${navLink("Om kören", "/om-oss/", currentPath)}
@@ -781,27 +790,27 @@ function renderHomePage() {
     sameAs: [site.facebook, site.instagram],
     event: {
       "@type": "MusicEvent",
-      name: nextConcert.title,
-      startDate: nextConcert.start,
-      endDate: nextConcert.end,
+      name: featuredConcert.title,
+      startDate: featuredConcert.start,
+      endDate: featuredConcert.end,
       location: {
         "@type": "Place",
-        name: nextConcert.venue,
-        address: nextConcert.address,
+        name: featuredConcert.venue,
+        address: featuredConcert.address,
       },
-      image: [absoluteUrl(nextConcert.socialImage)],
-      description: nextConcert.summary,
-      ...(hasEventLink(nextConcert) ? { sameAs: [nextConcert.eventUrl] } : {}),
-      organizer: concertOrganizerJsonLd(nextConcert),
-      performer: nextConcert.performers.map((performer) => ({
+      image: [absoluteUrl(featuredConcert.socialImage)],
+      description: featuredConcert.summary,
+      ...(hasEventLink(featuredConcert) ? { sameAs: [featuredConcert.eventUrl] } : {}),
+      organizer: concertOrganizerJsonLd(featuredConcert),
+      performer: featuredConcert.performers.map((performer) => ({
         "@type": "PerformingGroup",
         name: performer,
       })),
     },
   };
 
-  if (hasTicketLink(nextConcert)) {
-    jsonLd.event.offers = concertTicketOffer(nextConcert);
+  if (hasTicketLink(featuredConcert)) {
+    jsonLd.event.offers = concertTicketOffer(featuredConcert);
   }
 
   const body = `<main>
@@ -813,8 +822,8 @@ function renderHomePage() {
         <p class="hero-lead">${homePage.hero.lead}</p>
         <div class="hero-actions">
           ${button({
-            href: `/konserter/${nextConcert.slug}/`,
-            label: "Se nästa konsert",
+            href: `/konserter/${featuredConcert.slug}/`,
+            label: nextHomeConcert ? "Se nästa konsert i Högalid" : "Se nästa konsert",
             location: "home_hero",
           })}
           ${button({
@@ -843,42 +852,42 @@ function renderHomePage() {
           eager: true,
         })}
         <aside class="highlight-panel">
-          <p class="highlight-panel-kicker">${homePage.nextConcertPanel.eyebrow}</p>
-          <h2 class="highlight-panel-title">${nextConcert.title}</h2>
-          <p class="highlight-panel-meta">${formatDateTime(nextConcert.start)} · ${nextConcert.venue}</p>
+          <p class="highlight-panel-kicker">${featuredConcertLabel}</p>
+          <h2 class="highlight-panel-title">${featuredConcert.title}</h2>
+          <p class="highlight-panel-meta">${formatDateTime(featuredConcert.start)} · ${featuredConcert.venue}</p>
           <p class="highlight-panel-copy">${
-            hasTicketLink(nextConcert)
+            hasTicketLink(featuredConcert)
               ? homePage.nextConcertPanel.withTicketTitle
               : homePage.nextConcertPanel.withoutTicketTitle
-          } ${nextConcert.teaser}</p>${renderLunchTeaser(nextConcert, "home_panel", "          ")}
+          } ${featuredConcert.teaser}</p>${renderLunchTeaser(featuredConcert, "home_panel", "          ")}
           <div class="highlight-panel-actions">
             ${
-              hasTicketLink(nextConcert)
+              hasTicketLink(featuredConcert)
                 ? button({
-                    href: nextConcert.ticketUrl,
+                    href: featuredConcert.ticketUrl,
                     label: "Köp biljett",
                     track: "buy_ticket",
                     location: "home_panel",
                     newTab: true,
                   })
                 : button({
-                    href: `/konserter/${nextConcert.slug}/`,
+                    href: `/konserter/${featuredConcert.slug}/`,
                     label: "Se konsertinfo",
                     variant: "secondary",
                     location: "home_panel",
                   })
             }
             ${button({
-              href: `/kalender/${nextConcert.slug}.ics`,
+              href: `/kalender/${featuredConcert.slug}.ics`,
               label: "Spara i kalendern",
               variant: "ghost",
               track: "add_to_calendar",
               location: "home_panel",
             })}
             ${
-              hasEventLink(nextConcert)
+              hasEventLink(featuredConcert)
                 ? button({
-                    href: nextConcert.eventUrl,
+                    href: featuredConcert.eventUrl,
                     label: "Facebook-evenemang",
                     variant: "ghost",
                     track: "facebook_event",
