@@ -245,7 +245,7 @@ export const futureProjects = [
     bullets: [
       "Samarbete med Johann Sebastian Bach-Chor i Hamburg",
       "Barockkonsert i Hamburg den 11 oktober kl 18.00",
-      "Barockkonsert i Högalid den 25 oktober kl 16.00",
+      "Bach & Zelenka i Högalidskyrkan den 25 oktober kl 16.00",
       "Högmässa den 8 november kl 11.00",
       "1:a adventskonserter den 29 november kl 16.00 och 18.00",
       "Monteverdis Mariavesper den 20 december kl 16.00",
@@ -384,11 +384,11 @@ export const concerts = [
   },
   {
     slug: "barockkonsert-hogalid",
-    title: "Barockkonsert i Högalid",
-    shortTitle: "Barockkonsert i Högalid",
-    teaser: "Zelenka, Bernhard och J.S. Bach tillsammans med Johann Sebastian Bach-Chor.",
+    title: "Bach & Zelenka",
+    shortTitle: "Bach & Zelenka",
+    teaser: "Zelenkas Missa Sancti Josephi samt musik av Bernhard och Bach.",
     summary:
-      "Kammarkören Högalid och Johann Sebastian Bach-Chor möts i Högalidskyrkan för ett gemensamt barockprogram. Fri entré.",
+      "Kammarkören Högalid och Johann Sebastian Bach-Chor från Hamburg möts i Högalidskyrkan med vokalsolister och barockorkester. Fri entré.",
     start: "2026-10-25T16:00:00+01:00",
     end: "2026-10-25T18:00:00+01:00",
     price: "Fri entré",
@@ -397,14 +397,20 @@ export const concerts = [
     address: "Högalids kyrkväg 11, 117 30 Stockholm",
     transport:
       "Tunnelbana till Hornstull och därefter en kort promenad upp mot Högalidskyrkan.",
-    heroImage: "/assets/imported/concerts/hogalid-exterior.jpg",
-    heroImageAlt: "Högalidskyrkan utifrån i vinterljus.",
-    socialImage: "/assets/imported/concerts/hogalid-exterior.jpg",
-    posterImage: "/assets/imported/concerts/hogalid-exterior.jpg",
-    imageCredit: "Arild Vågen / Wikimedia Commons (CC BY-SA 3.0)",
+    organizers: ["Högalids församling", "Kammarkören Högalid"],
+    heroImage: "/assets/imported/concerts/bach-zelenka-hogalidskyrkan.jpg",
+    heroImageAlt:
+      "Kören sjunger i Högalidskyrkan, fotograferad bakifrån med kyrkbänkarna och orgeln i bakgrunden.",
+    socialImage: "/assets/imported/concerts/bach-zelenka-hogalidskyrkan.jpg",
+    posterImage: "/assets/imported/concerts/bach-zelenka-hogalidskyrkan.jpg",
+    posterPdfSource: "/assets/imported/concerts/affisch-musik-konsert-20261025-zelenka-o-bach.pdf",
+    posterTitle: "Bach & Zelenka",
+    posterProgramText:
+      "Zelenka – Missa Sancti Josephi samt musik av Bernhard och Bach. Agnes Auer, sopran; Rodrigo Sosa Dal Pozzo, alt; David Bergman, tenor; David Risberg, bas; Barockorkester, Ann Wallström, konsertmästare; Johann-Sebastian-Bach-Chor (Hamburg); Kammarkören Högalid; Benedikt Melichar, dirigent.",
+    imageCredit: "Högalids församling",
     description: [
-      "Efter konserten i Hamburg återvänder det gemensamma barockprogrammet till Högalidskyrkan. Kammarkören Högalid sjunger då tillsammans med Johann Sebastian Bach-Chor i ett program som rör sig mellan mässa, motett och kantat.",
-      "Konserten är en del av körernas utbyte hösten 2026 och ger publiken i Högalid möjlighet att höra samma program som framförs i Kreuzkirche Ottensen tidigare under månaden.",
+      "Efter konserten i Hamburg den 11 oktober kommer det gemensamma barockprogrammet till Högalidskyrkan. Kammarkören Högalid och Johann Sebastian Bach-Chor sjunger Jan Dismas Zelenkas Missa Sancti Josephi samt musik av Christoph Bernhard och J.S. Bach, tillsammans med fyra vokalsolister och barockorkester under ledning av Benedikt Melichar.",
+      "Konserten är en del av körernas utbyte hösten 2026 och ger publiken i Högalid möjlighet att höra programmet som framfördes i Kreuzkirche Ottensen tidigare under månaden. Fri entré – välkommen!",
     ],
     lunch: {
       title: "Lunch med Zelenka",
@@ -417,13 +423,20 @@ export const concerts = [
       concertNote: "Lunchen hålls tre dagar före konserten söndag 25 oktober kl. 16.00.",
     },
     program: [
-      "J.D. Zelenka: Missa Sancti Josephi",
-      "Christoph Bernhard: Herr, nun lässest du deinen Diener...",
-      "J.S. Bach: Kantate BWV 79 Gott der Herr ist Sonn und Schild",
+      "Jan Dismas Zelenka: Missa Sancti Josephi, ZWV 14",
+      "Christoph Bernhard: Herr, nun lässest du deinen Diener in Frieden fahren",
+      "Johann Sebastian Bach: Gott, der Herr, ist Sonn und Schild, BWV 79",
     ],
     performers: [
       "Kammarkören Högalid",
       "Johann Sebastian Bach-Chor (Hamburg)",
+      "Barockorkester",
+      "Ann Wallström, konsertmästare",
+      "Agnes Auer, sopran",
+      "Rodrigo Sosa Dal Pozzo, alt",
+      "David Bergman, tenor",
+      "David Risberg, bas",
+      "Benedikt Melichar, dirigent",
     ],
     planVisit: [
       {
