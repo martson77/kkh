@@ -1583,7 +1583,7 @@ function renderJoinPage() {
     lead: joinPage.intro,
     image: site.choirImage,
     imageAlt: site.choirImageAlt,
-    imageCredit: "",
+    imageCredit: site.choirImageCredit || "",
     sections,
     pageType: "join",
   });

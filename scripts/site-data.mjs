@@ -18,9 +18,10 @@ export const site = {
   choirImage: "/assets/imported/kammarkoren-hogalid-hogalidskyrkan-2026.jpg",
   choirImageSocial: "/assets/imported/kammarkoren-hogalid-hogalidskyrkan-2026.jpg",
   choirImageAlt: "Kammarkören Högalid samlad framför altaret i Högalidskyrkan.",
+  choirImageCredit: "Foto: Mats Edman",
   choirPerformanceImage: "/assets/imported/kammarkoren-hogalid-sjunger-2026.jpg",
   choirPerformanceImageAlt: "Sångare i Kammarkören Högalid sjunger framför altaret i Högalidskyrkan.",
-  choirPerformanceImageCredit: "",
+  choirPerformanceImageCredit: "Foto: Mats Edman",
   conductorImage:
     "/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/664a2888c21987b02377b42f_Benedikt-4-3.jpg",
   conductorImageAlt: "Benedikt Melichar, dirigent för Kammarkören Högalid.",
@@ -403,6 +404,8 @@ export const concerts = [
       "Sångare i Kammarkören Högalid sjunger ur noterna till Zelenkas Missa Sancti Josephi.",
     socialImage: "/assets/imported/concerts/bach-zelenka-korsangare-social.jpg",
     posterImage: "/assets/imported/concerts/bach-zelenka-hogalidskyrkan.jpg",
+    posterImageCredit: "Foto: Mats Edman",
+    imageCredit: "Mats Edman",
     posterPdfSource: "/assets/imported/concerts/affisch-musik-konsert-20261025-zelenka-o-bach.pdf",
     posterTitle: "Bach & Zelenka",
     posterProgramText:
