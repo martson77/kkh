@@ -15,12 +15,12 @@ export const site = {
   faviconType: "image/svg+xml",
   appleTouchIcon:
     "/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/6669dcc1d337a8ce79c7c0fb_hogalidstornen.jpg",
-  choirImage: "/assets/imported/kammarkoren-hogalid-2026.jpg",
-  choirImageSocial: "/assets/imported/kammarkoren-hogalid-2026.jpg",
-  choirImageAlt: "Kammarkören Högalid utanför Högalidskyrkan.",
-  choirPerformanceImage: "/assets/imported/mikael-engstrom-jul2024.jpg",
-  choirPerformanceImageAlt: "Kammarkören Högalid under en konsert i Högalidskyrkan.",
-  choirPerformanceImageCredit: "Foto: Mikael Engström",
+  choirImage: "/assets/imported/kammarkoren-hogalid-hogalidskyrkan-2026.jpg",
+  choirImageSocial: "/assets/imported/kammarkoren-hogalid-hogalidskyrkan-2026.jpg",
+  choirImageAlt: "Kammarkören Högalid samlad framför altaret i Högalidskyrkan.",
+  choirPerformanceImage: "/assets/imported/kammarkoren-hogalid-sjunger-2026.jpg",
+  choirPerformanceImageAlt: "Sångare i Kammarkören Högalid sjunger framför altaret i Högalidskyrkan.",
+  choirPerformanceImageCredit: "",
   conductorImage:
     "/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/664a2888c21987b02377b42f_Benedikt-4-3.jpg",
   conductorImageAlt: "Benedikt Melichar, dirigent för Kammarkören Högalid.",
@@ -398,16 +398,15 @@ export const concerts = [
     transport:
       "Tunnelbana till Hornstull och därefter en kort promenad upp mot Högalidskyrkan.",
     organizers: ["Högalids församling", "Kammarkören Högalid"],
-    heroImage: "/assets/imported/concerts/bach-zelenka-hogalidskyrkan.jpg",
+    heroImage: "/assets/imported/concerts/bach-zelenka-korsangare.jpg",
     heroImageAlt:
-      "Kören sjunger i Högalidskyrkan, fotograferad bakifrån med kyrkbänkarna och orgeln i bakgrunden.",
-    socialImage: "/assets/imported/concerts/bach-zelenka-hogalidskyrkan.jpg",
+      "Sångare i Kammarkören Högalid sjunger ur noterna till Zelenkas Missa Sancti Josephi.",
+    socialImage: "/assets/imported/concerts/bach-zelenka-korsangare-social.jpg",
     posterImage: "/assets/imported/concerts/bach-zelenka-hogalidskyrkan.jpg",
     posterPdfSource: "/assets/imported/concerts/affisch-musik-konsert-20261025-zelenka-o-bach.pdf",
     posterTitle: "Bach & Zelenka",
     posterProgramText:
       "Zelenka – Missa Sancti Josephi samt musik av Bernhard och Bach. Agnes Auer, sopran; Rodrigo Sosa Dal Pozzo, alt; David Bergman, tenor; David Risberg, bas; Barockorkester, Ann Wallström, konsertmästare; Johann-Sebastian-Bach-Chor (Hamburg); Kammarkören Högalid; Benedikt Melichar, dirigent.",
-    imageCredit: "Högalids församling",
     description: [
       "Efter konserten i Hamburg den 11 oktober kommer det gemensamma barockprogrammet till Högalidskyrkan. Kammarkören Högalid och Johann Sebastian Bach-Chor sjunger Jan Dismas Zelenkas Missa Sancti Josephi samt musik av Christoph Bernhard och J.S. Bach, tillsammans med fyra vokalsolister och barockorkester under ledning av Benedikt Melichar.",
       "Konserten är en del av körernas utbyte hösten 2026 och ger publiken i Högalid möjlighet att höra programmet som framfördes i Kreuzkirche Ottensen tidigare under månaden. Fri entré – välkommen!",

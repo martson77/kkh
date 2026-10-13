@@ -21,14 +21,14 @@ const assetVersion = "20260911-concert-lunches";
 
 const imageVariantWidths = [500, 800, 1080, 1200, 1600, 2000, 2600, 3200];
 const knownImageWidths = {
-  [site.choirImage]: 1536,
-  [site.choirPerformanceImage]: 1600,
+  [site.choirImage]: 2000,
+  [site.choirPerformanceImage]: 2000,
   [site.conductorImage]: 1280,
   "/assets/imported/concerts/palmeri-bandoneon.jpg": 2000,
   "/assets/imported/concerts/toner-fran-buenos-aires-misa-tango.jpg": 1951,
   "/assets/imported/concerts/hamburg-kreuzkirche.jpg": 1800,
   "/assets/imported/concerts/hogalid-exterior.jpg": 1800,
-  "/assets/imported/concerts/bach-zelenka-hogalidskyrkan.jpg": 1670,
+  "/assets/imported/concerts/bach-zelenka-korsangare.jpg": 1440,
   "/assets/imported/concerts/monteverdi-portrait.jpg": 520,
   "/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/673f3e4497ad5ca1eb93445e_bach-juloratoriet.jpg":
     1826,
