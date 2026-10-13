@@ -28,7 +28,8 @@ const knownImageWidths = {
   "/assets/imported/concerts/toner-fran-buenos-aires-misa-tango.jpg": 1951,
   "/assets/imported/concerts/hamburg-kreuzkirche.jpg": 1800,
   "/assets/imported/concerts/hogalid-exterior.jpg": 1800,
-  "/assets/imported/concerts/bach-zelenka-korsangare.jpg": 1440,
+  "/assets/imported/concerts/bach-zelenka-hogalidskyrkan.jpg": 2000,
+  "/assets/imported/kammarkoren-hogalid-herrar-2026.jpg": 1440,
   "/assets/imported/concerts/monteverdi-portrait.jpg": 520,
   "/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/673f3e4497ad5ca1eb93445e_bach-juloratoriet.jpg":
     1826,
@@ -1581,9 +1582,9 @@ function renderJoinPage() {
       "Läs hur provsjungning går till, när vi repeterar och hur du skickar en intresseanmälan till Kammarkören Högalid.",
     title: "Sjung med oss",
     lead: joinPage.intro,
-    image: site.choirImage,
-    imageAlt: site.choirImageAlt,
-    imageCredit: site.choirImageCredit || "",
+    image: joinPage.image || site.choirImage,
+    imageAlt: joinPage.image ? joinPage.imageAlt : site.choirImageAlt,
+    imageCredit: (joinPage.image ? joinPage.imageCredit : site.choirImageCredit) || "",
     sections,
     pageType: "join",
   });

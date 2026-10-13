@@ -204,6 +204,9 @@ export const joinPage = {
     "Nivå: avancerad körvana och god notläsning",
   ],
   formUrl: "https://www.svenskakyrkan.se/hogalid/provsjungning",
+  image: "/assets/imported/kammarkoren-hogalid-herrar-2026.jpg",
+  imageAlt: "Herrar i Kammarkören Högalid sjunger ur noterna.",
+  imageCredit: "Foto: Mats Edman",
 };
 
 export const recruitment = {
@@ -399,10 +402,10 @@ export const concerts = [
     transport:
       "Tunnelbana till Hornstull och därefter en kort promenad upp mot Högalidskyrkan.",
     organizers: ["Högalids församling", "Kammarkören Högalid"],
-    heroImage: "/assets/imported/concerts/bach-zelenka-korsangare.jpg",
+    heroImage: "/assets/imported/concerts/bach-zelenka-hogalidskyrkan.jpg",
     heroImageAlt:
-      "Sångare i Kammarkören Högalid sjunger ur noterna till Zelenkas Missa Sancti Josephi.",
-    socialImage: "/assets/imported/concerts/bach-zelenka-korsangare-social.jpg",
+      "Kammarkören Högalid sjunger i Högalidskyrkan, fotograferad bakifrån med kyrkbänkarna och orgeln i bakgrunden.",
+    socialImage: "/assets/imported/concerts/bach-zelenka-hogalidskyrkan.jpg",
     posterImage: "/assets/imported/concerts/bach-zelenka-hogalidskyrkan.jpg",
     posterImageCredit: "Foto: Mats Edman",
     imageCredit: "Mats Edman",
