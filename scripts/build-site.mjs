@@ -1300,7 +1300,23 @@ function renderConcertDetailPage(concert) {
         }
       </div>
       <aside class="detail-aside">
-        <div class="aside-card">
+        ${
+          isPastConcert
+            ? `<div class="aside-card">
+          <p class="aside-label">${featuredConcertLabel}</p>
+          <h2>${featuredConcert.title}</h2>
+          <p>${formatDateTime(featuredConcert.start)} · ${featuredConcert.venue}</p>
+          <div class="stack-actions">
+            ${button({
+              href: `/konserter/${featuredConcert.slug}/`,
+              label: "Se nästa konsert",
+              location: "concert_detail_sidebar",
+            })}
+          </div>
+        </div>
+        `
+            : ""
+        }<div class="aside-card">
           <p class="aside-label">Tid och plats</p>
           <h2>${concert.venue}</h2>
           <p>${formatDateTime(concert.start)}</p>

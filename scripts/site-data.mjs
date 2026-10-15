@@ -250,14 +250,13 @@ export const futureProjects = [
   {
     title: "Hösten 2026",
     summary:
-      "Under hösten 2026 följer ett samarbete med Johann Sebastian Bach-Chor i Hamburg, adventskonserter i Högalid och ett framförande av Monteverdis Mariavesper.",
+      "Hösten 2026 bjuder på ett samarbete med Johann Sebastian Bach-Chor från Hamburg, adventskonserter i Högalid och ett framförande av Monteverdis Mariavesper.",
     paragraphs: [
-      "Den 11 oktober gästar Kammarkören Högalid Kreuzkirche Ottensen i Hamburg för en barockkonsert tillsammans med Johann Sebastian Bach-Chor. Samma program framförs sedan i Högalidskyrkan den 25 oktober.",
+      "Den 11 oktober gästade Kammarkören Högalid Kreuzkirche Ottensen i Hamburg för en barockkonsert tillsammans med Johann Sebastian Bach-Chor. Nu kommer samma program till Högalidskyrkan den 25 oktober.",
       "Därefter följer 1:a adventskonserter tillsammans med församlingens körer den 29 november kl 16.00 och 18.00, och Monteverdis Mariavesper den 20 december kl 16.00 tillsammans med Högalids unga röster och Oratoriekör.",
     ],
     bullets: [
       "Samarbete med Johann Sebastian Bach-Chor i Hamburg",
-      "Barockkonsert i Hamburg den 11 oktober kl 18.00",
       "Bach & Zelenka i Högalidskyrkan den 25 oktober kl 16.00",
       "Högmässa den 8 november kl 11.00",
       "1:a adventskonserter den 29 november kl 16.00 och 18.00",
@@ -339,7 +338,7 @@ export const concerts = [
     shortTitle: "Barockkonsert i Hamburg",
     teaser: "Zelenka, Bernhard och J.S. Bach tillsammans med Johann Sebastian Bach-Chor.",
     summary:
-      "Kammarkören Högalid gästar Kreuzkirche Ottensen i Hamburg för en barockkonsert tillsammans med Johann Sebastian Bach-Chor.",
+      "Kammarkören Högalid gästade Kreuzkirche Ottensen i Hamburg för en barockkonsert tillsammans med Johann Sebastian Bach-Chor.",
     start: "2026-10-11T18:00:00+02:00",
     end: "2026-10-11T20:00:00+02:00",
     venue: "Kreuzkirche Ottensen",
@@ -356,8 +355,8 @@ export const concerts = [
     posterPdfSource: "/assets/imported/concerts/260819-zelenka-postkarte.pdf",
     imageCredit: "PodracerHH / Wikimedia Commons (CC BY-SA 3.0)",
     description: [
-      "I oktober 2026 gästar Kammarkören Högalid Hamburg för ett gemensamt barockprogram tillsammans med Johann Sebastian Bach-Chor. Konserten är en del av ett utbyte mellan ensemblerna och följs senare under månaden av ett återbesök i Högalid.",
-      "Programmet samlar verk av J.D. Zelenka, Christoph Bernhard och J.S. Bach och knyter samman mässa, motett och kantat i ett koncentrerat barockprogram.",
+      "Den 11 oktober 2026 gästade Kammarkören Högalid Hamburg för ett gemensamt barockprogram tillsammans med Johann Sebastian Bach-Chor. Konserten var en del av ett utbyte mellan ensemblerna, och den 25 oktober framförs programmet i Högalidskyrkan.",
+      "Programmet samlade verk av J.D. Zelenka, Christoph Bernhard och J.S. Bach och knöt samman mässa, motett och kantat i ett koncentrerat barockprogram.",
     ],
     program: [
       "Johann Sebastian Bach: Gott, der Herr, ist Sonn und Schild, BWV 79",
