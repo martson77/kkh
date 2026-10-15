@@ -11,13 +11,14 @@ import {
   homePage,
   joinPage,
   proofCards,
+  recruitment,
   site,
   socialMedia,
 } from "./site-data.mjs";
 
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const publicDir = path.join(rootDir, "public");
-const assetVersion = "20260911-concert-lunches";
+const assetVersion = "20261015-compact-facebook-card";
 
 const imageVariantWidths = [500, 800, 1080, 1200, 1600, 2000, 2600, 3200];
 const knownImageWidths = {
@@ -427,7 +428,7 @@ function concertEventButtonLine(concert, location, indent = "            ") {
 function facebookPagePluginUrl(config) {
   const params = new URLSearchParams({
     href: config.url,
-    tabs: config.tabs || "timeline",
+    tabs: config.tabs ?? "timeline",
     width: String(config.width || 500),
     height: String(config.height || 680),
     small_header: "false",
@@ -564,37 +565,69 @@ function renderConcertSocialVideoSection(concert) {
 }
 
 function renderSocialSection() {
+  const { facebookPage } = socialMedia;
+  const { facebookCard, joinCard } = homePage.social;
+  const joinCardImageCredit = (joinPage.image ? joinPage.imageCredit : site.choirImageCredit) || "";
+
   return `<section class="section-block social-section">
     <div class="site-container social-feed-layout">
       <div class="social-copy">
         <p class="eyebrow">${homePage.social.eyebrow}</p>
         <h2 class="section-title">${homePage.social.title}</h2>
         <p class="section-copy">${homePage.social.lead}</p>
-        <div class="section-actions">
-          ${button({
-            href: socialMedia.facebookPage.fallbackUrl,
-            label: "Följ på Facebook",
-            track: "facebook_page",
-            location: "home_social",
-            variant: "secondary",
-            newTab: true,
-          })}
-          ${button({
-            href: site.instagram,
-            label: "Följ på Instagram",
-            track: "instagram_profile",
-            location: "home_social",
-            variant: "ghost",
-            newTab: true,
-          })}
-        </div>
       </div>
-      <div class="social-feed-column">
-        <div class="social-embed-panel social-embed-panel--feed" aria-label="Facebookflöde">
-          <iframe class="facebook-page-embed" title="Facebookflöde från Kammarkören Högalid" src="${facebookPagePluginUrl(
-            socialMedia.facebookPage
-          )}" width="${socialMedia.facebookPage.width}" height="${socialMedia.facebookPage.height}" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-        </div>
+      <div class="social-card-grid">
+        <article class="social-card social-card--facebook">
+          <p class="social-panel-label">${facebookCard.label}</p>
+          <div class="facebook-page-frame">
+            <iframe class="facebook-page-embed" title="Kammarkören Högalid på Facebook" src="${facebookPagePluginUrl(
+              facebookPage
+            )}" width="${facebookPage.width}" height="${facebookPage.height}" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+          </div>
+          <p class="social-card-copy">${facebookCard.copy}</p>
+          <div class="section-actions">
+            ${button({
+              href: facebookPage.fallbackUrl,
+              label: "Följ på Facebook",
+              track: "facebook_page",
+              location: "home_social",
+              variant: "secondary",
+              newTab: true,
+            })}
+            ${button({
+              href: site.instagram,
+              label: "Följ på Instagram",
+              track: "instagram_profile",
+              location: "home_social",
+              variant: "ghost",
+              newTab: true,
+            })}
+          </div>
+        </article>
+        <article class="social-card social-card--join">
+          ${renderImage({
+            src: joinPage.image || site.choirImage,
+            alt: joinPage.image ? joinPage.imageAlt : site.choirImageAlt,
+            className: "social-card-image",
+            sizes: "(max-width: 991px) 100vw, 560px",
+          })}
+          <div class="social-card-body">
+            <p class="social-panel-label">${joinCard.label}</p>
+            <h3 class="social-card-title">${
+              recruitment.active ? recruitment.statusLabel : homePage.join.title
+            }</h3>
+            <p class="social-card-copy">${recruitment.active ? recruitment.shortPitch : joinPage.intro}</p>
+            <div class="section-actions">
+              ${button({
+                href: "/sjung-med-oss/",
+                label: "Sjung med oss",
+                track: "join_choir",
+                location: "home_social",
+              })}
+            </div>
+            ${joinCardImageCredit ? `<p class="social-card-credit">${escapeHtml(joinCardImageCredit)}</p>` : ""}
+          </div>
+        </article>
       </div>
     </div>
   </section>`;

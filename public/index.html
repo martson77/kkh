@@ -18,7 +18,7 @@
 <meta name="twitter:image" content="https://www.kammarkorenhogalid.se/assets/imported/kammarkoren-hogalid-hogalidskyrkan-2026.jpg"/>
 <link rel="preload" as="image" href="/assets/imported/kammarkoren-hogalid-hogalidskyrkan-2026.jpg" srcset="/assets/imported/kammarkoren-hogalid-hogalidskyrkan-2026-500.jpg 500w, /assets/imported/kammarkoren-hogalid-hogalidskyrkan-2026-800.jpg 800w, /assets/imported/kammarkoren-hogalid-hogalidskyrkan-2026-1200.jpg 1200w, /assets/imported/kammarkoren-hogalid-hogalidskyrkan-2026-1600.jpg 1600w, /assets/imported/kammarkoren-hogalid-hogalidskyrkan-2026.jpg 2000w" sizes="(max-width: 991px) 100vw, 44vw"/>
 <link href="/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/css/kammarkoren-hogalid.webflow.shared.32559a67a.min.css" rel="stylesheet" type="text/css"/>
-<link href="/assets/app.css?v=20260911-concert-lunches" rel="stylesheet" type="text/css"/>
+<link href="/assets/app.css?v=20261015-compact-facebook-card" rel="stylesheet" type="text/css"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet"/>
@@ -137,16 +137,32 @@
       <div class="social-copy">
         <p class="eyebrow">Följ oss</p>
         <h2 class="section-title">Se och hör mer från kören mellan konserterna.</h2>
-        <p class="section-copy">I Facebook-flödet delar vi konsertbilder, korta klipp, evenemang och uppdateringar från körens arbete i Högalid.</p>
-        <div class="section-actions">
-          <a href="https://www.facebook.com/kammarkorenhogalid/?locale=sv_SE" class="cta-button cta-button--secondary" data-track="facebook_page" data-track-location="home_social" target="_blank" rel="noreferrer">Följ på Facebook</a>
-          <a href="https://www.instagram.com/kammarkoren_hogalid/" class="cta-button cta-button--ghost" data-track="instagram_profile" data-track-location="home_social" target="_blank" rel="noreferrer">Följ på Instagram</a>
-        </div>
+        <p class="section-copy">Följ kören i sociala medier – eller ta steget och sjung med oss.</p>
       </div>
-      <div class="social-feed-column">
-        <div class="social-embed-panel social-embed-panel--feed" aria-label="Facebookflöde">
-          <iframe class="facebook-page-embed" title="Facebookflöde från Kammarkören Högalid" src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fkammarkorenhogalid&tabs=timeline&width=500&height=680&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false" width="500" height="680" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-        </div>
+      <div class="social-card-grid">
+        <article class="social-card social-card--facebook">
+          <p class="social-panel-label">Facebook och Instagram</p>
+          <div class="facebook-page-frame">
+            <iframe class="facebook-page-embed" title="Kammarkören Högalid på Facebook" src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fkammarkorenhogalid&tabs=&width=500&height=130&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false" width="500" height="130" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+          </div>
+          <p class="social-card-copy">Här delar vi konsertbilder, korta klipp, evenemang och uppdateringar från körens arbete i Högalid.</p>
+          <div class="section-actions">
+            <a href="https://www.facebook.com/kammarkorenhogalid/?locale=sv_SE" class="cta-button cta-button--secondary" data-track="facebook_page" data-track-location="home_social" target="_blank" rel="noreferrer">Följ på Facebook</a>
+            <a href="https://www.instagram.com/kammarkoren_hogalid/" class="cta-button cta-button--ghost" data-track="instagram_profile" data-track-location="home_social" target="_blank" rel="noreferrer">Följ på Instagram</a>
+          </div>
+        </article>
+        <article class="social-card social-card--join">
+          <img src="/assets/imported/kammarkoren-hogalid-herrar-2026.jpg" alt="Herrar i Kammarkören Högalid sjunger ur noterna." class="social-card-image" srcset="/assets/imported/kammarkoren-hogalid-herrar-2026-500.jpg 500w, /assets/imported/kammarkoren-hogalid-herrar-2026-800.jpg 800w, /assets/imported/kammarkoren-hogalid-herrar-2026-1200.jpg 1200w, /assets/imported/kammarkoren-hogalid-herrar-2026.jpg 1440w" sizes="(max-width: 991px) 100vw, 560px" loading="lazy" decoding="async"/>
+          <div class="social-card-body">
+            <p class="social-panel-label">Sjung med oss</p>
+            <h3 class="social-card-title">Vi välkomnar nya sångare</h3>
+            <p class="social-card-copy">Kammarkören Högalid söker sångare med god körvana som vill sjunga på hög konstnärlig nivå.</p>
+            <div class="section-actions">
+              <a href="/sjung-med-oss/" class="cta-button cta-button--primary" data-track="join_choir" data-track-location="home_social">Sjung med oss</a>
+            </div>
+            <p class="social-card-credit">Foto: Mats Edman</p>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -235,6 +251,6 @@
     </div>
   </div>
 </footer>
-<script src="/assets/site.js?v=20260911-concert-lunches" defer></script>
+<script src="/assets/site.js?v=20261015-compact-facebook-card" defer></script>
 </body>
 </html>

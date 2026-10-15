@@ -771,20 +771,92 @@ button {
   margin-right: auto;
 }
 
-.social-feed-layout .section-actions {
-  justify-content: center;
+.social-card-grid {
+  width: min(100%, 1080px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 24px;
 }
 
-.social-feed-column {
-  width: min(100%, 560px);
+.social-card {
+  border: 1px solid rgba(24, 35, 29, 0.08);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
   min-width: 0;
 }
 
-.social-embed-panel {
+.social-card--facebook {
   background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 28px;
+}
+
+.facebook-page-frame {
+  background: #fff;
   border: 1px solid rgba(24, 35, 29, 0.08);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  max-width: 500px;
+}
+
+.social-card-copy {
+  color: var(--muted);
+  font-size: 17px;
+  margin: 20px 0 0;
+}
+
+.social-card--join {
+  background: var(--surface-contrast);
+  color: #fff4e8;
+  display: flex;
+  align-items: flex-end;
+  min-height: 420px;
+  overflow: hidden;
+  position: relative;
+}
+
+.social-card-image {
+  border-radius: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 22%;
+  position: absolute;
+  inset: 0;
+}
+
+.social-card-body {
+  background: linear-gradient(180deg, rgba(22, 50, 41, 0) 0%, rgba(22, 50, 41, 0.9) 34%, rgba(22, 50, 41, 0.96) 100%);
+  padding: 96px 28px 22px;
+  position: relative;
+  width: 100%;
+}
+
+.social-card--join .social-panel-label {
+  color: var(--accent-soft);
+}
+
+.social-card-title {
+  color: #fff4e8;
+  margin: 8px 0 0;
+  font-size: 28px;
+  line-height: 1.15;
+  font-weight: 500;
+}
+
+.social-card--join .social-card-copy {
+  color: rgba(255, 244, 232, 0.86);
+  margin-top: 12px;
+}
+
+.social-card-credit {
+  color: rgba(255, 244, 232, 0.66);
+  font-size: 12px;
+  margin: 16px 0 0;
+  text-align: right;
 }
 
 .social-video-body {
@@ -882,24 +954,10 @@ button {
   padding: 26px 28px 28px;
 }
 
-.social-embed-panel {
-  padding: 12px;
-  overflow: hidden;
-}
-
-.social-embed-panel--feed {
-  width: 100%;
-  justify-self: stretch;
-}
-
 .facebook-page-embed {
   display: block;
   width: 100%;
-  max-width: 500px;
-  min-height: 680px;
-  margin: 0 auto;
-  background: #fff;
-  border-radius: calc(var(--radius-md) - 8px);
+  height: 130px;
 }
 
 .quote-panel blockquote {
@@ -1055,8 +1113,9 @@ button {
     margin: 18px 0 0;
   }
 
-  .social-embed-panel--feed {
-    justify-self: stretch;
+  .social-card-grid {
+    width: min(100%, 560px);
+    grid-template-columns: 1fr;
   }
 
   .concert-card--upcoming {
@@ -1153,12 +1212,24 @@ button {
     padding: 22px;
   }
 
-  .social-embed-panel {
-    padding: 10px;
+  .social-card--facebook {
+    padding: 22px;
   }
 
-  .facebook-page-embed {
-    min-height: 620px;
+  .social-card--join {
+    min-height: 400px;
+  }
+
+  .social-card-body {
+    padding: 88px 22px 18px;
+  }
+
+  .social-card-copy {
+    font-size: 15px;
+  }
+
+  .social-card-title {
+    font-size: 24px;
   }
 
   .hero-title,

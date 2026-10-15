@@ -66,7 +66,15 @@ export const homePage = {
     eyebrow: "Följ oss",
     title: "Se och hör mer från kören mellan konserterna.",
     lead:
-      "I Facebook-flödet delar vi konsertbilder, korta klipp, evenemang och uppdateringar från körens arbete i Högalid.",
+      "Följ kören i sociala medier – eller ta steget och sjung med oss.",
+    facebookCard: {
+      label: "Facebook och Instagram",
+      copy:
+        "Här delar vi konsertbilder, korta klipp, evenemang och uppdateringar från körens arbete i Högalid.",
+    },
+    joinCard: {
+      label: "Sjung med oss",
+    },
   },
 };
 
@@ -99,9 +107,10 @@ export const socialMedia = {
     url: "https://www.facebook.com/kammarkorenhogalid",
     fallbackUrl: site.facebook,
     videosUrl: "https://www.facebook.com/kammarkorenhogalid/videos",
-    tabs: "timeline",
+    // Only the page header: Facebook's timeline tab often renders empty.
+    tabs: "",
     width: 500,
-    height: 680,
+    height: 130,
   },
 };
 
