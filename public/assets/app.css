@@ -1266,3 +1266,16 @@ button {
     font-size: 24px;
   }
 }
+
+.faq-card h3 {
+  font-size: 21px;
+}
+
+.faq-card a {
+  display: inline;
+  color: var(--accent-dark);
+  font-weight: 600;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+  overflow-wrap: anywhere;
+}

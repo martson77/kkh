@@ -45,6 +45,13 @@ export function formatShortDate(value) {
   }).format(new Date(value));
 }
 
+// A concert can be performed several times on the same day (e.g. kl 16 and 18).
+export function getConcertPerformances(concert) {
+  return concert.performances?.length
+    ? concert.performances
+    : [{ start: concert.start, end: concert.end }];
+}
+
 export function concertDetailsPath(concert) {
   return concert.slug ? `/konserter/${concert.slug}/` : "/konserter/";
 }
@@ -61,22 +68,20 @@ export function concertCalendarUrl(concert) {
   return absoluteUrl(concertCalendarPath(concert));
 }
 
+export function joinSwedishList(items) {
+  if (items.length <= 1) {
+    return items[0] || "";
+  }
+
+  return `${items.slice(0, -1).join(", ")} och ${items[items.length - 1]}`;
+}
+
 export function formatVoicesWanted(voicesWanted) {
   if (!voicesWanted?.length) {
     return "nya sångare i flera stämmor";
   }
 
-  if (voicesWanted.length === 1) {
-    return voicesWanted[0];
-  }
-
-  if (voicesWanted.length === 2) {
-    return `${voicesWanted[0]} och ${voicesWanted[1]}`;
-  }
-
-  return `${voicesWanted.slice(0, -1).join(", ")} och ${
-    voicesWanted[voicesWanted.length - 1]
-  }`;
+  return joinSwedishList(voicesWanted);
 }
 
 export function daysUntil(value, now = new Date()) {

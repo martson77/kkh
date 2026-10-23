@@ -9,16 +9,22 @@ import {
   conductorPage,
   futureProjects,
   homePage,
+  joinFaq,
   joinPage,
   proofCards,
   recruitment,
   site,
   socialMedia,
 } from "./site-data.mjs";
+import {
+  formatVoicesWanted,
+  getConcertPerformances,
+  joinSwedishList,
+} from "./editorial-utils.mjs";
 
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const publicDir = path.join(rootDir, "public");
-const assetVersion = "20261015-compact-facebook-card";
+const assetVersion = "20261023-join-faq";
 
 const imageVariantWidths = [500, 800, 1080, 1200, 1600, 2000, 2600, 3200];
 const knownImageWidths = {
@@ -136,6 +142,44 @@ function formatShortDateTime(value) {
   })
     .format(new Date(value))
     .replace(":", ".")}`;
+}
+
+function formatTime(value) {
+  return new Intl.DateTimeFormat("sv-SE", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Europe/Stockholm",
+  }).format(new Date(value));
+}
+
+// Performances of one concert share a day, so list only the extra start times.
+function formatConcertDateTime(concert) {
+  const performances = getConcertPerformances(concert);
+
+  if (performances.length === 1) {
+    return formatDateTime(performances[0].start);
+  }
+
+  const date = new Intl.DateTimeFormat("sv-SE", {
+    dateStyle: "full",
+    timeZone: "Europe/Stockholm",
+  }).format(new Date(performances[0].start));
+
+  return `${date} kl ${joinSwedishList(
+    performances.map((performance) => formatTime(performance.start))
+  )}`;
+}
+
+function formatConcertShortDateTime(concert) {
+  const performances = getConcertPerformances(concert);
+
+  if (performances.length === 1) {
+    return formatShortDateTime(performances[0].start);
+  }
+
+  return `${formatDate(performances[0].start)} kl ${joinSwedishList(
+    performances.map((performance) => formatTime(performance.start).replace(":", "."))
+  )}`;
 }
 
 function absoluteUrl(urlPath) {
@@ -410,6 +454,48 @@ function concertOrganizerJsonLd(concert) {
   };
 }
 
+function isFreeConcert(concert) {
+  return /fri entr[eé]|gratis/i.test(concert.price ?? "");
+}
+
+// One MusicEvent per performance, shared by the home, concerts and detail pages.
+function concertEventsJsonLd(concert) {
+  return getConcertPerformances(concert).map((performance) => {
+    const isPastPerformance = new Date(performance.start) < now;
+
+    return {
+      "@type": "MusicEvent",
+      name: concert.title,
+      startDate: performance.start,
+      endDate: performance.end,
+      eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+      eventStatus: isPastPerformance
+        ? "https://schema.org/EventCompleted"
+        : "https://schema.org/EventScheduled",
+      description: concert.summary,
+      image: [absoluteUrl(concert.socialImage)],
+      ...(hasConcertDetailPage(concert)
+        ? { url: absoluteUrl(`/konserter/${concert.slug}/`) }
+        : {}),
+      location: {
+        "@type": "Place",
+        name: concert.venue,
+        address: concert.address,
+      },
+      organizer: concertOrganizerJsonLd(concert),
+      ...(hasEventLink(concert) ? { sameAs: [concert.eventUrl] } : {}),
+      performer: concert.performers.map((performer) => ({
+        "@type": "PerformingGroup",
+        name: performer,
+      })),
+      ...(isFreeConcert(concert) ? { isAccessibleForFree: true } : {}),
+      ...(!isPastPerformance && hasTicketLink(concert)
+        ? { offers: concertTicketOffer(concert) }
+        : {}),
+    };
+  });
+}
+
 function concertEventButtonLine(concert, location, indent = "            ") {
   if (!hasEventLink(concert)) {
     return "";
@@ -657,11 +743,16 @@ function concertCalendarDetails(concert) {
   return `${concert.summary}\n\n${ticketLine}${eventLine}\nMer info: ${detailsUrl}`;
 }
 
-function concertGoogleCalendarUrl(concert) {
+function concertGoogleCalendarUrl(
+  concert,
+  performance = getConcertPerformances(concert)[0]
+) {
   const params = new URLSearchParams({
     action: "TEMPLATE",
     text: concert.title,
-    dates: `${toGoogleDate(concert.start)}/${toGoogleDate(concert.end || concert.start)}`,
+    dates: `${toGoogleDate(performance.start)}/${toGoogleDate(
+      performance.end || performance.start
+    )}`,
     location: `${concert.venue}, ${concert.address || ""}`.trim(),
     details: concertCalendarDetails(concert),
     ctz: "Europe/Stockholm",
@@ -823,30 +914,8 @@ function renderHomePage() {
     url: site.baseUrl,
     image: absoluteUrl(site.choirImageSocial),
     sameAs: [site.facebook, site.instagram],
-    event: {
-      "@type": "MusicEvent",
-      name: featuredConcert.title,
-      startDate: featuredConcert.start,
-      endDate: featuredConcert.end,
-      location: {
-        "@type": "Place",
-        name: featuredConcert.venue,
-        address: featuredConcert.address,
-      },
-      image: [absoluteUrl(featuredConcert.socialImage)],
-      description: featuredConcert.summary,
-      ...(hasEventLink(featuredConcert) ? { sameAs: [featuredConcert.eventUrl] } : {}),
-      organizer: concertOrganizerJsonLd(featuredConcert),
-      performer: featuredConcert.performers.map((performer) => ({
-        "@type": "PerformingGroup",
-        name: performer,
-      })),
-    },
+    event: upcomingConcerts.flatMap((concert) => concertEventsJsonLd(concert)),
   };
-
-  if (hasTicketLink(featuredConcert)) {
-    jsonLd.event.offers = concertTicketOffer(featuredConcert);
-  }
 
   const body = `<main>
   <section class="hero hero--home">
@@ -889,7 +958,7 @@ function renderHomePage() {
         <aside class="highlight-panel">
           <p class="highlight-panel-kicker">${featuredConcertLabel}</p>
           <h2 class="highlight-panel-title">${featuredConcert.title}</h2>
-          <p class="highlight-panel-meta">${formatDateTime(featuredConcert.start)} · ${featuredConcert.venue}</p>
+          <p class="highlight-panel-meta">${formatConcertDateTime(featuredConcert)} · ${featuredConcert.venue}</p>
           <p class="highlight-panel-copy">${
             hasTicketLink(featuredConcert)
               ? homePage.nextConcertPanel.withTicketTitle
@@ -1063,6 +1132,18 @@ function renderConcertsPage() {
     upcomingConcerts.length > 1 ? "Kommande konserter" : "Nästa konsert";
   const upcomingSectionEyebrow =
     upcomingConcerts.length > 1 ? "Kommande konserter" : "Aktuell konsert";
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: `Kommande konserter med ${site.name}`,
+    itemListElement: upcomingConcerts
+      .flatMap((concert) => concertEventsJsonLd(concert))
+      .map((event, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: event,
+      })),
+  };
   const body = `<main>
   <section class="page-header">
     <div class="site-container page-header-grid">
@@ -1113,7 +1194,7 @@ function renderConcertsPage() {
           <div class="concert-card-body">
             <p class="concert-card-kicker">${index === 0 ? "Nästa konsert" : "Kommande konsert"}</p>
             <h3 class="concert-card-title">${concert.title}</h3>
-            <p class="concert-card-meta">${formatDateTime(concert.start)} · ${concert.venue}</p>
+            <p class="concert-card-meta">${formatConcertDateTime(concert)} · ${concert.venue}</p>
             <p class="concert-card-copy">${concert.summary}</p>${renderLunchTeaser(concert, "concerts_upcoming")}
             ${renderImageCredit(concert.imageCredit, "concert-card-credit")}
             <div class="concert-card-actions">
@@ -1190,6 +1271,7 @@ ${concertEventButtonLine(concert, "concerts_upcoming", "              ")}       
     ogDescription:
       "Se nästa konsert, spara datumet i kalendern och upptäck tidigare program från Kammarkören Högalid.",
     pageType: "concerts",
+    jsonLd,
     body,
     preloadImage: {
       src: nextConcert.heroImage,
@@ -1212,34 +1294,12 @@ function renderConcertDetailPage(concert) {
       : hasEventLink(concert)
         ? "Följ eller spara"
         : "Spara konserten";
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "MusicEvent",
-    name: concert.title,
-    startDate: concert.start,
-    endDate: concert.end,
-    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-    eventStatus: isPastConcert
-      ? "https://schema.org/EventCompleted"
-      : "https://schema.org/EventScheduled",
-    description: concert.summary,
-    image: [absoluteUrl(concert.socialImage)],
-    location: {
-      "@type": "Place",
-      name: concert.venue,
-      address: concert.address,
-    },
-    organizer: concertOrganizerJsonLd(concert),
-    ...(hasEventLink(concert) ? { sameAs: [concert.eventUrl] } : {}),
-    performer: concert.performers.map((performer) => ({
-      "@type": "PerformingGroup",
-      name: performer,
-    })),
-  };
-
-  if (!isPastConcert && hasTicketLink(concert)) {
-    jsonLd.offers = concertTicketOffer(concert);
-  }
+  const performances = getConcertPerformances(concert);
+  const events = concertEventsJsonLd(concert);
+  const jsonLd =
+    events.length === 1
+      ? { "@context": "https://schema.org", ...events[0] }
+      : { "@context": "https://schema.org", "@graph": events };
 
   const body = `<main>
   <section class="page-header page-header--event">
@@ -1248,7 +1308,7 @@ function renderConcertDetailPage(concert) {
         <p class="eyebrow">${detailEyebrow}</p>
         <h1 class="page-title">${concert.title}</h1>
         <p class="page-lead">${concert.teaser} ${concert.summary}</p>
-        <p class="event-meta">${formatDateTime(concert.start)} · ${concert.venue}</p>
+        <p class="event-meta">${formatConcertDateTime(concert)} · ${concert.venue}</p>
       </div>
       <div class="media-card">
         ${renderImage({
@@ -1305,7 +1365,7 @@ function renderConcertDetailPage(concert) {
             ? `<div class="aside-card">
           <p class="aside-label">${featuredConcertLabel}</p>
           <h2>${featuredConcert.title}</h2>
-          <p>${formatDateTime(featuredConcert.start)} · ${featuredConcert.venue}</p>
+          <p>${formatConcertDateTime(featuredConcert)} · ${featuredConcert.venue}</p>
           <div class="stack-actions">
             ${button({
               href: `/konserter/${featuredConcert.slug}/`,
@@ -1319,7 +1379,7 @@ function renderConcertDetailPage(concert) {
         }<div class="aside-card">
           <p class="aside-label">Tid och plats</p>
           <h2>${concert.venue}</h2>
-          <p>${formatDateTime(concert.start)}</p>
+          <p>${formatConcertDateTime(concert)}</p>
           <p>${renderMapLink(concert.address, concertMapQuery(concert), "concert_detail_sidebar")}</p>
         </div>
         <div class="aside-card">
@@ -1350,14 +1410,21 @@ ${concertEventButtonLine(concert, "concert_detail_sidebar")}            ${
             ${
               isPastConcert
                 ? ""
-                : button({
-              href: concertGoogleCalendarUrl(concert),
-              label: "Lägg till i Google Kalender",
-              track: "add_to_calendar",
-              location: "concert_detail_sidebar",
-              variant: "secondary",
-              newTab: true,
-            })
+                : performances
+                    .map((performance) =>
+                      button({
+                        href: concertGoogleCalendarUrl(concert, performance),
+                        label:
+                          performances.length > 1
+                            ? `Google Kalender, kl ${formatTime(performance.start)}`
+                            : "Lägg till i Google Kalender",
+                        track: "add_to_calendar",
+                        location: "concert_detail_sidebar",
+                        variant: "secondary",
+                        newTab: true,
+                      })
+                    )
+                    .join("\n            ")
             }
             ${
               hasPoster(concert)
@@ -1411,11 +1478,11 @@ ${concertEventButtonLine(concert, "concert_detail_sidebar")}            ${
   return renderLayout({
     pageTitle: `${concert.title} | ${formatDate(concert.start)} | ${site.name}`,
     description: isPastConcert
-      ? `${concert.title} framfördes i ${concert.venue} ${formatShortDateTime(
-          concert.start
+      ? `${concert.title} framfördes i ${concert.venue} ${formatConcertShortDateTime(
+          concert
         )}. Läs mer om programmet och medverkande.`
-      : `${concert.title} i ${concert.venue} ${formatShortDateTime(
-          concert.start
+      : `${concert.title} i ${concert.venue} ${formatConcertShortDateTime(
+          concert
         )}. Läs mer, lägg i kalendern och planera ditt besök.`,
     urlPath: `/konserter/${concert.slug}/`,
     currentPath: `/konserter/${concert.slug}/`,
@@ -1443,6 +1510,7 @@ function renderSimplePage({
   imageCredit,
   sections,
   pageType,
+  jsonLd,
 }) {
   const body = `<main>
   <section class="page-header">
@@ -1480,6 +1548,7 @@ function renderSimplePage({
     ogTitle: pageTitle,
     ogDescription: description,
     pageType,
+    jsonLd,
     body,
     preloadImage: image
       ? {
@@ -1577,7 +1646,51 @@ function renderConductorPage() {
   });
 }
 
+function joinFaqItems() {
+  const voicesItem =
+    recruitment.active && recruitment.voicesWanted?.length
+      ? [
+          {
+            question: "Vilka stämmor söker ni just nu?",
+            answer: `Just nu söker vi särskilt ${formatVoicesWanted(
+              recruitment.voicesWanted
+            )}.`,
+          },
+        ]
+      : [];
+
+  return [...voicesItem, ...joinFaq];
+}
+
+function renderFaqAnswer(text) {
+  return escapeHtml(text)
+    .replaceAll(
+      joinPage.formUrl,
+      `<a href="${joinPage.formUrl}" target="_blank" rel="noreferrer" data-track="join_choir" data-track-location="join_faq">${joinPage.formUrl.replace(
+        /^https?:\/\//,
+        ""
+      )}</a>`
+    )
+    .replaceAll(
+      site.email,
+      `<a href="mailto:${site.email}" data-track="join_choir" data-track-location="join_faq">${site.email}</a>`
+    );
+}
+
 function renderJoinPage() {
+  const faqItems = joinFaqItems();
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqItems.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
   const sections = `<section class="section-block">
   <div class="site-container section-grid">
     <div>
@@ -1622,13 +1735,40 @@ function renderJoinPage() {
       </div>
     </div>
   </div>
+</section>
+<section class="section-block" id="vanliga-fragor">
+  <div class="site-container">
+    <div class="section-heading">
+      <p class="eyebrow">Vanliga frågor</p>
+      <h2 class="section-title">Frågor och svar om att sjunga i ${site.name}</h2>
+    </div>
+    <div class="visit-grid">
+      ${faqItems
+        .map(
+          (item) => `<article class="visit-card faq-card">
+        <h3>${escapeHtml(item.question)}</h3>
+        <p>${renderFaqAnswer(item.answer)}</p>
+      </article>`
+        )
+        .join("\n      ")}
+    </div>
+    <div class="section-actions">
+      ${button({
+        href: joinPage.formUrl,
+        label: "Skicka intresseanmälan",
+        track: "join_choir",
+        location: "join_faq",
+        newTab: true,
+      })}
+    </div>
+  </div>
 </section>`;
 
   return renderSimplePage({
     currentPath: "/sjung-med-oss/",
     pageTitle: `Sjung med oss | ${site.name}`,
     description:
-      "Läs hur provsjungning går till, när vi repeterar och hur du skickar en intresseanmälan till Kammarkören Högalid.",
+      "Kammarkören Högalid i Stockholm tar in nya sångare inför varje termin. Läs hur provsjungning går till, när vi repeterar och svar på vanliga frågor.",
     title: "Sjung med oss",
     lead: joinPage.intro,
     image: joinPage.image || site.choirImage,
@@ -1636,6 +1776,7 @@ function renderJoinPage() {
     imageCredit: (joinPage.image ? joinPage.imageCredit : site.choirImageCredit) || "",
     sections,
     pageType: "join",
+    jsonLd,
   });
 }
 
@@ -1659,7 +1800,7 @@ function escapeIcs(value) {
 
 function renderIcsCalendar(items, calendarName) {
   const events = items
-    .map((concert) => {
+    .flatMap((concert) => {
       const detailsUrl = absoluteUrl(
         concert.slug ? `/konserter/${concert.slug}/` : "/konserter/"
       );
@@ -1668,16 +1809,28 @@ function renderIcsCalendar(items, calendarName) {
         ? `\nFacebook-evenemang: ${concert.eventUrl}`
         : "";
       const fullDescription = description.replace("\nMer information:", `${eventLine}\nMer information:`);
-      return `BEGIN:VEVENT
-UID:${concert.slug || concert.title.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-")}@kammarkorenhogalid.se
+      const baseUid =
+        concert.slug || concert.title.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-");
+      const performances = getConcertPerformances(concert);
+
+      return performances.map((performance) => {
+        // Keep single-performance UIDs unchanged so subscribed calendars stay in sync.
+        const uid =
+          performances.length > 1
+            ? `${baseUid}-${formatTime(performance.start).replace(":", "")}`
+            : baseUid;
+
+        return `BEGIN:VEVENT
+UID:${uid}@kammarkorenhogalid.se
 DTSTAMP:${toIcsTimestamp(concert.updatedAt || concert.start)}
-DTSTART:${toIcsTimestamp(concert.start)}
-DTEND:${toIcsTimestamp(concert.end || concert.start)}
+DTSTART:${toIcsTimestamp(performance.start)}
+DTEND:${toIcsTimestamp(performance.end || performance.start)}
 SUMMARY:${escapeIcs(concert.title)}
 DESCRIPTION:${escapeIcs(fullDescription)}
 LOCATION:${escapeIcs(`${concert.venue}${concert.address ? `, ${concert.address}` : ""}`)}
 URL:${detailsUrl}
 END:VEVENT`;
+      });
     })
     .join("\n");
 

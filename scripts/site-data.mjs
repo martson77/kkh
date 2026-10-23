@@ -218,6 +218,50 @@ export const joinPage = {
   imageCredit: "Foto: Mats Edman",
 };
 
+// Shown as "Vanliga frågor" on /sjung-med-oss/ and published as FAQPage data.
+// Write self-contained answers so they make sense when quoted on their own.
+export const joinFaq = [
+  {
+    question: "Vilken nivå krävs för att sjunga i Kammarkören Högalid?",
+    answer:
+      "Kammarkören Högalid är en blandad kör på avancerad nivå med cirka 25 sångare. Vi söker dig som har god körvana, god notläsningsförmåga och säkert gehör, och som kan förbereda dig självständigt mellan repetitionerna.",
+  },
+  {
+    question: "När och var repeterar kören?",
+    answer:
+      "Vi repeterar torsdagar kl 18.30–21.30 i Högalids församlingshus på Södermalm i Stockholm. I början av terminen brukar vi också ha en repetitionshelg i Stockholmsområdet.",
+  },
+  {
+    question: "När tar kören in nya sångare?",
+    answer:
+      "Vi tar vanligtvis in nya sångare i början av varje termin. Du kan skicka en intresseanmälan redan nu, så hör vi av oss när nästa provsjungning planeras.",
+  },
+  {
+    question: "Hur går provsjungningen till?",
+    answer:
+      "Du sjunger en valfri solosång och en ensemblesång. Vi lyssnar också på omfång, gehör och a vista-läsning.",
+  },
+  {
+    question: "Hur anmäler jag intresse?",
+    answer: `Fyll i Svenska kyrkans formulär på ${joinPage.formUrl} eller mejla kören på ${site.email}.`,
+  },
+  {
+    question: "Vilken musik sjunger kören?",
+    answer:
+      "Vi sjunger musik från renässansen till samtida och nyskriven körmusik, både a cappella och med orkester. Bland tonsättarna finns Monteverdi, Bach, Händel, Zelenka, Britten, Pärt och Palmeri.",
+  },
+  {
+    question: "Hur många konserter gör kören?",
+    answer:
+      "Kören framför normalt fyra till sex konserter per år, de flesta i Högalidskyrkan på Södermalm, och medverkar dessutom i högmässor och större projekt i Högalids församling.",
+  },
+  {
+    question: "Vem leder kören?",
+    answer:
+      "Benedikt Melichar, kyrkomusiker i Högalids församling, grundade kören 2017 och är dess dirigent och konstnärliga ledare.",
+  },
+];
+
 export const recruitment = {
   active: true,
   season: "Våren 2026",
@@ -465,6 +509,57 @@ export const concerts = [
       {
         title: "Biljetter och entré",
         body: "Konserten har fri entré. Välkommen!",
+      },
+      {
+        title: "Tillgänglighet",
+        body:
+          "Om du behöver hjälp med tillgänglighet eller placering, hör av dig till kammarkorenhogalid@gmail.com i god tid före konserten.",
+      },
+    ],
+  },
+  {
+    slug: "adventskonserter-2026",
+    title: "Adventskonserter i Högalid",
+    shortTitle: "Adventskonserter i Högalid",
+    teaser: "Två konserter på första advent.",
+    summary:
+      "Kammarkören Högalid och körer från Högalids församling sjunger in advent i Högalidskyrkan kl 16.00 och kl 18.00.",
+    // `start` mirrors the first performance for scripts that only read one time.
+    start: "2026-11-29T16:00:00+01:00",
+    performances: [
+      { start: "2026-11-29T16:00:00+01:00" },
+      { start: "2026-11-29T18:00:00+01:00" },
+    ],
+    venue: "Högalidskyrkan",
+    address: "Högalids kyrkväg 11, 117 30 Stockholm",
+    transport:
+      "Tunnelbana till Hornstull och därefter en kort promenad upp mot Högalidskyrkan.",
+    organizers: ["Högalids församling", "Kammarkören Högalid"],
+    heroImage: "/assets/imported/concerts/hogalid-exterior.jpg",
+    heroImageAlt: "Högalidskyrkan utifrån i vinterljus.",
+    socialImage: "/assets/imported/concerts/hogalid-exterior.jpg",
+    posterImage: "/assets/imported/concerts/hogalid-exterior.jpg",
+    imageCredit: "Arild Vågen / Wikimedia Commons (CC BY-SA 3.0)",
+    description: [
+      "På första advent, söndagen den 29 november, sjunger Kammarkören Högalid tillsammans med körer från Högalids församling i Högalidskyrkan. Det blir två adventskonserter samma eftermiddag, kl 16.00 och kl 18.00.",
+      "Program, medverkande och information om entré publiceras närmare konserten.",
+    ],
+    program: ["Adventsmusik för kör – programmet publiceras närmare konserten"],
+    performers: ["Kammarkören Högalid", "Körer från Högalids församling"],
+    planVisit: [
+      {
+        title: "Hitta hit",
+        body:
+          "Högalidskyrkan ligger på Södermalm i Stockholm. Adress: Högalids kyrkväg 11, 117 30 Stockholm.",
+      },
+      {
+        title: "Resa hit",
+        body:
+          "Tunnelbana till Hornstull är smidigast. Räkna med en kort promenad upp till kyrkan.",
+      },
+      {
+        title: "Biljetter och entré",
+        body: "Information om entré publiceras närmare konserten.",
       },
       {
         title: "Tillgänglighet",

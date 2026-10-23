@@ -42,6 +42,7 @@ To minimize manual work, the content file now also drives:
 
 - the next-concert homepage content
 - concert metadata and calendar links
+- structured data (schema.org) for concerts and the join page FAQ (`joinFaq`)
 - campaign draft generation
 - a basic stale-content check
 

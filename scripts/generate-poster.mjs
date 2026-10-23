@@ -7,7 +7,9 @@ import { fileURLToPath } from "node:url";
 import { automationSettings, site } from "./site-data.mjs";
 import {
   formatDate,
+  getConcertPerformances,
   getUpcomingConcerts,
+  joinSwedishList,
   stockholmTimeZone,
 } from "./editorial-utils.mjs";
 
@@ -142,6 +144,12 @@ function formatPosterTime(value) {
     .replace(":", ".");
 }
 
+function formatPosterStartTimes(concert) {
+  return joinSwedishList(
+    getConcertPerformances(concert).map((performance) => formatPosterTime(performance.start))
+  );
+}
+
 function formatPosterDateLine(concert) {
   const dateLabel = capitalize(
     new Intl.DateTimeFormat("sv-SE", {
@@ -152,6 +160,12 @@ function formatPosterDateLine(concert) {
       timeZone: stockholmTimeZone,
     }).format(new Date(concert.start))
   );
+
+  const performances = getConcertPerformances(concert);
+
+  if (performances.length > 1) {
+    return `${dateLabel} kl ${formatPosterStartTimes(concert)}`;
+  }
 
   const startTime = formatPosterTime(concert.start);
   const endTime = concert.end ? `-${formatPosterTime(concert.end)}` : "";
@@ -166,8 +180,7 @@ function formatPosterMetaLine(concert) {
     month: "long",
     timeZone: stockholmTimeZone,
   }).format(new Date(concert.start));
-  const startTime = formatPosterTime(concert.start).replace(".", ".");
-  return `${concert.venue} ${date} kl ${startTime}`.toUpperCase();
+  return `${concert.venue} ${date} kl ${formatPosterStartTimes(concert)}`.toUpperCase();
 }
 
 function measureText(text, fontSize, variant = "body") {
