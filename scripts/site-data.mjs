@@ -294,14 +294,12 @@ export const futureProjects = [
   {
     title: "Hösten 2026",
     summary:
-      "Hösten 2026 bjuder på ett samarbete med Johann Sebastian Bach-Chor från Hamburg, adventskonserter i Högalid och ett framförande av Monteverdis Mariavesper.",
+      "Efter samarbetet med Johann Sebastian Bach-Chor från Hamburg fortsätter hösten 2026 med adventskonserter i Högalid och ett framförande av Monteverdis Mariavesper.",
     paragraphs: [
-      "Den 11 oktober gästade Kammarkören Högalid Kreuzkirche Ottensen i Hamburg för en barockkonsert tillsammans med Johann Sebastian Bach-Chor. Nu kommer samma program till Högalidskyrkan den 25 oktober.",
+      "Den 11 oktober gästade Kammarkören Högalid Kreuzkirche Ottensen i Hamburg för en barockkonsert tillsammans med Johann Sebastian Bach-Chor, och den 25 oktober framfördes samma program i Högalidskyrkan.",
       "Därefter följer 1:a adventskonserter tillsammans med församlingens körer den 29 november kl 16.00 och 18.00, och Monteverdis Mariavesper den 20 december kl 16.00 tillsammans med Högalids unga röster och Oratoriekör.",
     ],
     bullets: [
-      "Samarbete med Johann Sebastian Bach-Chor i Hamburg",
-      "Bach & Zelenka i Högalidskyrkan den 25 oktober kl 16.00",
       "Högmässa den 8 november kl 11.00",
       "1:a adventskonserter den 29 november kl 16.00 och 18.00",
       "Monteverdis Mariavesper den 20 december kl 16.00",
@@ -399,7 +397,7 @@ export const concerts = [
     posterPdfSource: "/assets/imported/concerts/260819-zelenka-postkarte.pdf",
     imageCredit: "PodracerHH / Wikimedia Commons (CC BY-SA 3.0)",
     description: [
-      "Den 11 oktober 2026 gästade Kammarkören Högalid Hamburg för ett gemensamt barockprogram tillsammans med Johann Sebastian Bach-Chor. Konserten var en del av ett utbyte mellan ensemblerna, och den 25 oktober framförs programmet i Högalidskyrkan.",
+      "Den 11 oktober 2026 gästade Kammarkören Högalid Hamburg för ett gemensamt barockprogram tillsammans med Johann Sebastian Bach-Chor. Konserten var en del av ett utbyte mellan ensemblerna, och den 25 oktober framfördes programmet även i Högalidskyrkan.",
       "Programmet samlade verk av J.D. Zelenka, Christoph Bernhard och J.S. Bach och knöt samman mässa, motett och kantat i ett koncentrerat barockprogram.",
     ],
     program: [
@@ -444,7 +442,7 @@ export const concerts = [
     shortTitle: "Bach & Zelenka",
     teaser: "Zelenkas Missa Sancti Josephi samt musik av Bernhard och Bach.",
     summary:
-      "Kammarkören Högalid och Johann Sebastian Bach-Chor från Hamburg möts i Högalidskyrkan med vokalsolister och barockorkester. Fri entré.",
+      "Kammarkören Högalid och Johann Sebastian Bach-Chor från Hamburg möttes i Högalidskyrkan med vokalsolister och barockorkester.",
     start: "2026-10-25T16:00:00+01:00",
     end: "2026-10-25T18:00:00+01:00",
     price: "Fri entré",
@@ -466,8 +464,8 @@ export const concerts = [
     posterProgramText:
       "Zelenka – Missa Sancti Josephi samt musik av Bernhard och Bach. Agnes Auer, sopran; Rodrigo Sosa Dal Pozzo, alt; David Bergman, tenor; David Risberg, bas; Barockorkester, Ann Wallström, konsertmästare; Johann-Sebastian-Bach-Chor (Hamburg); Kammarkören Högalid; Benedikt Melichar, dirigent.",
     description: [
-      "Efter konserten i Hamburg den 11 oktober kommer det gemensamma barockprogrammet till Högalidskyrkan. Kammarkören Högalid och Johann Sebastian Bach-Chor sjunger Jan Dismas Zelenkas Missa Sancti Josephi samt musik av Christoph Bernhard och J.S. Bach, tillsammans med fyra vokalsolister och barockorkester under ledning av Benedikt Melichar.",
-      "Konserten är en del av körernas utbyte hösten 2026 och ger publiken i Högalid möjlighet att höra programmet som framfördes i Kreuzkirche Ottensen tidigare under månaden. Fri entré – välkommen!",
+      "Den 25 oktober 2026 kom det gemensamma barockprogrammet från Hamburg till Högalidskyrkan. Kammarkören Högalid och Johann Sebastian Bach-Chor sjöng Jan Dismas Zelenkas Missa Sancti Josephi samt musik av Christoph Bernhard och J.S. Bach, tillsammans med fyra vokalsolister och barockorkester under ledning av Benedikt Melichar.",
+      "Konserten var en del av körernas utbyte hösten 2026 och gav publiken i Högalid möjlighet att höra programmet som framfördes i Kreuzkirche Ottensen tidigare under månaden. Tack till alla som kom och lyssnade!",
     ],
     lunch: {
       title: "Lunch med Zelenka",

@@ -6,16 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Kammarkören Högalid – kommande konserter
 X-WR-TIMEZONE:Europe/Stockholm
 BEGIN:VEVENT
-UID:barockkonsert-hogalid@kammarkorenhogalid.se
-DTSTAMP:20261025T150000Z
-DTSTART:20261025T150000Z
-DTEND:20261025T170000Z
-SUMMARY:Bach & Zelenka
-DESCRIPTION:Kammarkören Högalid och Johann Sebastian Bach-Chor från Hamburg möts i Högalidskyrkan med vokalsolister och barockorkester. Fri entré.\n\nEntré: Fri entré\nMer information: https://www.kammarkorenhogalid.se/konserter/barockkonsert-hogalid/
-LOCATION:Högalidskyrkan\, Högalids kyrkväg 11\, 117 30 Stockholm
-URL:https://www.kammarkorenhogalid.se/konserter/barockkonsert-hogalid/
-END:VEVENT
-BEGIN:VEVENT
 UID:adventskonserter-2026-1600@kammarkorenhogalid.se
 DTSTAMP:20261129T150000Z
 DTSTART:20261129T150000Z
