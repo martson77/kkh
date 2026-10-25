@@ -37,6 +37,7 @@ a {
 }
 
 .inline-map-link {
+  display: inline;
   color: var(--accent-dark);
   font-weight: 600;
   text-decoration-thickness: 0.08em;
@@ -271,6 +272,10 @@ button {
 .footer-copy {
   color: var(--muted);
   font-size: 17px;
+}
+
+.visit-card p {
+  overflow-wrap: anywhere;
 }
 
 .hero-actions,
@@ -1091,7 +1096,7 @@ button {
   .two-column-copy,
   .footer-grid,
   .concert-card--upcoming {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .hero {
@@ -1236,6 +1241,12 @@ button {
   .page-title,
   .section-title {
     font-size: clamp(30px, 10vw, 42px);
+    overflow-wrap: break-word;
+  }
+
+  /* Leave room for long compound words such as "Adventskonserter". */
+  .page-title {
+    font-size: clamp(27px, 8.5vw, 42px);
   }
 
   .hero-meta,

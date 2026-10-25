@@ -24,7 +24,7 @@ import {
 
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const publicDir = path.join(rootDir, "public");
-const assetVersion = "20261023-join-faq";
+const assetVersion = "20261025-mobile-overflow";
 
 const imageVariantWidths = [500, 800, 1080, 1200, 1600, 2000, 2600, 3200];
 const knownImageWidths = {
@@ -102,7 +102,11 @@ function renderMapLink(label, query = label, location = "unknown") {
 }
 
 function renderTextWithAddressLink(text, concert, location = "unknown") {
-  const body = escapeHtml(text);
+  // <wbr> lets the long email address wrap after "@" instead of overflowing.
+  const body = escapeHtml(text).replaceAll(
+    site.email,
+    `<a class="inline-map-link" href="mailto:${site.email}">${site.email.replace("@", "@<wbr>")}</a>`
+  );
 
   if (!concert.address) {
     return body;
