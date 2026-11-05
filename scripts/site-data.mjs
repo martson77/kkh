@@ -297,7 +297,7 @@ export const futureProjects = [
       "Efter samarbetet med Johann Sebastian Bach-Chor från Hamburg fortsätter hösten 2026 med adventskonserter i Högalid och ett framförande av Monteverdis Mariavesper.",
     paragraphs: [
       "Den 11 oktober gästade Kammarkören Högalid Kreuzkirche Ottensen i Hamburg för en barockkonsert tillsammans med Johann Sebastian Bach-Chor, och den 25 oktober framfördes samma program i Högalidskyrkan.",
-      "Därefter följer Vi sjunger in advent – adventskonserter med mer än 100 sångare från församlingens körer – den 29 november kl 16.00 och 18.00, och Monteverdis Mariavesper den 20 december kl 16.00 tillsammans med Högalids unga röster och Oratoriekör.",
+      "Därefter följer Vi sjunger in advent – adventskonserter med mer än 100 sångare från församlingens körer – den 29 november kl 16.00 och 18.00, och Monteverdis Mariavesper den 20 december kl 16.00 tillsammans med Högalids oratoriekör, Högalids unga röster, solister och stor barockorkester.",
     ],
     bullets: [
       "Högmässa den 8 november kl 11.00",
@@ -582,9 +582,11 @@ export const concerts = [
     slug: "monteverdis-mariavesper",
     title: "Monteverdis Mariavesper",
     shortTitle: "Monteverdis Mariavesper",
-    teaser: "Monteverdi tillsammans med Högalids unga röster och Oratoriekör.",
+    teaser:
+      "Tre körer, solister, stor barockorkester och flera orglar – säsongens final i Högalidskyrkan.",
     summary:
-      "Kammarkören Högalid framför Monteverdis Mariavesper tillsammans med Högalids unga röster och Oratoriekör.",
+      "Monteverdis festliga 1600-talsverk med stor barockorkester och flera orglar framförs av Kammarkören Högalid, Högalids oratoriekör och Högalids unga röster. Insamlingskonsert till förmån för Act Svenska kyrkan.",
+    // Tickster: doors open 15.30, the concert lasts about two hours.
     start: "2026-12-20T16:00:00+01:00",
     end: "2026-12-20T18:00:00+01:00",
     venue: "Högalidskyrkan",
@@ -593,15 +595,22 @@ export const concerts = [
       "Tunnelbana till Hornstull och därefter en kort promenad upp mot Högalidskyrkan.",
     ticketUrl:
       "https://www.tickster.com/se/sv/events/reh2y4w9h728e8n/2026-12-20/claudio-monteverdi-mariaevesper",
+    ticketPrice: "150",
+    ticketCurrency: "SEK",
     organizers: ["Högalids församling", "Kammarkören Högalid"],
     heroImage: "/assets/imported/concerts/monteverdi-portrait.jpg",
     heroImageAlt: "Porträtt av Claudio Monteverdi.",
     socialImage: "/assets/imported/concerts/monteverdi-portrait.jpg",
     posterImage: "/assets/imported/concerts/monteverdi-portrait.jpg",
+    posterProgramText:
+      "Kammarkören Högalid, Högalids oratoriekör och Högalids unga röster med solister och stor barockorkester.",
+    posterAccessText:
+      "Biljetter 150 kr via Tickster. Intäkterna går till Act Svenska kyrkan.",
     imageCredit: "Beinecke Rare Book & Manuscript Library / Wikimedia Commons (public domain)",
     description: [
-      "Säsongen avslutas med Monteverdis Mariavesper i Högalidskyrkan. Kammarkören Högalid medverkar tillsammans med Högalids unga röster och Oratoriekör i ett av den tidiga barockens mest betydande verk.",
-      "Biljetter bokas via Tickster. Mer information om medverkande publiceras närmare konserten.",
+      "Säsongen avslutas med Monteverdis Mariavesper i Högalidskyrkan – ett festligt 1600-talsverk och ett av den tidiga barockens mest betydande. Kammarkören Högalid, Högalids oratoriekör och Högalids unga röster framför verket tillsammans med en stor barockorkester och flera orglar.",
+      "Solister är sopranerna Andrea Oberparleiter och Eleonora Poigant och tenorerna Thomas Volle och Simon Frank. Leon Tscholl och Benedikt Melichar dirigerar.",
+      "Konserten är en insamlingskonsert – intäkterna går till Act Svenska kyrkan, Svenska kyrkans internationella biståndsorganisation. Konserten är cirka två timmar lång och biljetter (150 kr) bokas via Tickster.",
     ],
     lunch: {
       title: "Lunch med Monteverdi",
@@ -613,11 +622,18 @@ export const concerts = [
         "Karin Birgersson från Sveriges Radio och Åsa Bertilsson berättar om tonsättaren Claudio Monteverdi och hans Mariavesper medan sopplunchen serveras.",
       concertNote: "Lunchen hålls på konsertdagen. Konserten börjar kl. 16.00 samma dag.",
     },
-    program: ["Claudio Monteverdi: Mariavesper"],
+    program: ["Claudio Monteverdi (1567–1643): Mariavesper (Vespro della Beata Vergine, 1610)"],
     performers: [
       "Kammarkören Högalid",
+      "Högalids oratoriekör",
       "Högalids unga röster",
-      "Oratoriekör",
+      "Barockorkester och flera orglar",
+      "Andrea Oberparleiter, sopran",
+      "Eleonora Poigant, sopran",
+      "Thomas Volle, tenor",
+      "Simon Frank, tenor",
+      "Leon Tscholl, dirigent",
+      "Benedikt Melichar, dirigent",
     ],
     planVisit: [
       {
@@ -628,12 +644,17 @@ export const concerts = [
       {
         title: "Resa hit",
         body:
-          "Tunnelbana till Hornstull är smidigast. Räkna med en kort promenad upp till kyrkan.",
+          "Tunnelbana till Hornstull är smidigast. Räkna med en kort promenad upp till kyrkan. Det finns mycket få parkeringsplatser vid kyrkan – alternativen är gatuparkering eller Högalidsgaraget (infart via Lignagatan och sedan Hornsbruksgatan).",
       },
       {
         title: "Biljetter och entré",
         body:
-          "Biljetter bokas via Tickster. Kom gärna i god tid före start.",
+          "Biljetter kostar 150 kr och bokas via Tickster – alla behöver en biljett, och du väljer plats när du bokar. Entrén öppnar kl 15.30 och konserten är cirka två timmar lång. Intäkterna går till Act Svenska kyrkan.",
+      },
+      {
+        title: "Väskor och barnvagnar",
+        body:
+          "Lämna gärna väskor och kassar hemma – väskkontroll kan förekomma. Barnvagnar får inte tas med in i kyrkan vid stora evenemang men kan låsas fast vid pollarna på kyrkplan. Ta med eget lås.",
       },
       {
         title: "Tillgänglighet",
