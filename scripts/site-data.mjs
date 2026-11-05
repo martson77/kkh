@@ -609,6 +609,9 @@ export const concerts = [
     address: "Högalids kyrkväg 11, 117 30 Stockholm",
     transport:
       "Tunnelbana till Hornstull och därefter en kort promenad upp mot Högalidskyrkan.",
+    ticketUrl:
+      "https://www.tickster.com/se/sv/events/reh2y4w9h728e8n/2026-12-20/claudio-monteverdi-mariaevesper",
+    organizers: ["Högalids församling", "Kammarkören Högalid"],
     heroImage: "/assets/imported/concerts/monteverdi-portrait.jpg",
     heroImageAlt: "Porträtt av Claudio Monteverdi.",
     socialImage: "/assets/imported/concerts/monteverdi-portrait.jpg",
@@ -616,7 +619,7 @@ export const concerts = [
     imageCredit: "Beinecke Rare Book & Manuscript Library / Wikimedia Commons (public domain)",
     description: [
       "Säsongen avslutas med Monteverdis Mariavesper i Högalidskyrkan. Kammarkören Högalid medverkar tillsammans med Högalids unga röster och Oratoriekör i ett av den tidiga barockens mest betydande verk.",
-      "Mer information om medverkande och praktiska detaljer publiceras närmare konserten.",
+      "Biljetter bokas via Tickster. Mer information om medverkande publiceras närmare konserten.",
     ],
     lunch: {
       title: "Lunch med Monteverdi",
@@ -647,7 +650,8 @@ export const concerts = [
       },
       {
         title: "Biljetter och entré",
-        body: "Biljettinformation publiceras närmare konserten.",
+        body:
+          "Biljetter bokas via Tickster. Kom gärna i god tid före start.",
       },
       {
         title: "Tillgänglighet",
