@@ -367,11 +367,6 @@ export const concerts = [
         body:
           "Konserten är gratis – fri entré för alla. Kom gärna i god tid så att du hinner hitta din plats före start.",
       },
-      {
-        title: "Tillgänglighet",
-        body:
-          "Om du behöver hjälp med tillgänglighet eller placering, hör av dig till kammarkorenhogalid@gmail.com i god tid före konserten.",
-      },
     ],
   },
   {
@@ -508,11 +503,6 @@ export const concerts = [
         title: "Biljetter och entré",
         body: "Konserten har fri entré. Välkommen!",
       },
-      {
-        title: "Tillgänglighet",
-        body:
-          "Om du behöver hjälp med tillgänglighet eller placering, hör av dig till kammarkorenhogalid@gmail.com i god tid före konserten.",
-      },
     ],
   },
   {
@@ -592,11 +582,6 @@ export const concerts = [
         title: "Biljetter och entré",
         body:
           "Entré 50 kr. Alla behöver biljett, även barn. Biljetter köps via Tickster – välj konserten kl 16.00 eller kl 18.00. Entrén öppnar en halvtimme före start.",
-      },
-      {
-        title: "Tillgänglighet",
-        body:
-          "Om du behöver hjälp med tillgänglighet eller placering, hör av dig till kammarkorenhogalid@gmail.com i god tid före konserten.",
       },
     ],
   },
@@ -681,11 +666,6 @@ export const concerts = [
         title: "Väskor och barnvagnar",
         body:
           "Lämna gärna väskor och kassar hemma – väskkontroll kan förekomma. Barnvagnar får inte tas med in i kyrkan vid stora evenemang men kan låsas fast vid pollarna på kyrkplan. Ta med eget lås.",
-      },
-      {
-        title: "Tillgänglighet",
-        body:
-          "Om du behöver hjälp med tillgänglighet eller placering, hör av dig till kammarkorenhogalid@gmail.com i god tid före konserten.",
       },
     ],
   },
