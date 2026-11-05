@@ -550,7 +550,11 @@ export const concerts = [
     ticketPrice: "50",
     ticketCurrency: "SEK",
     price: "50 kr",
-    posterAccessText: "Entré 50 kr – intäkterna går till Act Svenska kyrkan",
+    posterProgramText:
+      "Över 100 sångare: Högalids oratoriekör, unga röster och damkör samt Kammarkören Högalid. Jonathan Jennesjö, trumpet. Alexandra Wolfgang, Benedikt Melichar och Leon Tscholl, dirigenter.",
+    posterAccessText:
+      "Entré 50 kr, biljett via tickster.com (även barn). Intäkterna går till Act Svenska kyrkan.",
+    posterFocusY: 0.64,
     organizers: ["Högalids församling", "Kammarkören Högalid"],
     heroImage: "/assets/imported/concerts/hogalid-exterior.jpg",
     heroImageAlt: "Högalidskyrkan utifrån i vinterljus.",
@@ -616,15 +620,19 @@ export const concerts = [
     ticketPrice: "150",
     ticketCurrency: "SEK",
     organizers: ["Högalids församling", "Kammarkören Högalid"],
-    heroImage: "/assets/imported/concerts/monteverdi-portrait.jpg",
-    heroImageAlt: "Porträtt av Claudio Monteverdi.",
-    socialImage: "/assets/imported/concerts/monteverdi-portrait.jpg",
-    posterImage: "/assets/imported/concerts/monteverdi-portrait.jpg",
+    // Same image as the parish's Tickster listing for the concert.
+    heroImage: "/assets/imported/concerts/hogalidskyrkan-vinter.jpg",
+    heroImageAlt:
+      "Högalidskyrkan och Södermalm i snö, fotograferat från luften med Riddarfjärden i bakgrunden.",
+    // The church sits in the right part of the wide photo; keep it in view when cropped.
+    heroImagePosition: "78% 50%",
+    socialImage: "/assets/imported/concerts/hogalidskyrkan-vinter.jpg",
+    posterImage: "/assets/imported/concerts/hogalidskyrkan-vinter.jpg",
     posterProgramText:
       "Kammarkören Högalid, Högalids oratoriekör och Högalids unga röster med solister och stor barockorkester.",
     posterAccessText:
       "Biljetter 150 kr via Tickster. Intäkterna går till Act Svenska kyrkan.",
-    imageCredit: "Beinecke Rare Book & Manuscript Library / Wikimedia Commons (public domain)",
+    imageCredit: "Högalids församling",
     description: [
       "Säsongen avslutas med Monteverdis Mariavesper i Högalidskyrkan – ett festligt 1600-talsverk och ett av den tidiga barockens mest betydande. Kammarkören Högalid, Högalids oratoriekör och Högalids unga röster framför verket tillsammans med en stor barockorkester och flera orglar.",
       "Solister är sopranerna Andrea Oberparleiter och Eleonora Poigant och tenorerna Thomas Volle och Simon Frank. Leon Tscholl och Benedikt Melichar dirigerar.",

@@ -38,6 +38,7 @@ const knownImageWidths = {
   "/assets/imported/concerts/bach-zelenka-hogalidskyrkan.jpg": 2000,
   "/assets/imported/kammarkoren-hogalid-herrar-2026.jpg": 1440,
   "/assets/imported/concerts/monteverdi-portrait.jpg": 520,
+  "/assets/imported/concerts/hogalidskyrkan-vinter.jpg": 2000,
   "/assets/external/cdn.prod.website-files.com/66138d74ede779973813c4af/673f3e4497ad5ca1eb93445e_bach-juloratoriet.jpg":
     1826,
 };
@@ -242,8 +243,11 @@ function renderImage({
   className,
   sizes,
   eager = false,
+  position,
 }) {
-  return `<img src="${src}" alt="${escapeHtml(alt)}" class="${className}"${buildImageAttrs({
+  // `position` sets CSS object-position for images cropped with object-fit: cover.
+  const style = position ? ` style="object-position: ${escapeHtml(position)}"` : "";
+  return `<img src="${src}" alt="${escapeHtml(alt)}" class="${className}"${style}${buildImageAttrs({
     src,
     sizes,
   })} loading="${eager ? "eager" : "lazy"}" decoding="${eager ? "sync" : "async"}"${
@@ -1225,6 +1229,7 @@ function renderConcertsPage() {
             alt: concert.heroImageAlt,
             className: "concert-card-image",
             sizes: "(max-width: 991px) 100vw, 42vw",
+            position: concert.heroImagePosition,
           })}
           <div class="concert-card-body">
             <p class="concert-card-kicker">${index === 0 ? "Nästa konsert" : "Kommande konsert"}</p>
@@ -1349,6 +1354,7 @@ function renderConcertDetailPage(concert) {
           className: "media-card-image",
           sizes: "(max-width: 991px) 100vw, 44vw",
           eager: true,
+          position: concert.heroImagePosition,
         })}
         ${renderImageCredit(concert.imageCredit)}
       </div>
