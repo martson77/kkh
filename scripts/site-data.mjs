@@ -297,11 +297,11 @@ export const futureProjects = [
       "Efter samarbetet med Johann Sebastian Bach-Chor från Hamburg fortsätter hösten 2026 med adventskonserter i Högalid och ett framförande av Monteverdis Mariavesper.",
     paragraphs: [
       "Den 11 oktober gästade Kammarkören Högalid Kreuzkirche Ottensen i Hamburg för en barockkonsert tillsammans med Johann Sebastian Bach-Chor, och den 25 oktober framfördes samma program i Högalidskyrkan.",
-      "Därefter följer 1:a adventskonserter tillsammans med församlingens körer den 29 november kl 16.00 och 18.00, och Monteverdis Mariavesper den 20 december kl 16.00 tillsammans med Högalids unga röster och Oratoriekör.",
+      "Därefter följer Vi sjunger in advent – adventskonserter med mer än 100 sångare från församlingens körer – den 29 november kl 16.00 och 18.00, och Monteverdis Mariavesper den 20 december kl 16.00 tillsammans med Högalids unga röster och Oratoriekör.",
     ],
     bullets: [
       "Högmässa den 8 november kl 11.00",
-      "1:a adventskonserter den 29 november kl 16.00 och 18.00",
+      "Vi sjunger in advent den 29 november kl 16.00 och 18.00",
       "Monteverdis Mariavesper den 20 december kl 16.00",
     ],
     aboutNote:
@@ -517,21 +517,26 @@ export const concerts = [
   },
   {
     slug: "adventskonserter-2026",
-    title: "Adventskonserter i Högalid",
-    shortTitle: "Adventskonserter i Högalid",
-    teaser: "Två konserter på första advent.",
+    title: "Vi sjunger in advent",
+    shortTitle: "Vi sjunger in advent",
+    teaser: "Adventskonsert med mer än 100 sångare – två tillfällen på första advent.",
     summary:
-      "Kammarkören Högalid och körer från Högalids församling sjunger in advent i Högalidskyrkan kl 16.00 och kl 18.00.",
-    // `start` mirrors the first performance for scripts that only read one time.
+      "Kammarkören Högalid sjunger in advent i Högalidskyrkan tillsammans med Högalids oratoriekör, Högalids unga röster och Högalids damkör, med Jonathan Jennesjö på trumpet.",
+    // `start`/`end` mirror the first performance for scripts that only read one time.
     start: "2026-11-29T16:00:00+01:00",
+    end: "2026-11-29T17:00:00+01:00",
     performances: [
-      { start: "2026-11-29T16:00:00+01:00" },
-      { start: "2026-11-29T18:00:00+01:00" },
+      { start: "2026-11-29T16:00:00+01:00", end: "2026-11-29T17:00:00+01:00" },
+      { start: "2026-11-29T18:00:00+01:00", end: "2026-11-29T19:00:00+01:00" },
     ],
     venue: "Högalidskyrkan",
     address: "Högalids kyrkväg 11, 117 30 Stockholm",
     transport:
       "Tunnelbana till Hornstull och därefter en kort promenad upp mot Högalidskyrkan.",
+    // Tickster sells the 16.00 and 18.00 concerts as separate events; the
+    // parish organizer page lists both.
+    ticketUrl:
+      "https://www.tickster.com/se/sv/events/by/mz54l68t7gfrmjt/hogalids-forsamling",
     organizers: ["Högalids församling", "Kammarkören Högalid"],
     heroImage: "/assets/imported/concerts/hogalid-exterior.jpg",
     heroImageAlt: "Högalidskyrkan utifrån i vinterljus.",
@@ -539,11 +544,17 @@ export const concerts = [
     posterImage: "/assets/imported/concerts/hogalid-exterior.jpg",
     imageCredit: "Arild Vågen / Wikimedia Commons (CC BY-SA 3.0)",
     description: [
-      "På första advent, söndagen den 29 november, sjunger Kammarkören Högalid tillsammans med körer från Högalids församling i Högalidskyrkan. Det blir två adventskonserter samma eftermiddag, kl 16.00 och kl 18.00.",
-      "Program, medverkande och information om entré publiceras närmare konserten.",
+      "Härlig adventskonsert med mer än 100 sångare! På första advent, söndagen den 29 november, fyller Kammarkören Högalid, Högalids oratoriekör, Högalids unga röster och Högalids damkör Högalidskyrkan med adventsmusik – tillsammans med trumpetaren Jonathan Jennesjö.",
+      "Konserten ges två gånger samma eftermiddag, kl 16.00 och kl 18.00, och är cirka en timme lång. Biljetter till respektive konsert bokas via Tickster.",
     ],
-    program: ["Adventsmusik för kör – programmet publiceras närmare konserten"],
-    performers: ["Kammarkören Högalid", "Körer från Högalids församling"],
+    program: ["Adventsmusik för kör och trumpet – programmet publiceras närmare konserten"],
+    performers: [
+      "Kammarkören Högalid",
+      "Högalids oratoriekör",
+      "Högalids unga röster",
+      "Högalids damkör",
+      "Jonathan Jennesjö, trumpet",
+    ],
     planVisit: [
       {
         title: "Hitta hit",
@@ -557,7 +568,8 @@ export const concerts = [
       },
       {
         title: "Biljetter och entré",
-        body: "Information om entré publiceras närmare konserten.",
+        body:
+          "Biljetter bokas via Tickster – välj konserten kl 16.00 eller kl 18.00. Kom gärna i god tid före start.",
       },
       {
         title: "Tillgänglighet",

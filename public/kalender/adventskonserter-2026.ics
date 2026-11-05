@@ -3,15 +3,15 @@ VERSION:2.0
 PRODID:-//Kammarkören Högalid//Konsertkalender//SV
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
-X-WR-CALNAME:Adventskonserter i Högalid | Kammarkören Högalid
+X-WR-CALNAME:Vi sjunger in advent | Kammarkören Högalid
 X-WR-TIMEZONE:Europe/Stockholm
 BEGIN:VEVENT
 UID:adventskonserter-2026-1600@kammarkorenhogalid.se
 DTSTAMP:20261129T150000Z
 DTSTART:20261129T150000Z
-DTEND:20261129T150000Z
-SUMMARY:Adventskonserter i Högalid
-DESCRIPTION:Kammarkören Högalid och körer från Högalids församling sjunger in advent i Högalidskyrkan kl 16.00 och kl 18.00.\n\nBiljettlänk publiceras på konsertsidan senare.\nMer information: https://www.kammarkorenhogalid.se/konserter/adventskonserter-2026/
+DTEND:20261129T160000Z
+SUMMARY:Vi sjunger in advent
+DESCRIPTION:Kammarkören Högalid sjunger in advent i Högalidskyrkan tillsammans med Högalids oratoriekör\, Högalids unga röster och Högalids damkör\, med Jonathan Jennesjö på trumpet.\n\nBiljetter: https://www.tickster.com/se/sv/events/by/mz54l68t7gfrmjt/hogalids-forsamling\nMer information: https://www.kammarkorenhogalid.se/konserter/adventskonserter-2026/
 LOCATION:Högalidskyrkan\, Högalids kyrkväg 11\, 117 30 Stockholm
 URL:https://www.kammarkorenhogalid.se/konserter/adventskonserter-2026/
 END:VEVENT
@@ -19,9 +19,9 @@ BEGIN:VEVENT
 UID:adventskonserter-2026-1800@kammarkorenhogalid.se
 DTSTAMP:20261129T150000Z
 DTSTART:20261129T170000Z
-DTEND:20261129T170000Z
-SUMMARY:Adventskonserter i Högalid
-DESCRIPTION:Kammarkören Högalid och körer från Högalids församling sjunger in advent i Högalidskyrkan kl 16.00 och kl 18.00.\n\nBiljettlänk publiceras på konsertsidan senare.\nMer information: https://www.kammarkorenhogalid.se/konserter/adventskonserter-2026/
+DTEND:20261129T180000Z
+SUMMARY:Vi sjunger in advent
+DESCRIPTION:Kammarkören Högalid sjunger in advent i Högalidskyrkan tillsammans med Högalids oratoriekör\, Högalids unga röster och Högalids damkör\, med Jonathan Jennesjö på trumpet.\n\nBiljetter: https://www.tickster.com/se/sv/events/by/mz54l68t7gfrmjt/hogalids-forsamling\nMer information: https://www.kammarkorenhogalid.se/konserter/adventskonserter-2026/
 LOCATION:Högalidskyrkan\, Högalids kyrkväg 11\, 117 30 Stockholm
 URL:https://www.kammarkorenhogalid.se/konserter/adventskonserter-2026/
 END:VEVENT
