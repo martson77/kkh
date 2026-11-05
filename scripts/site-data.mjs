@@ -550,7 +550,11 @@ export const concerts = [
     ticketPrice: "50",
     ticketCurrency: "SEK",
     price: "50 kr",
-    posterAccessText: "Entré 50 kr – intäkterna går till Act Svenska kyrkan",
+    posterProgramText:
+      "Över 100 sångare: Högalids oratoriekör, unga röster och damkör samt Kammarkören Högalid. Jonathan Jennesjö, trumpet. Alexandra Wolfgang, Benedikt Melichar och Leon Tscholl, dirigenter.",
+    posterAccessText:
+      "Entré 50 kr, biljett via tickster.com (även barn). Intäkterna går till Act Svenska kyrkan.",
+    posterFocusY: 0.64,
     organizers: ["Högalids församling", "Kammarkören Högalid"],
     heroImage: "/assets/imported/concerts/hogalid-exterior.jpg",
     heroImageAlt: "Högalidskyrkan utifrån i vinterljus.",

@@ -187,6 +187,7 @@ function measureText(text, fontSize, variant = "body") {
   const factorMap = {
     label: 0.46,
     body: 0.52,
+    caps: 0.64,
     bold: 0.55,
     title: 0.56,
     serif: 0.54,
@@ -258,6 +259,59 @@ async function cleanupLegacyPosterFiles() {
   );
 }
 
+// Reads size and color components from a JPEG's start-of-frame marker.
+function readJpegInfo(buffer) {
+  if (buffer[0] !== 0xff || buffer[1] !== 0xd8) {
+    return null;
+  }
+
+  let offset = 2;
+
+  while (offset + 9 < buffer.length) {
+    if (buffer[offset] !== 0xff) {
+      return null;
+    }
+
+    const marker = buffer[offset + 1];
+    const length = buffer.readUInt16BE(offset + 2);
+    const isStartOfFrame =
+      marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker);
+
+    if (isStartOfFrame) {
+      return {
+        height: buffer.readUInt16BE(offset + 5),
+        width: buffer.readUInt16BE(offset + 7),
+        components: buffer[offset + 9],
+      };
+    }
+
+    offset += 2 + length;
+  }
+
+  return null;
+}
+
+// Fallback when macOS `sips` is unavailable: embed RGB/gray JPEGs as-is.
+async function readJpegDirect(filePath) {
+  if (!/\.jpe?g$/i.test(filePath)) {
+    return null;
+  }
+
+  const imageBuffer = await fs.readFile(filePath);
+  const info = readJpegInfo(imageBuffer);
+
+  if (!info || ![1, 3].includes(info.components)) {
+    return null;
+  }
+
+  return {
+    imageBuffer,
+    width: info.width,
+    height: info.height,
+    colorSpace: info.components === 1 ? "DeviceGray" : "DeviceRGB",
+  };
+}
+
 async function prepareRasterImage(concert) {
   const candidates = [
     concert.posterImage,
@@ -289,6 +343,13 @@ async function prepareRasterImage(concert) {
 
       return { imageBuffer, width, height, tempDir, focus, colorSpace: "DeviceRGB" };
     } catch {
+      const direct = await readJpegDirect(candidate).catch(() => null);
+
+      if (direct) {
+        const focus = resolvePosterFocus(concert, direct.width, direct.height, null);
+        return { ...direct, tempDir, focus };
+      }
+
       continue;
     }
   }
@@ -469,14 +530,16 @@ function renderPosterCommands(concert, hasImage, imageWidth = 0, imageHeight = 0
   const textX = margin + 32;
   const textWidth = contentWidth - 64;
   const metaLine = formatPosterMetaLine(concert);
+  // The title sits right below, so shrink long uppercase meta lines to fit one line.
+  const metaSize = Math.min(17, textWidth / Math.max(1, measureText(metaLine, 1, "caps")));
   commands.push(...buildTextBlock({
     x: textX,
     y: infoY + infoHeight - 28,
     font: "F1",
-    size: 17,
+    size: metaSize,
     leading: 20,
     color: palette.ink,
-    lines: truncateLines(wrapText(metaLine, textWidth, 17, "body"), 2),
+    lines: truncateLines(wrapText(metaLine, textWidth, metaSize, "caps"), 1),
   }));
 
   const title = concert.posterTitle || concert.title;
@@ -693,7 +756,11 @@ async function generatePoster(concert) {
   }
 }
 
-const upcomingConcerts = getUpcomingConcerts();
+// Optional slugs (`npm run poster -- <slug>`) limit which posters are rebuilt.
+const onlySlugs = process.argv.slice(2);
+const upcomingConcerts = getUpcomingConcerts().filter(
+  (concert) => !onlySlugs.length || onlySlugs.includes(concert.slug)
+);
 
 if (!upcomingConcerts.length) {
   console.log("Inga kommande konserter hittades. Ingen affisch skapad.");
