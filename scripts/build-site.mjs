@@ -422,14 +422,46 @@ function renderImageCredit(credit, className = "media-card-credit") {
   return `<p class="${className}">Bild: ${escapeHtml(credit)}</p>`;
 }
 
-function hasTicketLink(concert) {
-  return Boolean(concert.ticketUrl);
+function performanceTicketUrl(concert, performance) {
+  return performance?.ticketUrl || concert.ticketUrl;
 }
 
-function concertTicketOffer(concert) {
+function hasTicketLink(concert) {
+  return getConcertPerformances(concert).some((performance) =>
+    Boolean(performanceTicketUrl(concert, performance))
+  );
+}
+
+// One "Köp biljett" per performance when each has its own ticket page.
+function concertTicketButtons(concert, { location, indent = "" }) {
+  const performances = getConcertPerformances(concert);
+  const links =
+    performances.length > 1 && performances.every((performance) => performance.ticketUrl)
+      ? performances.map((performance) => ({
+          href: performance.ticketUrl,
+          label: `Köp biljett kl ${formatTime(performance.start)}`,
+        }))
+      : concert.ticketUrl
+        ? [{ href: concert.ticketUrl, label: "Köp biljett" }]
+        : [];
+
+  return links
+    .map((link) =>
+      button({
+        href: link.href,
+        label: link.label,
+        track: "buy_ticket",
+        location,
+        newTab: true,
+      })
+    )
+    .join(`\n${indent}`);
+}
+
+function concertTicketOffer(concert, performance) {
   return {
     "@type": "Offer",
-    url: concert.ticketUrl,
+    url: performanceTicketUrl(concert, performance),
     ...(concert.ticketPrice ? { price: concert.ticketPrice } : {}),
     ...(concert.ticketCurrency
       ? { priceCurrency: concert.ticketCurrency }
@@ -493,8 +525,8 @@ function concertEventsJsonLd(concert) {
         name: performer,
       })),
       ...(isFreeConcert(concert) ? { isAccessibleForFree: true } : {}),
-      ...(!isPastPerformance && hasTicketLink(concert)
-        ? { offers: concertTicketOffer(concert) }
+      ...(!isPastPerformance && performanceTicketUrl(concert, performance)
+        ? { offers: concertTicketOffer(concert, performance) }
         : {}),
     };
   });
@@ -723,9 +755,11 @@ function renderSocialSection() {
   </section>`;
 }
 
-function concertAccessLine(concert) {
-  if (hasTicketLink(concert)) {
-    return `Biljetter: ${concert.ticketUrl}`;
+function concertAccessLine(concert, performance) {
+  const ticketUrl = performanceTicketUrl(concert, performance);
+
+  if (ticketUrl) {
+    return `Biljetter: ${ticketUrl}`;
   }
 
   if (concert.price) {
@@ -735,11 +769,11 @@ function concertAccessLine(concert) {
   return "Biljettlänk publiceras på konsertsidan senare.";
 }
 
-function concertCalendarDetails(concert) {
+function concertCalendarDetails(concert, performance) {
   const detailsUrl = absoluteUrl(
     concert.slug ? `/konserter/${concert.slug}/` : "/konserter/"
   );
-  const ticketLine = concertAccessLine(concert);
+  const ticketLine = concertAccessLine(concert, performance);
   const eventLine = hasEventLink(concert)
     ? `\nFacebook-evenemang: ${concert.eventUrl}`
     : "";
@@ -758,7 +792,7 @@ function concertGoogleCalendarUrl(
       performance.end || performance.start
     )}`,
     location: `${concert.venue}, ${concert.address || ""}`.trim(),
-    details: concertCalendarDetails(concert),
+    details: concertCalendarDetails(concert, performance),
     ctz: "Europe/Stockholm",
   });
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
@@ -971,12 +1005,9 @@ function renderHomePage() {
           <div class="highlight-panel-actions">
             ${
               hasTicketLink(featuredConcert)
-                ? button({
-                    href: featuredConcert.ticketUrl,
-                    label: "Köp biljett",
-                    track: "buy_ticket",
+                ? concertTicketButtons(featuredConcert, {
                     location: "home_panel",
-                    newTab: true,
+                    indent: "            ",
                   })
                 : button({
                     href: `/konserter/${featuredConcert.slug}/`,
@@ -1204,12 +1235,9 @@ function renderConcertsPage() {
             <div class="concert-card-actions">
               ${
                 hasTicketLink(concert)
-                  ? button({
-                      href: concert.ticketUrl,
-                      label: "Köp biljett",
-                      track: "buy_ticket",
+                  ? concertTicketButtons(concert, {
                       location: "concerts_upcoming",
-                      newTab: true,
+                      indent: "              ",
                     })
                   : ""
               }
@@ -1391,12 +1419,9 @@ function renderConcertDetailPage(concert) {
           <div class="stack-actions">
             ${
               !isPastConcert && hasTicketLink(concert)
-                ? button({
-                    href: concert.ticketUrl,
-                    label: "Köp biljett",
-                    track: "buy_ticket",
+                ? concertTicketButtons(concert, {
                     location: "concert_detail_sidebar",
-                    newTab: true,
+                    indent: "            ",
                   })
                 : ""
             }
@@ -1808,11 +1833,9 @@ function renderIcsCalendar(items, calendarName) {
       const detailsUrl = absoluteUrl(
         concert.slug ? `/konserter/${concert.slug}/` : "/konserter/"
       );
-      const description = `${concert.summary}\n\n${concertAccessLine(concert)}\nMer information: ${detailsUrl}`;
       const eventLine = hasEventLink(concert)
         ? `\nFacebook-evenemang: ${concert.eventUrl}`
         : "";
-      const fullDescription = description.replace("\nMer information:", `${eventLine}\nMer information:`);
       const baseUid =
         concert.slug || concert.title.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-");
       const performances = getConcertPerformances(concert);
@@ -1823,6 +1846,10 @@ function renderIcsCalendar(items, calendarName) {
           performances.length > 1
             ? `${baseUid}-${formatTime(performance.start).replace(":", "")}`
             : baseUid;
+        const fullDescription = `${concert.summary}\n\n${concertAccessLine(
+          concert,
+          performance
+        )}${eventLine}\nMer information: ${detailsUrl}`;
 
         return `BEGIN:VEVENT
 UID:${uid}@kammarkorenhogalid.se

@@ -521,22 +521,36 @@ export const concerts = [
     shortTitle: "Vi sjunger in advent",
     teaser: "Adventskonsert med mer än 100 sångare – två tillfällen på första advent.",
     summary:
-      "Kammarkören Högalid sjunger in advent i Högalidskyrkan tillsammans med Högalids oratoriekör, Högalids unga röster och Högalids damkör, med Jonathan Jennesjö på trumpet.",
+      "Kammarkören Högalid sjunger in advent i Högalidskyrkan tillsammans med Högalids oratoriekör, Högalids unga röster och Högalids damkör, med Jonathan Jennesjö på trumpet. Insamlingskonsert till förmån för Act Svenska kyrkan.",
     // `start`/`end` mirror the first performance for scripts that only read one time.
     start: "2026-11-29T16:00:00+01:00",
     end: "2026-11-29T17:00:00+01:00",
     performances: [
-      { start: "2026-11-29T16:00:00+01:00", end: "2026-11-29T17:00:00+01:00" },
-      { start: "2026-11-29T18:00:00+01:00", end: "2026-11-29T19:00:00+01:00" },
+      {
+        start: "2026-11-29T16:00:00+01:00",
+        end: "2026-11-29T17:00:00+01:00",
+        ticketUrl:
+          "https://www.tickster.com/se/sv/events/b02j1w2wp7j26uh/2026-11-29/vi-sjunger-in-advent-kl-16-00",
+      },
+      {
+        start: "2026-11-29T18:00:00+01:00",
+        end: "2026-11-29T19:00:00+01:00",
+        ticketUrl:
+          "https://www.tickster.com/se/sv/events/g8zph8chgu7cmeg/2026-11-29/vi-sjunger-in-advent-kl-18-00",
+      },
     ],
     venue: "Högalidskyrkan",
     address: "Högalids kyrkväg 11, 117 30 Stockholm",
     transport:
       "Tunnelbana till Hornstull och därefter en kort promenad upp mot Högalidskyrkan.",
-    // Tickster sells the 16.00 and 18.00 concerts as separate events; the
-    // parish organizer page lists both.
+    // Each performance links to its own Tickster event; this parish page
+    // lists both and is used where only one ticket link fits.
     ticketUrl:
       "https://www.tickster.com/se/sv/events/by/mz54l68t7gfrmjt/hogalids-forsamling",
+    ticketPrice: "50",
+    ticketCurrency: "SEK",
+    price: "50 kr",
+    posterAccessText: "Entré 50 kr – intäkterna går till Act Svenska kyrkan",
     organizers: ["Högalids församling", "Kammarkören Högalid"],
     heroImage: "/assets/imported/concerts/hogalid-exterior.jpg",
     heroImageAlt: "Högalidskyrkan utifrån i vinterljus.",
@@ -545,7 +559,8 @@ export const concerts = [
     imageCredit: "Arild Vågen / Wikimedia Commons (CC BY-SA 3.0)",
     description: [
       "Härlig adventskonsert med mer än 100 sångare! På första advent, söndagen den 29 november, fyller Kammarkören Högalid, Högalids oratoriekör, Högalids unga röster och Högalids damkör Högalidskyrkan med adventsmusik – tillsammans med trumpetaren Jonathan Jennesjö.",
-      "Konserten ges två gånger samma eftermiddag, kl 16.00 och kl 18.00, och är cirka en timme lång. Biljetter till respektive konsert bokas via Tickster.",
+      "Konserten ges två gånger samma eftermiddag, kl 16.00 och kl 18.00, och är cirka en timme lång. Dirigenter är Alexandra Wolfgang, Benedikt Melichar och Leon Tscholl.",
+      "Det här är en insamlingskonsert: intäkterna går till Act Svenska kyrkan. Entré 50 kr via Tickster, och vid biljettköpet kan du även ge en extra gåva.",
     ],
     program: ["Adventsmusik för kör och trumpet – programmet publiceras närmare konserten"],
     performers: [
@@ -554,6 +569,9 @@ export const concerts = [
       "Högalids unga röster",
       "Högalids damkör",
       "Jonathan Jennesjö, trumpet",
+      "Alexandra Wolfgang, dirigent",
+      "Benedikt Melichar, dirigent",
+      "Leon Tscholl, dirigent",
     ],
     planVisit: [
       {
@@ -569,7 +587,7 @@ export const concerts = [
       {
         title: "Biljetter och entré",
         body:
-          "Biljetter bokas via Tickster – välj konserten kl 16.00 eller kl 18.00. Kom gärna i god tid före start.",
+          "Entré 50 kr. Alla behöver biljett, även barn. Biljetter köps via Tickster – välj konserten kl 16.00 eller kl 18.00. Entrén öppnar en halvtimme före start.",
       },
       {
         title: "Tillgänglighet",
