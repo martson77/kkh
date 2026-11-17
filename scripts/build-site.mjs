@@ -1345,7 +1345,17 @@ function renderConcertDetailPage(concert) {
         <p class="eyebrow">${detailEyebrow}</p>
         <h1 class="page-title">${concert.title}</h1>
         <p class="page-lead">${concert.teaser} ${concert.summary}</p>
-        <p class="event-meta">${formatConcertDateTime(concert)} · ${concert.venue}</p>
+        <p class="event-meta">${formatConcertDateTime(concert)} · ${concert.venue}</p>${
+          !isPastConcert && hasTicketLink(concert)
+            ? `
+        <div class="hero-actions">
+          ${concertTicketButtons(concert, {
+            location: "concert_detail_header",
+            indent: "          ",
+          })}
+        </div>`
+            : ""
+        }
       </div>
       <div class="media-card">
         ${renderImage({
